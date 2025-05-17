@@ -1,0 +1,6 @@
+@TrustAccountsAPI_HostAddress = http://localhost:5257
+
+GET {{TrustAccountsAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
