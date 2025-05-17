@@ -1,0 +1,14 @@
+.sideDecor {
+    border-left: 10px double white;
+    border-right: 10px double white;
+    border-image:
+            linear-gradient(to bottom,
+            white,
+            rgb(255, 105, 179)) 1 100%;
+}
+
+.test{
+    color: #ff0083;
+    font-size: xxx-large;
+    font-style: italic;
+}
