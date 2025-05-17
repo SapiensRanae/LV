@@ -1,16 +1,17 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App';
-import Test from "./test";
-
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Base from './Base';
+import Test from './Test';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-    <React.StrictMode>
-        <App />
-
-    </React.StrictMode>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Base />} />
+            <Route path="/test" element={<Test />} />
+        </Routes>
+    </BrowserRouter>
 );

@@ -1,14 +1,112 @@
-.sideDecor {
-    border-left: 10px double white;
-    border-right: 10px double white;
-    border-image:
-            linear-gradient(to bottom,
-            white,
-            rgb(255, 105, 179)) 1 100%;
+body {
+    position: relative;
+    margin: 0;
+    min-height: 100dvh;
+    width: 100dvw;
+    overflow: auto;
+    background: #100F13;
 }
 
-.test{
-    color: #ff0083;
-    font-size: xxx-large;
-    font-style: italic;
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    left: 0; right: 0; top: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 1s;
+}
+
+body::before {
+    background: linear-gradient(
+            0deg,
+            #100F13 0%,
+            #100F13 30%,
+            #3B256B 100%
+    );
+    opacity: 1;
+    animation: pulseFade 10s infinite;
+}
+
+body::after {
+    background: linear-gradient(
+            0deg,
+            #100F13 0%,
+            #3B256B 70%,
+            #3B256B 100%
+    );
+    opacity: 0;
+    animation: pulseFade 10s infinite;
+    animation-delay: 5s;
+}
+
+.customText{
+    color: #FFFFFF;
+    text-align: center;
+    font-family: Montserrat;
+}
+
+.content{
+    max-width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #121116;
+    padding: 0 3rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logoLink {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    color: #8A42FE;
+    font-weight: bold;
+    padding: 1rem 0;
+}
+
+.logoImg {
+    height: 3.5rem;
+    width: 3.5rem;
+    margin-right: 0.5rem;
+}
+
+.navLinks {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.navLink {
+    color: #a259ff; /* purple always */
+    background: #2a1a4d; /* background always */
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s, color 0.2s, text-decoration 0.2s;
+}
+
+.navLink:hover {
+    background: #3b256b; /* lighter background on hover */
+    color: #c08fff; /* lighter purple on hover */
+}
+
+@keyframes pulseFade {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
 }

@@ -82,6 +82,7 @@ module.exports = {
         },
         port: 8080,                                                    // dev server port
         hot: true,                                                     // enable HMR
-        open: true                                                    // open browser on start
+        open: true,
+        historyApiFallback: true// open browser on start
     }
 };
