@@ -1,0 +1,44 @@
+/* src/components/Footer.css */
+.footer {
+    background: #222;
+    color: #ccc;
+    position: relative;
+    padding: 40px 20px 20px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-content .contact,
+.footer-content .legal {
+    max-width: 200px;
+}
+
+.footer-content h3 {
+    margin-top: 0;
+    color: #fff;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    color: #ccc;
+}
+
+.footer-content a {
+    color: #ccc;
+}
+
+.footer-content a:hover {
+    text-decoration: underline;
+}
+
+.disclaimer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 20px;
+    color: #777;
+}

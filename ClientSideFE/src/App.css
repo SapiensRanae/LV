@@ -1,0 +1,24 @@
+/* src/App.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.content {
+    min-height: calc(100vh - 300px);
+    padding: 40px 20px;
+    background: url('https://imgur.com/a/MB695sz') center/cover no-repeat;
+}
+
+/* Links */
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
