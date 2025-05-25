@@ -1,10 +1,9 @@
-/* src/components/Footer.css */
+
 .footer {
-    color: #ccc;
+    background-image: url("../assets/GoldenLine.png");
+
     position: relative;
     padding: 40px 20px 20px;
-    border-top-left-radius: 100px;
-    border-top-right-radius: 100px;
 }
 
 .footer-content {

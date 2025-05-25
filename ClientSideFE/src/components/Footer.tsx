@@ -1,6 +1,7 @@
 // src/components/Footer.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import GoldenLine from '../assets/GoldenLine.png';
 import './Footer.css';
 
 const Footer: React.FC = () => {
@@ -9,7 +10,7 @@ const Footer: React.FC = () => {
             <div className="footer-content">
                 <div className="contact">
                     <h3>Contact us:</h3>
-                    <p>LuckyVegas.co@Gmail.com</p>
+                    <p>LuckyVegas.co@gmail.com</p>
                 </div>
                 <div className="legal">
                     <h3>Legal:</h3>
