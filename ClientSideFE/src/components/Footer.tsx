@@ -7,6 +7,8 @@ import './Footer.css';
 const Footer: React.FC = () => {
     return (
         <footer className="footer">
+            {/* This <img> will be absolutely positioned in CSS */}
+
             <div className="footer-content">
                 <div className="contact">
                     <h3>Contact us:</h3>
