@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1dvh 2dvh;
+    padding: 1vh 2vh;
     background: linear-gradient(to right,
     rgba(70, 69, 67, 0.5) 0%,
     rgba(196, 196, 196, 0.5) 10%,
@@ -14,7 +14,7 @@
     rgba(196, 196, 196, 0.5) 90%,
     rgba(70, 69, 67, 0.5)
     );
-    height: 6dvh;
+    height: 6vh;
     font-size: 1.5rem;
     position: relative;
 }

@@ -7,23 +7,25 @@ import './Footer.css';
 const Footer: React.FC = () => {
     return (
         <footer className="footer">
-            {/* This <img> will be absolutely positioned in CSS */}
-
-            <div className="footer-content">
-                <div className="contact">
-                    <h3>Contact us:</h3>
-                    <p>LuckyVegas.co@gmail.com</p>
-                </div>
-                <div className="legal">
-                    <h3>Legal:</h3>
-                    <p><Link to="/terms">Terms & Conditions</Link></p>
-                    <p><Link to="/cookie-policy">Cookie Policy</Link></p>
-                    <p><Link to="/privacy-policy">Privacy Policy</Link></p>
+            <div className="footer-bg">
+                <div className="footer-content">
+                    <div className="contact">
+                        <h3>Contact us:</h3>
+                        <p>LuckyVegas.co@gmail.com</p>
+                    </div>
+                    <div className="legal">
+                        <h3>Legal:</h3>
+                        <p><Link to="/terms">Terms & Conditions</Link></p>
+                        <p><Link to="/cookie-policy">Cookie Policy</Link></p>
+                        <p><Link to="/privacy-policy">Privacy Policy</Link></p>
+                    </div>
                 </div>
             </div>
+            <div className="golden-line"></div>
             <div className="disclaimer">
                 <p>
-                    Disclaimer: Customers must be at least 18 years old. All rights reserved. LuckyVegas &copy; 2025.
+                    Disclaimer: Customers must be at least 21 years old. All rights reserved. LuckyVegas &copy; 2025.
+
                 </p>
             </div>
         </footer>

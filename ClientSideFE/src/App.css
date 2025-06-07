@@ -1,4 +1,10 @@
 /* src/App.css */
+body.loading .content {
+    visibility: hidden;
+}
+
+
+
 html, body {
     margin: 0;
     padding: 0;
@@ -6,6 +12,7 @@ html, body {
     overflow-x: hidden;
     font-family: Arial, sans-serif;
     color: #fff;
+    position: relative;
 }
 
 /* Full-page background image */
@@ -32,8 +39,8 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
-
-    z-index: -1;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -100;
 }
 
 /* Main content area */

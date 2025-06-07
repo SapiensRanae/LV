@@ -1,0 +1,13 @@
+// src/pages/About.tsx
+import React from 'react';
+
+const FAQ: React.FC = () => {
+    return (
+        <div>
+            <h1>About LuckyVegas</h1>
+            <p>LuckyVegas is your premier destination for online gaming and entertainment. We are dedicated to providing a secure and enjoyable experience for our players around the world.</p>
+        </div>
+    );
+};
+
+export default FAQ;

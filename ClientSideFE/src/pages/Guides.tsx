@@ -69,16 +69,26 @@ const rules = [
 
 const Guides: React.FC = () => {
     const [expandedIndex, setExpandedIndex] = useState<number>(0);
+    const [justOpenedIndex, setJustOpenedIndex] = useState<number | null>(0);
 
     const toggleDropdown = (index: number) => {
-        setExpandedIndex(prev => (prev === index ? -1 : index));
+        if (expandedIndex === index) {
+            setExpandedIndex(-1);
+            setJustOpenedIndex(null);
+        } else {
+            setExpandedIndex(index);
+            setJustOpenedIndex(index);
+        }
     };
 
     return (
         <div className="guides-container">
             {rules.map((rule, i) => (
                 <section key={i} className="dropdown">
-                    <header className="dropdown-header" onClick={() => toggleDropdown(i)}>
+                    <header
+                        className={`dropdown-header ${justOpenedIndex === i ? 'underline-animated' : ''}`}
+                        onClick={() => toggleDropdown(i)}
+                    >
                         <h3>{rule.title}</h3>
                         <span className={`icon ${expandedIndex === i ? 'open' : ''}`}>▶</span>
                     </header>

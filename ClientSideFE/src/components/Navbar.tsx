@@ -15,6 +15,7 @@ const Navbar: React.FC = () => {
                 <li><Link to="/games">Games</Link></li>
                 <li><Link to="/guides">Guides</Link></li>
                 <li><Link to="/about">About</Link></li>
+                <li><Link to="/FAQ">FAQ</Link></li>
             </ul>
             </div>
             <a href="#" className="signup-btn">Sign Up</a>

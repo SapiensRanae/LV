@@ -6,13 +6,13 @@
     padding: 0 20px;
 }
 
-/* Dropdown card */
+/* ─── DROPDOWN WRAPPER ───────────────────────────────────────── */
+
 .dropdown {
-    background: #1e1e1e;
-    border-radius: 8px;
+    background: transparent;
+    border-radius: 0;           /* no rounding on the card itself */
     margin-bottom: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     transition: transform 0.2s;
 }
 
@@ -20,66 +20,105 @@
     transform: translateY(-2px);
 }
 
-/* Header */
+/* ─── HEADER ─────────────────────────────────────────────────── */
+
 .dropdown-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
+    padding: 16px 0;            /* vertical padding only */
     cursor: pointer;
-    background: #2a2a2a;
+    position: relative;
+}
+
+.dropdown-header::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #898989;
+    z-index: 0;
+}
+
+.underline-animated::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(to right, #DC143C 0%, #DC143C 50%, #898989 100%);
+    animation: underlineExpand 0.6s ease forwards;
+    z-index: 1;
+}
+
+@keyframes underlineExpand {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
 }
 
 .dropdown-header h3 {
     margin: 0;
     font-size: 1.2rem;
-    color: #f0f0f0;
+    font-weight: normal;
+    color: #ffffff;
+    padding-left: 4px;          /* tiny indent off the edge */
 }
 
+/* arrow icon */
 .icon {
     display: inline-block;
-    transition: transform 0.3s ease;
     font-size: 1.2rem;
     color: #cc0000;
+    transition: transform 0.3s ease;
+    margin-right: 4px;          /* keep it flush with the right */
 }
 
-/* Rotate arrow when open */
+/* rotate when open */
 .icon.open {
     transform: rotate(90deg);
 }
 
-/* Body */
+/* ─── BODY (CONTENT) ────────────────────────────────────────── */
+
 .dropdown-body {
-    background: #151515;
-    padding: 12px 24px;
+    padding: 12px 0 16px;       /* only vertical padding */
     animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .rule-list {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 16px;            /* make the text line up under the header text */
 }
 
 .rule-list li {
     position: relative;
-    padding-left: 20px;
     margin-bottom: 8px;
-    color: #ddd;
+    padding-left: 20px;
+    color: #dddddd;
     line-height: 1.5;
+    font-size: 0.95rem;
 }
 
 /* Custom bullet */
 .rule-list li::before {
-    content: '•';
+    content: "•";
     position: absolute;
     left: 0;
-    color: #cc0000;
+    top: 0.1em;
     font-size: 1.2rem;
+    color: #cc0000;
     line-height: 1;
 }
