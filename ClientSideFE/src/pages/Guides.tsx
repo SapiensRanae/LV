@@ -89,8 +89,20 @@ const Guides: React.FC = () => {
                         className={`dropdown-header ${justOpenedIndex === i ? 'underline-animated' : ''}`}
                         onClick={() => toggleDropdown(i)}
                     >
-                        <h3>{rule.title}</h3>
-                        <span className={`icon ${expandedIndex === i ? 'open' : ''}`}>▶</span>
+                        <h3 className={expandedIndex === i ? 'open' : ''}>{rule.title}</h3>
+                        <svg
+                            className={`icon ${expandedIndex === i ? 'open' : ''}`}
+                            width="23"
+                            height="14"
+                            viewBox="0 0 23 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12.1173 0.93924C11.5315 0.353453 10.5818 0.353453 9.99598 0.93924L0.450039 10.4852C-0.135748 11.071 -0.135748 12.0207 0.450039 12.6065C1.03583 13.1923 1.98557 13.1923 2.57136 12.6065L11.0566 4.12122L19.5419 12.6065C20.1277 13.1923 21.0775 13.1923 21.6632 12.6065C22.249 12.0207 22.249 11.071 21.6632 10.4852L12.1173 0.93924ZM11.0566 2H12.5566V1.9999H11.0566H9.55664V2H11.0566Z"
+                                fill="white"
+                            />
+                        </svg>
                     </header>
                     {expandedIndex === i && (
                         <div className="dropdown-body">
