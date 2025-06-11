@@ -1,5 +1,9 @@
 .About-us{
-    width: 100%;
+    width: 80dvw;
+    margin: 0 auto;
+
+    padding-block: 5vh;
+    padding-inline: 10dvw;
     align-items: center;
     font-size: 1.5rem;
     h1{

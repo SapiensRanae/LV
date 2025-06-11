@@ -7,29 +7,29 @@ const questions = [
     { title: 'About registration and account',
         items: [
             { q: "♤ How do I sign up?",
-                a: "Go to the registration page, fill in the required details, and confirm your account via email or SMS." },
+                a: "♤ Go to the registration page, fill in the required details, and confirm your account via email or SMS." },
             { q: "♤ What should I do if I forgot my password?",
-                a: 'Click "Forgot Password?" on the login page and follow the instructions to reset it.' },
+                a: '♤ Click "Forgot Password?" on the login page and follow the instructions to reset it.' },
             { q: "♤ Is it possible to have multiple accounts?",
-                a: "No, creating multiple accounts is against our rules and may lead to blocking." },
+                a: "♤ No, creating multiple accounts is against our rules and may lead to blocking." },
             { q: "♤ How do I change the phone number / email in my profile?",
-                a: "Go to your account settings and update your contact information." },
+                a: "♤ Go to your account settings and update your contact information." },
             { q: "♤ How do I confirm my identity (verification)?",
-                a: "Upload a valid ID document and proof of address in the verification section of your profile." }
+                a: "♤ Upload a valid ID document and proof of address in the verification section of your profile." }
         ]
     },
     { title: 'About payment',
         items: [
             { q: "♢ What deposit and withdrawal methods are available?",
-                a: "Bank cards, e-wallets, crypto, and other popular payment systems — check the list in your account." },
+                a: "♢ Bank cards, e-wallets, crypto, and other popular payment systems — check the list in your account." },
             { q: "♢ Why didn't the money come to my account/card?",
-                a: "Processing may take time depending on the payment method. If delayed, contact support." },
+                a: "♢ Processing may take time depending on the payment method. If delayed, contact support." },
             { q: "♢ How long does it take to process a withdrawal?",
-                a: "Usually from a few minutes to 24 hours, depending on the method." },
+                a: "♢ Usually from a few minutes to 24 hours, depending on the method." },
             { q: "♢ Are there any commissions on deposit or withdrawal?",
-                a: "Yes — 5% with a VIP subscription and 10% on the Standard version, without taking taxes into account." },
+                a: "♢ Yes — 5% with a VIP subscription and 10% on the Standard version, without taking taxes into account." },
             { q: "♢ How to cancel a withdrawal request?",
-                a: 'Go to the "Cashier" or "Transactions" section and cancel the pending request if it’s still in progress.' }
+                a: '♢ Go to the "Cashier" or "Transactions" section and cancel the pending request if it’s still in progress.' }
         ]
     },
     { title: 'About security and politics',
