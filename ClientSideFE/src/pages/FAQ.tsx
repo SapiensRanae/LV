@@ -4,31 +4,33 @@ import './FAQ.css';
 import './Guides.css';
 
 const questions = [
-    { title: 'About registration and account', content: [
-            '♤ How do I sign up?',
-            '♤ Go to the registration page, fill in the required details, and confirm your account via email or SMS.',
-            '♤ What should I do if I forgot my password?',
-            ' ♤ Click "Forgot Password?" on the login page and follow the instructions to reset it.',
-            '♤ Is it possible to have multiple accounts?',
-            ' ♤ No, creating multiple accounts is against our rules and may lead to blocking.',
-            '♤ How do I change the phone number / email in my profile?',
-            ' ♤ Go to your account settings and update your contact information.',
-            '♤ How do I confirm my identity (verification)?',
-            ' ♤ Upload a valid ID document and proof of address in the verification section of your profile.',
-        ],
+    { title: 'About registration and account',
+        items: [
+            { q: "♤ How do I sign up?",
+                a: "Go to the registration page, fill in the required details, and confirm your account via email or SMS." },
+            { q: "♤ What should I do if I forgot my password?",
+                a: 'Click "Forgot Password?" on the login page and follow the instructions to reset it.' },
+            { q: "♤ Is it possible to have multiple accounts?",
+                a: "No, creating multiple accounts is against our rules and may lead to blocking." },
+            { q: "♤ How do I change the phone number / email in my profile?",
+                a: "Go to your account settings and update your contact information." },
+            { q: "♤ How do I confirm my identity (verification)?",
+                a: "Upload a valid ID document and proof of address in the verification section of your profile." }
+        ]
     },
-    { title: 'About payment', content: [
-            '♢ What deposit and withdrawal methods are available?',
-            ' ♢ Bank cards, e-wallets, crypto, and other popular payment systems — check the list in your account.',
-            "♢ Why didn't the money come to my account/card?",
-            ' ♢ Processing may take time depending on the payment method. If delayed, contact support.',
-            '♢ How long does it take to process a withdrawal?',
-            ' ♢ Usually from a few minutes to 24 hours, depending on the method.',
-            '♢ Are there any commissions on deposit or withdrawal?',
-            ' ♢ Yes — 5% with a VIP subscription and 10% on the Standard version, without taking taxes into account.',
-            '♢ How to cancel a withdrawal request?',
-            ' ♢ Go to the "Cashier" or "Transactions" section and cancel the pending request if it’s still in progress.',
-        ],
+    { title: 'About payment',
+        items: [
+            { q: "♢ What deposit and withdrawal methods are available?",
+                a: "Bank cards, e-wallets, crypto, and other popular payment systems — check the list in your account." },
+            { q: "♢ Why didn't the money come to my account/card?",
+                a: "Processing may take time depending on the payment method. If delayed, contact support." },
+            { q: "♢ How long does it take to process a withdrawal?",
+                a: "Usually from a few minutes to 24 hours, depending on the method." },
+            { q: "♢ Are there any commissions on deposit or withdrawal?",
+                a: "Yes — 5% with a VIP subscription and 10% on the Standard version, without taking taxes into account." },
+            { q: "♢ How to cancel a withdrawal request?",
+                a: 'Go to the "Cashier" or "Transactions" section and cancel the pending request if it’s still in progress.' }
+        ]
     },
     { title: 'About security and politics',
         items: [
@@ -42,15 +44,16 @@ const questions = [
                 a:' ♡ Contact our support team via chat or email to request account deletion.'}
         ],
     },
-    { title: 'Customer service', content: [
-            '♧ How do I get in touch with support?',
-            ' ♧ Email us at LuckyVegas.co@gmail.com.',
-            '♧ Is there 24/7 support?',
-            ' ♧ Unfortunately no — we reply during business hours as soon as possible.',
-            '♧ Is it possible to contact support via messengers?',
-            ' ♧ Currently, support is available only via email.',
-            '♧ How do I leave a complaint or suggestion?',
-            ' ♧ Send your message to LuckyVegas.co@gmail.com — we appreciate your feedback!',
+    { title: 'Customer service',
+        items: [
+            {q: '♧ How do I get in touch with support?',
+                a: ' ♧ Email us at LuckyVegas.co@gmail.com.'},
+            {q: '♧ Is there 24/7 support?',
+                a: ' ♧ Unfortunately no — we reply during business hours as soon as possible.'},
+            {q: '♧ Is it possible to contact support via messengers?',
+                a: ' ♧ Currently, support is available only via email.'},
+            {q: '♧ How do I leave a complaint or suggestion?',
+                a:' ♧ Send your message to LuckyVegas.co@gmail.com — we appreciate your feedback!'}
         ],
     },
 ];
