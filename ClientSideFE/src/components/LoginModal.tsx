@@ -12,7 +12,7 @@ interface Props {
 const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: call your login API
+        // call your login API
         onLoginSuccess();
     };
 

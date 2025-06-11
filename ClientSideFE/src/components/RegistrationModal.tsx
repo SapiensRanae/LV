@@ -11,7 +11,7 @@ interface Props {
 const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLoginPress }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: actually call API here
+        // actually call API here
         // on success:
         onRegisterSuccess();
     };
