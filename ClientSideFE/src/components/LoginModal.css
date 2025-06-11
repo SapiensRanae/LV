@@ -1,0 +1,12 @@
+/* src/components/LoginModal.css */
+.btn-login{
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 2rem;
+    border: none;
+    background: #b06062;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1dvh;
+}

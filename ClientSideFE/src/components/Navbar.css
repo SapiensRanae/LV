@@ -15,8 +15,10 @@
     rgba(70, 69, 67, 0.5)
     );
     height: 6vh;
+    z-index: 2;
     font-size: 1.5rem;
     position: relative;
+
 }
 
 .navbar-center{
@@ -32,7 +34,7 @@
     font-weight: 600;
     list-style: none;
     display: flex;
-    font-family: "Crimson Text";
+    font-family: "Crimson Text", sans-serif;
     margin-left: 3vw;
 }
 
@@ -52,12 +54,12 @@
 }
 
 .nav-links li {
-    margin-left: 20px;
+    margin-left: 1.5dvw;
 }
 
 .nav-links a {
     display: inline-block;
-    font-family: Crimson Text;
+    font-family: "Crimson Text", sans-serif;
     background: rgba(181, 92, 91, 0.75);
     color: #fff;
     padding: 0.75vh 1.25vw;
@@ -68,23 +70,43 @@
     transition: all 0.2s ease-in-out;
 }
 
+.nav-link-button {
+    display: inline-block;
+    font-family: "Crimson Text", sans-serif;
+    background: rgba(181, 92, 91, 0.75);
+    color: #fff;
+    padding: 0.75vh 1.25vw;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+    margin: 0.25vw;
+    border: 0.1rem solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
 .nav-links a:hover {
     text-decoration: none;
     border: 0.1rem solid #ffffff;
     box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
-    border-color: #fff;
 }
 
-.signup-btn {
+.nav-link-button:hover{
+    text-decoration: none;
+    border: 0.1rem solid #ffffff;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.nav-signup-button{
     margin-left: auto;
+    font-size: 1.5rem;
     background: rgba(217, 217, 217, 0.25);
     color: #fff;
-    padding: 8px 20px;
+    padding: 1dvh 1.5dvw;
     border: none;
-    border-radius: 4px;
-    text-decoration: none;
+    border-radius: 0.25rem;
+    text-decoration: none
 }
 
-.signup-btn:hover {
-    background: #777;
+.nav-signup-button:hover{
+    background: #ababab;
 }
+

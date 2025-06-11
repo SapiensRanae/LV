@@ -1,9 +1,9 @@
 /* src/pages/Guides.css */
 
 .guides-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+    max-width: 50dvw;
+    margin: 2.5dvh auto;
+    padding: 0 1.25dvh;
 }
 
 /* ─── DROPDOWN WRAPPER ───────────────────────────────────────── */
@@ -29,6 +29,18 @@
     padding: 16px 0;            /* vertical padding only */
     cursor: pointer;
     position: relative;
+    h3.open {
+        color: #ffffff;
+        transition: color 0.4s ease;
+    }
+    h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: normal;
+        color: #898989;
+        padding-left: 4dvw;          /* tiny indent off the edge */
+        transition: color 0.4s ease;
+    }
 }
 
 .dropdown-header::before {
@@ -59,68 +71,49 @@
     to { width: 100%; }
 }
 
-.dropdown-header h3.open {
-    color: #ffffff;
-    transition: color 0.4s ease;
-}
-
-.dropdown-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: normal;
-    color: #898989;
-    padding-left: 4px;          /* tiny indent off the edge */
-    transition: color 0.4s ease;
-}
-
 /* arrow icon */
 .icon {
     display:  inline;
     font-size: 1.2rem;
     color: #898989;
     transition: transform 0.4s ease;
-    margin-right: 4px;          /* keep it flush with the right */
-}
-
-/* rotate when open */
-.icon.open {
-    transform: rotate(180deg);
+    margin-right: 4dvw;          /* keep it flush with the right */
+    .open {
+        transform: rotate(180deg);
+    }
 }
 
 /* ─── BODY (CONTENT) ────────────────────────────────────────── */
 
 .dropdown-body {
-    padding: 12px 0 16px;       /* only vertical padding */
+    padding: 0.75dvh 0 1dvh;       /* only vertical padding */
     animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
+    from { opacity: 0; transform: translateY(-0.5dvh); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 .rule-list {
     list-style: none;
     margin: 0;
-    padding: 0 16px;            /* make the text line up under the header text */
-}
-
-.rule-list li {
-    position: relative;
-    margin-bottom: 8px;
-    padding-left: 20px;
-    color: #ffffff;
-    line-height: 1.5;
-    font-size: 0.95rem;
-}
-
-/* Custom bullet */
-.rule-list li::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    top: 0.1em;
-    font-size: 1.2rem;
-    color: #cc0000;
-    line-height: 1;
+    padding: 0 2dvh;
+    li {
+        position: relative;
+        margin-bottom: 1dvh;
+        padding-left: 1.25dvw;
+        color: #ffffff;
+        line-height: 1.5;
+        font-size: 0.95rem;
+    }
+    li::before {
+        content: "🂡";
+        position: absolute;
+        left: 0;
+        top: 0.1dvh;
+        font-size: 1.3rem;
+        color: #ffffff;
+        line-height: 1;
+    }
 }

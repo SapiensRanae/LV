@@ -1,0 +1,86 @@
+/* src/components/RegistrationModal.css */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #111;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 25dvw;
+    position: relative;
+    color: white;
+    background-image: url('../assets/Auth.png');
+    background-size: cover;
+    background-position: center;
+    h2 {
+        font-family: 'Cinzel', serif;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2dvh;
+    }
+    label {
+        display: block;
+        margin-bottom: 2dvh;
+        font-size: 0.9rem;
+        padding-right: 1dvw;
+    }
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="password"] {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 2rem;
+    border: none;
+    margin-top: 1dvh;
+}
+
+.checkboxes {
+    margin: 1rem 0;
+    label {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+    }
+    input {
+        margin-right: 0.5dvw;
+    }
+}
+
+.btn-register {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 2rem;
+    border: none;
+    background: #b06062;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.75dvh;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #F0CE77;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.modal-login{
+    display: flex;
+    justify-content: center;
+    color: #F0CE77;
+    margin-top: 1dvh;
+}

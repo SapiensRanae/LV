@@ -1,5 +1,5 @@
 // src/pages/About.tsx
-import React from 'react';
+import React, {useState} from 'react';
 import './FAQ.css';
 import './Guides.css';
 
@@ -30,15 +30,16 @@ const questions = [
             ' ♢ Go to the "Cashier" or "Transactions" section and cancel the pending request if it’s still in progress.',
         ],
     },
-    { title: 'About security and politics', content: [
-            '♡ Is it safe to store data here?',
-            ' ♡ Yes — we use encrypted connections and securely protect your personal data.',
-            '♡ Where can I find the privacy policy and rules?',
-            ' ♡ They’re available at the bottom of the website or in your account menu.',
-            '♡ Can I temporarily lock my account?',
-            ' ♡ Yes — contact support or use the “Self-Exclusion” option in your profile settings.',
-            '♡ How do I delete an account?',
-            ' ♡ Contact our support team via chat or email to request account deletion.',
+    { title: 'About security and politics',
+        items: [
+            {q: '♡ Is it safe to store data here?',
+                a:' ♡ Yes — we use encrypted connections and securely protect your personal data.'},
+            {q: '♡ Where can I find the privacy policy and rules?',
+                a:' ♡ They’re available at the bottom of the website or in your account menu.'},
+            {q: '♡ Can I temporarily lock my account?',
+                a:' ♡ Yes — contact support or use the “Self-Exclusion” option in your profile settings.'},
+            {q: '♡ How do I delete an account?',
+                a:' ♡ Contact our support team via chat or email to request account deletion.'}
         ],
     },
     { title: 'Customer service', content: [
@@ -55,21 +56,55 @@ const questions = [
 ];
 
 const FAQ: React.FC = () => {
+    const [expandedIndex, setExpandedIndex] = useState<number>(0);
+    const [justOpenedIndex, setJustOpenedIndex] = useState<number | null>(0);
+
+    const toggleDropdown = (index: number) => {
+        if (expandedIndex === index) {
+            setExpandedIndex(-1);
+            setJustOpenedIndex(null);
+        } else {
+            setExpandedIndex(index);
+            setJustOpenedIndex(index);
+        }
+    };
+
     return (
-        <div className={"FAQ-container"}>
-            <h1 className={"headertext"}>Frequently Asked Questions</h1>
-            {questions.map((question, i) => (
-                <section key={i} className="FAQdropdown">
-                    <header className="dropdown-header">
-                        <h3>{question.title}</h3>
+        <div className="guides-container">
+            <h1 className={"FAQ-header"}>Frequently Asked Questions</h1>
+            {questions.map((question, q) => (
+                <section key={q} className="dropdown">
+                    <header
+                        className={`dropdown-header ${justOpenedIndex === q ? 'underline-animated' : ''}`}
+                        onClick={() => toggleDropdown(q)}
+                    >
+                        <h3 className={expandedIndex === q ? 'open' : ''}>{question.title}</h3>
+                        <svg
+                            className={`icon ${expandedIndex === q ? 'open' : ''}`}
+                            width="23"
+                            height="14"
+                            viewBox="0 0 23 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12.1173 0.93924C11.5315 0.353453 10.5818 0.353453 9.99598 0.93924L0.450039 10.4852C-0.135748 11.071 -0.135748 12.0207 0.450039 12.6065C1.03583 13.1923 1.98557 13.1923 2.57136 12.6065L11.0566 4.12122L19.5419 12.6065C20.1277 13.1923 21.0775 13.1923 21.6632 12.6065C22.249 12.0207 22.249 11.071 21.6632 10.4852L12.1173 0.93924ZM11.0566 2H12.5566V1.9999H11.0566H9.55664V2H11.0566Z"
+                                fill="white"
+                            />
+                        </svg>
                     </header>
-                    <div className="dropdown-body">
-                        <ul className="rule-list">
-                            {question.content.map((line, idx) => (
-                                <li key={idx}>{line}</li>
-                            ))}
-                        </ul>
-                    </div>
+                    {expandedIndex === q && (
+                        <div className="dropdown-body">
+                            <ul className="questions-list">
+                                {question.items.map((line, idx) => (
+                                    <li key={idx}>
+                                        <div className="faq-question">{line.q}</div>
+                                        <div className="faq-answer">{line.a}</div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </section>
             ))}
         </div>

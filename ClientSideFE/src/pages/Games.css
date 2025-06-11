@@ -1,0 +1,84 @@
+.games {
+    display: flex;
+    gap: 2dvw;
+
+    padding: 2dvh 0;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    scroll-padding-inline: 0;
+}
+.games::before,
+.games::after {
+    content: "";
+    flex: 0 0 calc(
+            (100vw
+            - (4 * min(40dvw, 450px))
+            - (3 * 2dvw)
+            )/ 2
+    );
+}
+
+.games::-webkit-scrollbar { display: none; }
+
+.card {
+    flex-shrink: 0;
+    width: min(40dvw, 450px);
+    height: min(70dvh, 750px);
+    margin-top: 10dvh;
+    border: 0.1dvw solid #000;
+    border-radius: 2dvw;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #f5f5f5;
+
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+    img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+    p, button{
+        position: relative;
+        z-index: 1;
+        margin: 1dvh 0;
+        color: white;
+        text-shadow: 0 0 0.5dvw #000;
+    }
+
+.card button {
+    padding: 1.5dvh 3dvw;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: none;
+    border-radius: 1.5dvw;
+    color: #000000;
+    cursor: pointer;
+    margin-bottom: 2dvh;
+    font-size: 2dvh;
+}
+
+.card button:hover {
+    background-color: rgba(242, 71, 105, 1);
+    color: #ffffff;
+}
+
+.shadow{
+    z-index: 2;
+    width: min(40dvw, 450px);
+    height: min(35dvh, 375px);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.144) 0%, rgba(0, 0, 0, 0.9) 100%);
+    align-content: center;
+    text-align: center;
+
+}

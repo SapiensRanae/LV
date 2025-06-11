@@ -1,0 +1,15 @@
+.About-us{
+    width: 100%;
+    align-items: center;
+    font-size: 1.5rem;
+    h1{
+        font-family: "Crimson Text", sans-serif;
+        text-align: center;
+    }
+    b{
+        color: #F24769;
+    }
+    p:last-child{
+      margin-bottom: 0;
+    }
+}

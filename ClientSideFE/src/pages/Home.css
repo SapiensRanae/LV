@@ -1,0 +1,12 @@
+.carousel-container{
+    background: #f1f1f1;
+    display: flex;
+    overflow: hidden;
+
+    margin: -2.5dvh -1.1dvw;
+}
+
+.carousel-item{
+    height: 100dvh;
+    width: 100dvw;
+}

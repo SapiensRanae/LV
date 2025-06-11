@@ -1,5 +1,11 @@
 // src/pages/Games.tsx
 import React from 'react';
+import './Games.css';
+import Poker from '../assets/PokerCard.jpg';
+import Blackjack from '../assets/BlackjackCard.png';
+import Roulette from '../assets/RouletteCard.png';
+import Slots from '../assets/SlotsCard.png'
+
 
 const Games: React.FC = () => {
     return (
