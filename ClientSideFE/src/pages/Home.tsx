@@ -6,7 +6,7 @@ import './Home.css';
 const Home: React.FC = () => {
     return (
         <div className="carousel-container">
-            <img className="carousel-item" src={Poker} alt="Poker Carousel"/>
+                <img className="carousel-item" src={Poker} alt="Poker Carousel"/>
         </div>
     );
 };

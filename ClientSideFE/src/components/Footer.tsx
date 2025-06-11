@@ -1,7 +1,6 @@
 // src/components/Footer.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GoldenLine from '../assets/GoldenLine.png';
 import './Footer.css';
 
 const Footer: React.FC = () => {

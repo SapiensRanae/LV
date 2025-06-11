@@ -15,7 +15,7 @@
     rgba(70, 69, 67, 0.5)
     );
     height: 6vh;
-    z-index: 2;
+    z-index: 100;
     font-size: 1.5rem;
     position: relative;
 
