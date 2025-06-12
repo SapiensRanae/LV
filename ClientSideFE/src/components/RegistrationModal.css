@@ -17,9 +17,9 @@
     max-width: 25dvw;
     position: relative;
     color: white;
-    background-image: url('../assets/Auth.png');
-    background-size: cover;
-    background-position: center;
+    background:
+            linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2)),
+            url('../assets/Auth.png') center/cover no-repeat;
     h2 {
         font-family: 'Cinzel', serif;
         font-size: 2.5rem;

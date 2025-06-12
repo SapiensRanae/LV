@@ -1,0 +1,154 @@
+/* overlay */
+.transactions-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* modal box */
+.transactions-modal {
+    position: relative;
+    width: 90dvw;
+    max-width: 70dvw;
+    padding: 2rem;
+    background: #111;
+    background-image: url('../assets/Transactions.jpeg');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #DC143C;
+    border-radius: 0.5rem;
+    color: white;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.7);
+}
+
+/* close button */
+.transactions-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.transactions-close img {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+/* top grid: two columns + divider */
+.transactions-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.2rem 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.transactions-divider {
+    background: #DC143C;
+    width: 100%;
+    justify-self: center;
+}
+
+/* each column’s rows */
+.transactions-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.txn-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+}
+
+.txn-coins img {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 0.25rem;
+}
+
+/* VIP section */
+.vip-section {
+    display: flex;
+    gap: 2rem;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid #F0CE77;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    align-items: center;
+}
+
+/* left table */
+.vip-table {
+    flex: 1;
+    display: grid;
+    grid-template-rows: repeat(8, auto);
+    row-gap: 0.75rem;
+}
+
+/* table header */
+.vip-header {
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+    font-weight: bold;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(240,206,119,0.5);
+    padding-bottom: 0.5rem;
+}
+
+/* feature rows */
+.vip-row {
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+    font-size: 0.9rem;
+}
+
+.std, .vip {
+    text-align: center;
+}
+
+/* right promo box */
+.vip-promo {
+    width: 16rem;
+    text-align: center;
+    color: #F0CE77;
+}
+
+.vip-promo h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.vip-price {
+    margin: 0.5rem 0 1rem;
+    font-size: 1.25rem;
+}
+
+.per-month {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-left: 0.25rem;
+}
+
+/* purchase button */
+.vip-btn {
+    background: #F0CE77;
+    color: #111;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.vip-btn:hover {
+    opacity: 0.9;
+}

@@ -13,6 +13,9 @@ import CookiePolicy from './pages/CookiePolicy';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RegistrationModal from './components/RegistrationModal'
 import LoginModal from './components/LoginModal';
+import TransactionsModal from "./components/TransactionsModal";
+import Profile from './pages/Profile.tsx'
+import { useLocation } from 'react-router-dom';
 import './App.css';
 
 const App: React.FC = () => {
@@ -22,10 +25,22 @@ const App: React.FC = () => {
         }, 100);
     }, []);
 
+    const location = useLocation();
+
     const [isSignedIn, setIsSignedIn] = React.useState(true);
     const [showRegModal, setShowRegModal] = React.useState(false);
     const [showLogModal, setShowLogModal] = React.useState(false);
+    const [showTransactionModal, setShowTransactionModal] = React.useState(false);
     const navigate = useNavigate();
+    const onProfilePage = location.pathname === '/profile';
+
+    const handleSubscriptionClick = () => {
+        setShowTransactionModal(true);
+    }
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+    }
 
     const handleGamesClick = () => {
         if (isSignedIn) {
@@ -61,7 +76,12 @@ const App: React.FC = () => {
 
     return (
         <>
-            <Navbar onGamesClick={handleGamesClick} onSignupClick={handleSignupClick} />
+            <Navbar
+                onGamesClick={handleGamesClick}
+                onSignupClick={handleSignupClick}
+                isSignedIn={isSignedIn}
+                onProfileClick={handleProfileClick}
+                onSubscriptionClick={handleSubscriptionClick}/>
 
             {showRegModal && (
                 <RegistrationModal
@@ -79,20 +99,29 @@ const App: React.FC = () => {
                     />
                 )}
 
-            <div className="content">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    {isSignedIn && <Route path="/games" element={<Games />} />}
-                    <Route path="/guides" element={<Guides />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/faq" element={<FAQ />} />
-                    <Route path="/terms" element={<Terms />} />
-                    <Route path="/cookie-policy" element={<CookiePolicy />} />
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                </Routes>
-            </div>
+            {showTransactionModal && (
+                <TransactionsModal
+                    onClose={() => setShowTransactionModal(false)}
+                    />
+            )}
 
-            <Footer />
+            {onProfilePage ? (<Profile />
+            ) : (
+                <div className="content">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        {isSignedIn && <Route path="/games" element={<Games />} />}
+                        <Route path="/guides" element={<Guides />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/faq" element={<FAQ />} />
+                        <Route path="/terms" element={<Terms />} />
+                        <Route path="/cookie-policy" element={<CookiePolicy />} />
+                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    </Routes>
+                </div>
+            )}
+
+            {!onProfilePage && <Footer />}
         </>
     );
 };

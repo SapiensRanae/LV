@@ -1,13 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import Profile from '../assets/profile.png';
 
 interface NavbarProps {
     onGamesClick: () => void;
     onSignupClick: () => void;
+    isSignedIn: boolean;
+    onProfileClick: () => void;
+    onSubscriptionClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick}) => (
+const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick, isSignedIn, onProfileClick, onSubscriptionClick}) => (
     <nav className="navbar">
         <div className="logo">
             <li>
@@ -27,7 +31,18 @@ const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick}) => (
                 <li><Link to="/FAQ">FAQ</Link></li>
             </ul>
         </div>
-        <button onClick={onSignupClick} className={"nav-signup-button"}>Sign Up</button>
+        {isSignedIn ? (
+            <div className="infoPart">
+                <button onClick={onProfileClick} className="nav-profile-button">
+                    <img src={Profile} alt={"Profile"}></img>
+                </button>
+                <button onClick={onSubscriptionClick} className="subscription">
+                    Standard
+                </button>
+            </div>
+        ) : (
+            <button onClick={onSignupClick} className="nav-signup-button">Sign Up</button>
+        )}
     </nav>
 );
 

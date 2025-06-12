@@ -45,8 +45,8 @@ body::after {
 
 /* Main content area */
 .content {
-    min-height: calc(100vh - 300px);
-    padding: 40px 20px;
+    min-height: calc(100vh - 18.75rem);
+    padding: 2.5rem 1.25rem;
     background: transparent;
     position: relative;
     z-index: 0;
