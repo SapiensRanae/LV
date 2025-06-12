@@ -3,7 +3,7 @@ import './Guides.css';
 
 const rules = [
     { title: 'Common Rules', content: [
-            'All players must be 21 years or older.',
+            'All players must be 21 years or older..',
             'Play responsibly and within your limits.',
             'All winnings and losses are final once confirmed by the system.',
             'Players must agree to terms and conditions before playing.',
