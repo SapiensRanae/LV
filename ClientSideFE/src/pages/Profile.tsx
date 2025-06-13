@@ -16,10 +16,10 @@ const Profile: React.FC = () => {
                     </section>
                     <section className="Btns-left">
                         <section className="ChangeBtn">
-                            <button>Change</button>
+                            {/*<button>Change</button>*/}
                         </section>
                         <section className="BuyVIPBtn">
-                            <button>Buy VIP</button>
+                            {/*<button>Buy VIP</button>*/}
                         </section>
                     </section>
                 </section>

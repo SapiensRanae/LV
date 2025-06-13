@@ -14,7 +14,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import RegistrationModal from './components/RegistrationModal'
 import LoginModal from './components/LoginModal';
 import TransactionsModal from "./components/TransactionsModal";
-import Profile from './pages/Profile.tsx'
+import Profile from './pages/Profile';
 import { useLocation } from 'react-router-dom';
 import './App.css';
 
@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
     const location = useLocation();
 
-    const [isSignedIn, setIsSignedIn] = React.useState(true);
+    const [isSignedIn, setIsSignedIn] = React.useState(false);
     const [showRegModal, setShowRegModal] = React.useState(false);
     const [showLogModal, setShowLogModal] = React.useState(false);
     const [showTransactionModal, setShowTransactionModal] = React.useState(false);
