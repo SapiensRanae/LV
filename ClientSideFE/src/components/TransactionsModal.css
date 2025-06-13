@@ -12,49 +12,48 @@
 /* modal box */
 .transactions-modal {
     position: relative;
-    width: 90dvw;
-    max-width: 70dvw;
+    width: 60dvw;
     padding: 2rem;
-    background: #111;
-    background-image: url('../assets/Transactions.jpeg');
     background-size: cover;
-    background-position: center;
-    border: 2px solid #DC143C;
+    background: #111 url('../assets/Transactions.jpeg') center;
+    border: 0.15rem solid #DC143C;
     border-radius: 0.5rem;
     color: white;
-    box-shadow: 0 0 1rem rgba(0,0,0,0.7);
+    box-shadow: 0 0 0.6rem 0.2rem rgba(220, 20, 60, 0.5);
 }
 
 /* close button */
 .transactions-close {
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 1.5rem;
     background: transparent;
     border: none;
     cursor: pointer;
 }
 
 .transactions-close img {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 1rem;
+    height: 1rem;
 }
 
-/* top grid: two columns + divider */
 .transactions-grid {
     display: grid;
-    grid-template-columns: 1fr 0.2rem 1fr;
+    grid-template-columns: 50% 0.15rem 45%;
     gap: 1.5rem;
     margin-bottom: 2rem;
+    margin-top: 1rem;
 }
 
 .transactions-divider {
     background: #DC143C;
     width: 100%;
     justify-self: center;
+
+    text-decoration: none;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(220, 20, 60, 0.5);
 }
 
-/* each column’s rows */
 .transactions-col {
     display: flex;
     flex-direction: column;
@@ -71,17 +70,22 @@
     width: 1.2rem;
     height: 1.2rem;
     margin-left: 0.25rem;
+    position: relative;
 }
 
-/* VIP section */
 .vip-section {
     display: flex;
     gap: 2rem;
     background: rgba(0,0,0,0.6);
-    border: 2px solid #F0CE77;
+    border: 0.15rem solid #F0CE77;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(240, 206, 119, 0.5);
     border-radius: 0.5rem;
     padding: 1.5rem;
     align-items: center;
+    width: 75%;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* left table */
@@ -140,13 +144,20 @@
 /* purchase button */
 .vip-btn {
     background: #F0CE77;
-    color: #111;
+    color: #fff;
     border: none;
     border-radius: 2rem;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     cursor: pointer;
     transition: opacity 0.2s ease;
+}
+
+.vip-btn:hover {
+    text-decoration: none;
+    border: 0.1rem solid #ffffff;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
+    transition: box-shadow 0.2s ease;
 }
 
 .vip-btn:hover {

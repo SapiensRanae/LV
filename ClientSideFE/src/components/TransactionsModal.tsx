@@ -43,7 +43,7 @@ const TransactionsModal: React.FC<Props> = ({ onClose }) => {
                         {leftPackages.map((pkg, i) => (
                             <div key={i} className="txn-row">
                                 <span className="txn-price">{pkg.price}</span>
-                                <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="₵" /></span>
+                                <span className="txn-coins">{pkg.coins } <img src={coinIcon} alt="coin"/> </span>
                             </div>
                         ))}
                     </div>
@@ -54,7 +54,7 @@ const TransactionsModal: React.FC<Props> = ({ onClose }) => {
                         {rightPackages.map((pkg, i) => (
                             <div key={i} className="txn-row">
                                 <span className="txn-price">{pkg.price}</span>
-                                <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="₵" /></span>
+                                <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin"/> </span>
                             </div>
                         ))}
                     </div>
@@ -65,7 +65,7 @@ const TransactionsModal: React.FC<Props> = ({ onClose }) => {
                         <div className="vip-header">
                             <span>Bonuses:</span>
                             <span>Standard</span>
-                            <span>VIP</span>
+                            <span style={{justifyContent: "center;"}}>VIP</span>
                         </div>
                         {vipFeatures.map((feat, i) => (
                             <div key={i} className="vip-row">
