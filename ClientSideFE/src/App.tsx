@@ -1,6 +1,5 @@
-// src/App.tsx
-import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,36 +13,57 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import RegistrationModal from './components/RegistrationModal'
 import LoginModal from './components/LoginModal';
 import TransactionsModal from "./components/TransactionsModal";
+import PaymentModal from "./components/PaymentModal";
 import Profile from './pages/Profile';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
 import './App.css';
 
 const App: React.FC = () => {
-    React.useEffect(() => {
+    useEffect(() => {
         setTimeout(() => {
             document.body.classList.remove('loading');
         }, 100);
     }, []);
 
+    // Use the auth context instead of local state
+    const { isAuthenticated, logout } = useAuth();
     const location = useLocation();
 
-    const [isSignedIn, setIsSignedIn] = React.useState(true);
     const [showRegModal, setShowRegModal] = React.useState(false);
     const [showLogModal, setShowLogModal] = React.useState(false);
+    const [showPaymentModal, setShowPaymentModal] = React.useState(false);
     const [showTransactionModal, setShowTransactionModal] = React.useState(false);
     const navigate = useNavigate();
     const onProfilePage = location.pathname === '/profile';
+
+    const handleBuying = () => {
+        setShowTransactionModal(false);
+        setShowPaymentModal(true);
+    }
+
+    const handlePaymentSuccess = () => {
+        setShowPaymentModal(false);
+    }
+
+    const handleBuyVIPClick = () => {
+        setShowTransactionModal(true);
+    }
 
     const handleSubscriptionClick = () => {
         setShowTransactionModal(true);
     }
 
     const handleProfileClick = () => {
-        navigate('/profile');
+        if (isAuthenticated) {
+            navigate('/profile');
+        } else {
+            setShowLogModal(true);
+        }
     }
 
     const handleGamesClick = () => {
-        if (isSignedIn) {
+        if (isAuthenticated) {
             navigate('/games');
         } else {
             setShowRegModal(true);
@@ -55,14 +75,13 @@ const App: React.FC = () => {
     };
 
     const handleRegisterSuccess = () => {
-        setIsSignedIn(true);
         setShowRegModal(false);
     };
 
     const handleLoginPress = () => {
         setShowRegModal(false);
         setShowLogModal(true);
-        };
+    };
 
     const handleRegisterPress = () => {
         setShowRegModal(true);
@@ -70,18 +89,23 @@ const App: React.FC = () => {
     };
 
     const handleLoginSuccess = () => {
-        setIsSignedIn(true);
         setShowLogModal(false);
-        };
+    };
+
+    const handleLogoutClick = () => {
+        logout();
+        navigate('/');
+    }
 
     return (
         <>
             <Navbar
-                onGamesClick={handleGamesClick}
+                onGamesClick={() => navigate('/games')}
                 onSignupClick={handleSignupClick}
-                isSignedIn={isSignedIn}
+                isSignedIn={isAuthenticated}
                 onProfileClick={handleProfileClick}
-                onSubscriptionClick={handleSubscriptionClick}/>
+                onSubscriptionClick={handleSubscriptionClick}
+            />
 
             {showRegModal && (
                 <RegistrationModal
@@ -96,21 +120,36 @@ const App: React.FC = () => {
                     onClose={() => setShowLogModal(false)}
                     onLoginSuccess={handleLoginSuccess}
                     onRegisterClick={handleRegisterPress}
-                    />
-                )}
+                />
+            )}
 
             {showTransactionModal && (
                 <TransactionsModal
                     onClose={() => setShowTransactionModal(false)}
-                    />
+                    onBuying={handleBuying}
+                />
             )}
 
-            {onProfilePage ? (<Profile />
+            {showPaymentModal && (
+                <PaymentModal
+                    onClose={() => setShowPaymentModal(false)}
+                    onPaymentSuccess={handlePaymentSuccess}
+                />
+            )}
+
+            {onProfilePage ? (
+                isAuthenticated ? (
+                    <Profile onLogoutClick={handleLogoutClick}
+                             onBuyVIPClick={handleBuyVIPClick}
+                    />
+                ) : (
+                    <Navigate to="/" replace />
+                )
             ) : (
                 <div className="content">
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        {isSignedIn && <Route path="/games" element={<Games />} />}
+                        <Route path="/games" element={<Games />} />
                         <Route path="/guides" element={<Guides />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/faq" element={<FAQ />} />

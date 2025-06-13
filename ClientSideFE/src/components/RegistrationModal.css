@@ -35,12 +35,22 @@
 }
 
 .modal-content input[type="text"],
-.modal-content input[type="password"] {
+.modal-content input[type="password"],
+.modal-content input[type="email"] {
     width: 100%;
     padding: 0.6rem;
     border-radius: 2rem;
     border: none;
     margin-top: 1dvh;
+}
+
+.modal-content input[type="file"]{
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 1dvh;
+    background: #ffffff;
+    border-radius: 2rem;
+    color: #000000
 }
 
 .checkboxes {

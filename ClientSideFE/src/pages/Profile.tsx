@@ -1,57 +1,257 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import profileIco from "../assets/profile.png";
-import coin from "../assets/coin.png"
+import coin from "../assets/coin.png";
+import hidden from "../assets/Hidden.png";
+import visible from "../assets/Visible.png";
+import { getUserById } from '../api/userService';
+import { getUserHistoryByUser } from '../api/userHistoryService';
+import { User, UserHistory } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import {jwtDecode} from 'jwt-decode';
+import ProfileEditModal from '../components/ProfileEditModal';
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+    onBuyVIPClick: () => void;
+    onLogoutClick: () => void;
+}
+
+interface DecodedToken {
+    nameid: string;
+    unique_name?: string;
+    email?: string;
+    exp: number;
+}
+
+const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
+    const [user, setUser] = useState<User | null>(null);
+    const [history, setHistory] = useState<UserHistory[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [emailVisible, setEmailVisible] = useState(false);
+    const [phoneVisible, setPhoneVisible] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const { isAuthenticated } = useAuth();
+    const formatPhoneNumber = (phone: string | undefined) => {
+        if (!phone || phone.trim() === '') {
+            return {
+                visible: "Not provided",
+                hidden: "Not provided"
+            };
+        }
+
+        const digitsOnly = phone.replace(/\D/g, '');
+
+
+        if (digitsOnly.length >= 10) {
+            const lastFourVisible = digitsOnly.slice(-4);
+            const restHidden = digitsOnly.slice(0, -4);
+
+            return {
+                visible: phone, // Show original formatted number
+                hidden: `+${restHidden.slice(0, 3)} ** *** ${lastFourVisible}`
+            };
+        }
+
+        // Fallback for non-standard formats
+        return {
+            visible: phone,
+            hidden: phone.slice(0, 3) + "****" + phone.slice(-3)
+        };
+    };
+    const handleProfileUpdate = async () => {
+        setShowEditModal(false);
+        setLoading(true);
+        try {
+            // Refetch user data to show updated information
+            if (user) {
+                const updatedUserData = await getUserById(user.userID);
+                setUser(updatedUserData);
+            }
+        } catch (err) {
+            console.error('Error refreshing user data:', err);
+            setError('Failed to refresh profile data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            // Declare userId outside any blocks so it's accessible throughout the function
+            let userId: number | null = null;
+
+            try {
+                // Get user ID from JWT token
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    setError('Authentication token not found');
+                    setLoading(false);
+                    return;
+                }
+
+                // Decode token to get user ID
+                const decodedToken = jwtDecode<any>(token);
+                console.log('Decoded token structure:', decodedToken);
+
+                // Extract user ID from the token
+                // Your token has "sub" field with the user ID
+                if (decodedToken.sub) {
+                    userId = parseInt(decodedToken.sub);
+                }
+
+                if (!userId || isNaN(userId)) {
+                    throw new Error('Could not find valid user ID in token');
+                }
+
+                // Fetch user data
+                const userData = await getUserById(userId);
+                setUser(userData);
+
+                // Fetch user history
+                const historyData = await getUserHistoryByUser(userId);
+                setHistory(historyData);
+            } catch (err) {
+                console.error('Error fetching user data:', err);
+                setError('Failed to load profile data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (isAuthenticated) {
+            fetchUserData();
+        } else {
+            setLoading(false);
+            setError('User not authenticated');
+        }
+    }, [isAuthenticated]);
+
+
+    if (loading) return <div className="profile-bg"><div className="loading">Loading profile...</div></div>;
+    if (error || !user) return (
+        <div className="profile-bg">
+            <div className="error-container">
+                <div className="error-message">
+                    {error || "User not found"}
+                </div>
+                <button className="btn Logout error-logout" onClick={onLogoutClick}>
+                    Logout
+                </button>
+            </div>
+        </div>
+    );
+    if (!user) return <div className="profile-bg"><div className="error">User not found</div></div>;
+
     return (
         <div className="profile-bg">
             <section className="profile">
                 <section className="profile-left">
-                    <img src={profileIco} alt={"Profile icon"} className="Profile-icon"></img>
+                    <img
+                        src={user.userIcon ? user.userIcon : profileIco}
+                        alt="Profile icon"
+                        className="Profile-icon"
+                    />
                     <section className="NicknameBalance">
-                        <section className="Nickname">TestDummy</section>
+                        <section className="Nickname">{user.username}</section>
                         <section className="Balance">
-                            <span>NaN</span>
+                            <span>{user.balance}</span>
                             <img src={coin} alt="Balance icon" className="balance-icon" />
                         </section>
                     </section>
-                    <section className="Description">This is a basic test dummy for a placeholder profile!
+                    <section className="Description">
+                        {user.description
+                            ? user.description
+                            : "No description provided. Click 'Change' to add one."
+                        }
                     </section>
                     <section className="Btns-left">
                         <section className="ChangeBtn">
-                            <button className="btn change-btn">Change</button>
+                            <button className="btn change-btn" onClick={() => setShowEditModal(true)}>Change</button>
                         </section>
                         <section className="BuyVIPBtn">
-                            <button className="btn vip-btn">Buy VIP</button>
+                            <button className="btn vip-btn" onClick={onBuyVIPClick}>Buy VIP</button>
                         </section>
                     </section>
-
                 </section>
                 <section className="divider"></section>
                 <section className="profile-right">
                     <h2>Game History</h2>
                     <section className="Table">
+                        <table className="GameTable">
+                            <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Game</th>
+                                <th>Your bet</th>
+                                <th>Result</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {history.length > 0 ? (
+                                history.map((item, index) => (
+                                    <tr key={item.statisticID}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.gameTransaction?.game?.name || 'Unknown'}</td>
+                                        <td>{item.gameTransaction?.amount || 0}</td>
+                                        <td>{item.gameTransaction?.isWin ? 'Win' : 'Loss'}</td>
+                                        <td>{new Date(item.gameTransaction?.timestamp || '').toLocaleDateString()}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={5}>No game history yet</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
                     </section>
                     <section className="Btns-right">
                         <section className="LogoutBtn">
-                            <button className="btn red-btn">Logout</button>
+                            <button className="btn Logout" onClick={onLogoutClick}>Logout</button>
                         </section>
                         <section className="DeleteBtn">
-                            <button className="btn red-btn">Delete</button>
+                            <button className="btn Delete">Delete</button>
                         </section>
                     </section>
-
                     <section className="ContactInfo">
                         <section className="Email">
-
+                            <section className="EmailText">Email:</section>
+                            <section className="EmailPlaceHolder">
+                                {emailVisible ? user.email : user.email.replace(/(.{2})(.*)(@.*)/, "$1***$3")}
+                                <img
+                                    src={emailVisible ? visible : hidden}
+                                    alt={emailVisible ? "Hide" : "Show"}
+                                    onClick={() => setEmailVisible(!emailVisible)}
+                                />
+                            </section>
                         </section>
                         <section className="Phone">
+                            <section className="Phonetext">Phone:</section>
 
+                            <section className="PhonePlaceHolder">
+                                {phoneVisible
+                                    ? formatPhoneNumber(user.phoneNumber).visible
+                                    : formatPhoneNumber(user.phoneNumber).hidden
+                                }
+                                <img
+                                    src={phoneVisible ? visible : hidden}
+                                    alt={phoneVisible ? "Hide" : "Show"}
+                                    onClick={() => setPhoneVisible(!phoneVisible)}
+                                />
+                            </section>
                         </section>
                     </section>
                 </section>
             </section>
+            {showEditModal && user && (
+                <ProfileEditModal
+                    user={user}
+                    onClose={() => setShowEditModal(false)}
+                    onUpdateSuccess={handleProfileUpdate}
+                />
+            )}
         </div>
     );
 };

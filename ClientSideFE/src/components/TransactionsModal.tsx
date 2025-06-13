@@ -5,6 +5,7 @@ import coinIcon from '../assets/coin.png'       // your coin icon
 
 interface Props {
     onClose: () => void
+    onBuying: () => void
 }
 
 const leftPackages = [
@@ -31,7 +32,7 @@ const vipFeatures = [
     'Bake a cake:',
 ]
 
-const TransactionsModal: React.FC<Props> = ({ onClose }) => {
+const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
     return (
         <div className="transactions-overlay" onClick={onClose}>
             <div className="transactions-modal" onClick={e => e.stopPropagation()}>
@@ -41,7 +42,7 @@ const TransactionsModal: React.FC<Props> = ({ onClose }) => {
                 <div className="transactions-grid">
                     <div className="transactions-col">
                         {leftPackages.map((pkg, i) => (
-                            <div key={i} className="txn-row">
+                            <div key={i} className="txn-row" onClick={onBuying}>
                                 <span className="txn-price">{pkg.price}</span>
                                 <span className="txn-coins">{pkg.coins } <img src={coinIcon} alt="coin"/> </span>
                             </div>
@@ -52,7 +53,7 @@ const TransactionsModal: React.FC<Props> = ({ onClose }) => {
 
                     <div className="transactions-col">
                         {rightPackages.map((pkg, i) => (
-                            <div key={i} className="txn-row">
+                            <div key={i} className="txn-row" onClick={onBuying}>
                                 <span className="txn-price">{pkg.price}</span>
                                 <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin"/> </span>
                             </div>

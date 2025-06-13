@@ -23,9 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick, isSignedIn
         </div>
         <div className="navbar-center">
             <ul className="nav-links">
-                <li><button onClick={onGamesClick} className="nav-link-button">
-                    Games
-                </button></li>
+                <li><button onClick={onGamesClick} className="nav-link-button">Games</button></li>
                 <li><Link to="/guides">Guides</Link></li>
                 <li><Link to="/about">About</Link></li>
                 <li><Link to="/FAQ">FAQ</Link></li>

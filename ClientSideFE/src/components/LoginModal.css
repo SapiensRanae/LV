@@ -10,3 +10,27 @@
     cursor: pointer;
     margin-top: 1dvh;
 }
+
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+.profile-icon-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #DC143C;
+    background-color: #1B1B1B;
+}
+
+.profile-icon-upload {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}

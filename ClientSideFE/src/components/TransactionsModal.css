@@ -68,6 +68,12 @@
     box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.15);
 }
 
+.txn-row:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.20);
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.25);
+}
+
 .txn-coins{
     display: flex;
 }
@@ -117,7 +123,6 @@
     padding-bottom: 0.5rem;
 }
 
-/* feature rows */
 .vip-row {
     display: grid;
     grid-template-columns: 4fr 1fr 1fr;
@@ -128,7 +133,6 @@
     text-align: center;
 }
 
-/* right promo box */
 .vip-promo {
     width: 16rem;
     text-align: center;
@@ -152,7 +156,6 @@
     margin-left: 0.25rem;
 }
 
-/* purchase button */
 .vip-btn {
     background: #F0CE77;
     color: #fff;

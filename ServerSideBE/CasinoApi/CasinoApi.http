@@ -1,0 +1,25 @@
+@CasinoApi_HostAddress = http://localhost:9000
+
+### Get all users
+GET {{CasinoApi_HostAddress}}/api/users
+Accept: application/json
+
+### Get user by ID
+GET {{CasinoApi_HostAddress}}/api/users/1
+Accept: application/json
+
+### Create a new user
+POST {{CasinoApi_HostAddress}}/api/users
+Content-Type: application/json
+
+{
+  "role": "player",
+  "username": "testuser",
+  "email": "test@example.com",
+  "passwordHash": "hashedpassword",
+  "balance": 100.0000
+}
+
+### Get all games
+GET {{CasinoApi_HostAddress}}/api/games
+Accept: application/json
