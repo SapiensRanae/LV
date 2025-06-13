@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
     const location = useLocation();
 
-    const [isSignedIn, setIsSignedIn] = React.useState(false);
+    const [isSignedIn, setIsSignedIn] = React.useState(true);
     const [showRegModal, setShowRegModal] = React.useState(false);
     const [showLogModal, setShowLogModal] = React.useState(false);
     const [showTransactionModal, setShowTransactionModal] = React.useState(false);

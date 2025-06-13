@@ -22,7 +22,6 @@
     box-shadow: 0 0 0.6rem 0.2rem rgba(220, 20, 60, 0.5);
 }
 
-/* close button */
 .transactions-close {
     position: absolute;
     top: 1rem;
@@ -63,12 +62,19 @@
 .txn-row {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 1.25rem;
+    background: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.15);
+}
+
+.txn-coins{
+    display: flex;
 }
 
 .txn-coins img {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     margin-left: 0.25rem;
     position: relative;
 }
@@ -83,25 +89,30 @@
     padding: 1.5rem;
     align-items: center;
     width: 75%;
+    height: 40%;
 
     margin-left: auto;
     margin-right: auto;
 }
 
-/* left table */
 .vip-table {
     flex: 1;
     display: grid;
     grid-template-rows: repeat(8, auto);
     row-gap: 0.75rem;
+    span.feat-name{
+        font-size: 1rem;
+    }
+    span.std, span.vip{
+        font-size: 1.1rem;
+    }
 }
 
-/* table header */
 .vip-header {
     display: grid;
-    grid-template-columns: 4fr 1fr 1fr;
+    grid-template-columns: 68% 22% 18%;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.2rem;
     border-bottom: 1px solid rgba(240,206,119,0.5);
     padding-bottom: 0.5rem;
 }
