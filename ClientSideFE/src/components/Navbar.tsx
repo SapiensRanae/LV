@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 import './Navbar.css';
 import Profile from '../assets/profile.png';
+import Coin from '../assets/coin.png';
 
 interface NavbarProps {
     onGamesClick: () => void;
@@ -9,9 +11,12 @@ interface NavbarProps {
     isSignedIn: boolean;
     onProfileClick: () => void;
     onSubscriptionClick: () => void;
+    onBalanceClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick, isSignedIn, onProfileClick, onSubscriptionClick}) => (
+const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick, isSignedIn, onProfileClick, onSubscriptionClick, onBalanceClick}) => {
+    const { user } = useUser();
+    return (
     <nav className="navbar">
         <div className="logo">
             <li>
@@ -31,8 +36,11 @@ const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick, isSignedIn
         </div>
         {isSignedIn ? (
             <div className="infoPart">
+                <label className="nav-balance" onClick={onBalanceClick}>
+                    {user ? user.balance : 0} <img src={Coin} alt='Coins'/>
+                </label>
                 <button onClick={onProfileClick} className="nav-profile-button">
-                    <img src={Profile} alt={"Profile"}></img>
+                    <img src={user && user.userIcon ? user.userIcon : Profile} alt="Profile"/>
                 </button>
                 <button onClick={onSubscriptionClick} className="subscription">
                     Standard
@@ -43,5 +51,5 @@ const Navbar: React.FC<NavbarProps> = ({ onGamesClick, onSignupClick, isSignedIn
         )}
     </nav>
 );
-
+}
 export default Navbar;

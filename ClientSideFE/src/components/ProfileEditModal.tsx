@@ -95,8 +95,12 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
                 iconUrl = await convertFileToBase64(iconFile);
             }
 
-            // Using the UserUpdateRequest structure from the backend
-            const updateData = {
+            // Use all required user fields
+            const updateData: User = {
+                userID: user.userID,
+                role: user.role,
+                email: user.email,
+                balance: user.balance,
                 username,
                 phoneNumber,
                 description,
@@ -108,7 +112,7 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
             await updateUser(user.userID, updateData);
             onUpdateSuccess();
         } catch (err: any) {
-            const errorMsg = err.response?.data?.message || 'Failed to update profile';
+            const errorMsg = err.response?.data?.message || err.message || 'Failed to update profile';
             setError(errorMsg);
         } finally {
             setIsLoading(false);

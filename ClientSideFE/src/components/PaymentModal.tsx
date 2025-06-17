@@ -31,19 +31,11 @@ const PaymentModal: React.FC<Props> = ({onClose, onPaymentSuccess}) => {
             setError('CVV must be 3 or 4 digits');
             return;
         }
-
-        try {
-            // to do: call your payment API here
-            // await api.pay({ cardNumber, expMonth, expYear, cvv, receiptEmail: email });
-            onPaymentSuccess();
-        } catch (err: any) {
-            setError(err.message || 'Payment failed');
-        }
     };
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content">
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <h2>Payment</h2>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handlePay}>

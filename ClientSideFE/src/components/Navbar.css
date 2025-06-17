@@ -121,6 +121,9 @@
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
+    img{
+        border-radius: 50%;
+    }
 }
 
 .nav-profile-button:hover{
@@ -149,4 +152,22 @@
     border: 0.1rem solid #ffffff;
     box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
     transition: all 0.2s ease-in-out;
+}
+
+.nav-balance{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: white;
+    padding: 0 0.5dvw;
+    cursor: pointer;
+    img{
+        width: 2rem;
+        height: auto;
+        margin-left: 0.5rem;
+        position: relative;
+    }
 }

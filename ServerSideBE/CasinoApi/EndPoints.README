@@ -1,0 +1,33 @@
+# CasinoApi Endpoints
+
+## Authentication
+- **POST /api/auth/login** - Authenticate a user
+- **POST /api/auth/register** - Register a new user
+
+## Users
+- **GET /api/users** - Get all users
+- **GET /api/users/{id}** - Get user by ID
+- **POST /api/users** - Create a new user
+- **PUT /api/users/{id}** - Update a user
+- **DELETE /api/users/{id}** - Delete a user
+
+## Games
+- **GET /api/games** - Get all games
+- **GET /api/games/{id}** - Get game by ID
+- **POST /api/games** - Create a new game
+- **PUT /api/games/{id}** - Update a game
+- **DELETE /api/games/{id}** - Delete a game
+
+## Games With Ratio
+- **GET /api/gameswithratio** - Get all games with ratio
+- **GET /api/gameswithratio/{id}** - Get game with ratio by ID
+- **POST /api/gameswithratio** - Create a new game with ratio
+- **PUT /api/gameswithratio/{id}** - Update a game with ratio
+- **DELETE /api/gameswithratio/{id}** - Delete a game with ratio
+
+## Financial Transactions
+- **GET /api/financialtransactions** - Get all financial transactions
+- **GET /api/financialtransactions/{id}** - Get financial transaction by ID
+- **POST /api/financialtransactions** - Create a new financial transaction
+- **PUT /api/financialtransactions/{id}** - Update a financial transaction
+- **DELETE /api/financialtransactions/{id}** - Delete a financial transaction

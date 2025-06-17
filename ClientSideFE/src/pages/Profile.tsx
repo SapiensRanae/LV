@@ -4,11 +4,10 @@ import profileIco from "../assets/profile.png";
 import coin from "../assets/coin.png";
 import hidden from "../assets/Hidden.png";
 import visible from "../assets/Visible.png";
-import { getUserById } from '../api/userService';
 import { getUserHistoryByUser } from '../api/userHistoryService';
-import { User, UserHistory } from '../types';
+import { UserHistory } from '../types';
 import { useAuth } from '../contexts/AuthContext';
-import {jwtDecode} from 'jwt-decode';
+import { useUser } from '../contexts/UserContext';
 import ProfileEditModal from '../components/ProfileEditModal';
 
 interface ProfileProps {
@@ -16,15 +15,8 @@ interface ProfileProps {
     onLogoutClick: () => void;
 }
 
-interface DecodedToken {
-    nameid: string;
-    unique_name?: string;
-    email?: string;
-    exp: number;
-}
-
 const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const { user, refreshUser } = useUser();
     const [history, setHistory] = useState<UserHistory[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -32,6 +24,7 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
     const [phoneVisible, setPhoneVisible] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const { isAuthenticated } = useAuth();
+
     const formatPhoneNumber = (phone: string | undefined) => {
         if (!phone || phone.trim() === '') {
             return {
@@ -39,37 +32,31 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                 hidden: "Not provided"
             };
         }
-
         const digitsOnly = phone.replace(/\D/g, '');
-
-
         if (digitsOnly.length >= 10) {
             const lastFourVisible = digitsOnly.slice(-4);
             const restHidden = digitsOnly.slice(0, -4);
-
             return {
-                visible: phone, // Show original formatted number
+                visible: phone,
                 hidden: `+${restHidden.slice(0, 3)} ** *** ${lastFourVisible}`
             };
         }
-
-        // Fallback for non-standard formats
         return {
             visible: phone,
             hidden: phone.slice(0, 3) + "****" + phone.slice(-3)
         };
     };
+
     const handleProfileUpdate = async () => {
         setShowEditModal(false);
         setLoading(true);
         try {
-            // Refetch user data to show updated information
+            await refreshUser(); // Refresh user data globally
             if (user) {
-                const updatedUserData = await getUserById(user.userID);
-                setUser(updatedUserData);
+                const historyData = await getUserHistoryByUser(user.userID);
+                setHistory(historyData);
             }
         } catch (err) {
-            console.error('Error refreshing user data:', err);
             setError('Failed to refresh profile data');
         } finally {
             setLoading(false);
@@ -77,56 +64,25 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
     };
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            // Declare userId outside any blocks so it's accessible throughout the function
-            let userId: number | null = null;
-
-            try {
-                // Get user ID from JWT token
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    setError('Authentication token not found');
-                    setLoading(false);
-                    return;
+        const fetchHistory = async () => {
+            if (user) {
+                try {
+                    const historyData = await getUserHistoryByUser(user.userID);
+                    setHistory(historyData);
+                } catch {
+                    setError('Failed to load profile data');
                 }
-
-                // Decode token to get user ID
-                const decodedToken = jwtDecode<any>(token);
-                console.log('Decoded token structure:', decodedToken);
-
-                // Extract user ID from the token
-                // Your token has "sub" field with the user ID
-                if (decodedToken.sub) {
-                    userId = parseInt(decodedToken.sub);
-                }
-
-                if (!userId || isNaN(userId)) {
-                    throw new Error('Could not find valid user ID in token');
-                }
-
-                // Fetch user data
-                const userData = await getUserById(userId);
-                setUser(userData);
-
-                // Fetch user history
-                const historyData = await getUserHistoryByUser(userId);
-                setHistory(historyData);
-            } catch (err) {
-                console.error('Error fetching user data:', err);
-                setError('Failed to load profile data');
-            } finally {
-                setLoading(false);
             }
+            setLoading(false);
         };
-
-        if (isAuthenticated) {
-            fetchUserData();
-        } else {
+        if (isAuthenticated && user) {
+            setLoading(true);
+            fetchHistory();
+        } else if (!isAuthenticated) {
             setLoading(false);
             setError('User not authenticated');
         }
-    }, [isAuthenticated]);
-
+    }, [isAuthenticated, user]);
 
     if (loading) return <div className="profile-bg"><div className="loading">Loading profile...</div></div>;
     if (error || !user) return (
@@ -141,7 +97,6 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
             </div>
         </div>
     );
-    if (!user) return <div className="profile-bg"><div className="error">User not found</div></div>;
 
     return (
         <div className="profile-bg">
@@ -229,7 +184,6 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                         </section>
                         <section className="Phone">
                             <section className="Phonetext">Phone:</section>
-
                             <section className="PhonePlaceHolder">
                                 {phoneVisible
                                     ? formatPhoneNumber(user.phoneNumber).visible

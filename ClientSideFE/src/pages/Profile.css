@@ -153,8 +153,6 @@
     }
 }
 
-
-
 .divider {
     width: 2px;
     background-color: #F24769;
@@ -175,6 +173,7 @@
 .Profile-icon {
     width: 10rem;
     height: 10rem;
+    border-radius: 20%;
 }
 
 .profile-left img {

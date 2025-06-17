@@ -17,6 +17,7 @@ import PaymentModal from "./components/PaymentModal";
 import Profile from './pages/Profile';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { UserProvider } from './contexts/UserContext';
 import './App.css';
 
 const App: React.FC = () => {
@@ -26,8 +27,9 @@ const App: React.FC = () => {
         }, 100);
     }, []);
 
-    // Use the auth context instead of local state
-    const { isAuthenticated, logout } = useAuth();
+    const [isAuthenticated] = React.useState(true);
+    //const { isAuthenticated, logout } = useAuth();
+
     const location = useLocation();
 
     const [showRegModal, setShowRegModal] = React.useState(false);
@@ -36,6 +38,10 @@ const App: React.FC = () => {
     const [showTransactionModal, setShowTransactionModal] = React.useState(false);
     const navigate = useNavigate();
     const onProfilePage = location.pathname === '/profile';
+    const onSlotsPage = location.pathname === '/games/slots';
+    const onRoulettePage = location.pathname === '/games/roulette';
+    const onPokerPage = location.pathname === '/games/poker';
+    const onBlackjackPage = location.pathname === '/games/blackjack';
 
     const handleBuying = () => {
         setShowTransactionModal(false);
@@ -98,13 +104,14 @@ const App: React.FC = () => {
     }
 
     return (
-        <>
+        <UserProvider>
             <Navbar
                 onGamesClick={() => navigate('/games')}
                 onSignupClick={handleSignupClick}
                 isSignedIn={isAuthenticated}
                 onProfileClick={handleProfileClick}
                 onSubscriptionClick={handleSubscriptionClick}
+                onBalanceClick={() => setShowTransactionModal(true)}
             />
 
             {showRegModal && (
@@ -160,8 +167,8 @@ const App: React.FC = () => {
                 </div>
             )}
 
-            {!onProfilePage && <Footer />}
-        </>
+            {!onProfilePage && !onSlotsPage && !onRoulettePage && !onPokerPage && !onBlackjackPage && <Footer />}
+        </UserProvider>
     );
 };
 

@@ -33,7 +33,7 @@ namespace CasinoApi.Controllers
                     u.Email,
                     u.Role,
                     u.Balance,
-                    u.UserIcon,
+                    UserIcon = u.UserIcon != null ? "data:image/png;base64," + Convert.ToBase64String(u.UserIcon) : null,
                     u.PhoneNumber
                 })
                 .ToListAsync();
@@ -44,8 +44,7 @@ namespace CasinoApi.Controllers
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
-    
-            // Return user data without navigation properties
+
             return new
             {
                 user.UserID,
@@ -53,10 +52,9 @@ namespace CasinoApi.Controllers
                 user.Email,
                 user.Role,
                 user.Balance,
-                user.UserIcon,
+                UserIcon = user.UserIcon != null ? "data:image/png;base64," + Convert.ToBase64String(user.UserIcon) : null,
                 user.PhoneNumber,
-                user.Description 
-
+                user.Description
             };
         }
 
@@ -74,7 +72,7 @@ namespace CasinoApi.Controllers
             public string? Email { get; set; }
             public string? PhoneNumber { get; set; }
             public string? Description { get; set; }
-            public byte[]? UserIcon { get; set; }
+            public string? UserIcon { get; set; }
             public string? Password { get; set; } // Only include if changing password
         }
 
@@ -82,6 +80,9 @@ namespace CasinoApi.Controllers
         public async Task<IActionResult> UpdateUser(int id, UserUpdateRequest request)
         {
             var user = await _context.Users.FindAsync(id);
+            
+            
+            
             if (user == null) return NotFound();
 
             // Update only provided fields
@@ -97,8 +98,12 @@ namespace CasinoApi.Controllers
             if (request.Description != null)
                 user.Description = request.Description;
     
-            if (request.UserIcon != null)
-                user.UserIcon = request.UserIcon;
+            string base64Data = request.UserIcon;
+            if (base64Data.Contains(","))
+            {
+                base64Data = base64Data.Split(',')[1];
+            }
+            user.UserIcon = Convert.FromBase64String(base64Data);
     
             // Only update password if provided
             if (!string.IsNullOrEmpty(request.Password))
