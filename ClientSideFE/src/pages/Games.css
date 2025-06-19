@@ -28,8 +28,8 @@
     width: min(40dvw, 450px);
     height: min(70dvh, 750px);
     margin-top: 10dvh;
-    border: 0.1dvw solid #000;
-    border-radius: 2dvw;
+    border: 0.15rem solid ;
+    border-radius: 2rem;
     overflow: hidden;
     position: relative;
     display: flex;

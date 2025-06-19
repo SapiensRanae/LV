@@ -18,6 +18,7 @@ import Profile from './pages/Profile';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { UserProvider } from './contexts/UserContext';
+import Slots from './pages/games/Slots';
 import './App.css';
 
 const App: React.FC = () => {
@@ -27,8 +28,7 @@ const App: React.FC = () => {
         }, 100);
     }, []);
 
-    const [isAuthenticated] = React.useState(true);
-    //const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
     const location = useLocation();
 
@@ -157,6 +157,7 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/games" element={<Games />} />
+                        <Route path="/games/slots" element={<Slots />} />
                         <Route path="/guides" element={<Guides />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/faq" element={<FAQ />} />

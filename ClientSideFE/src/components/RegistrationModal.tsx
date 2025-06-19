@@ -46,6 +46,7 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
             console.log('Registration successful:', response.data);
             localStorage.setItem('token', response.data.token);
             onRegisterSuccess();
+            navigate('/profile');
         } catch (err: any) {
             const errorMsg = err.response?.data?.message || 'Registration failed';
             console.error('Registration error:', errorMsg, err);

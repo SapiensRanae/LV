@@ -1,4 +1,4 @@
-@CasinoApi_HostAddress = http://localhost:9000
+@CasinoApi_HostAddress = http://localhost:5151
 
 ### Get all users
 GET {{CasinoApi_HostAddress}}/api/users
@@ -12,13 +12,7 @@ Accept: application/json
 POST {{CasinoApi_HostAddress}}/api/users
 Content-Type: application/json
 
-{
-  "role": "player",
-  "username": "testuser",
-  "email": "test@example.com",
-  "passwordHash": "hashedpassword",
-  "balance": 100.0000
-}
+
 
 ### Get all games
 GET {{CasinoApi_HostAddress}}/api/games

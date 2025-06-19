@@ -9,8 +9,6 @@
 
 }
 
-
-
 .carousel-item {
     display: flex;
     align-items: center;
@@ -18,7 +16,7 @@
     width: 100vw;
     height: 100vh;
 
-    overflow: visible; /* Ensure children are visible */
+    overflow: visible;
 }
 
 .carousel-item img {

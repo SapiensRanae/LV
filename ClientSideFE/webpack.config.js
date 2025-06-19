@@ -11,7 +11,8 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',                                   // name bundles after entry keys
         path: path.resolve(__dirname, 'dist'),                          // emit into ./dist
-        clean: true,                                                    // clear ./dist before each build :contentReference[oaicite:4]{index=4}
+        clean: true,
+        publicPath: '/',// clear ./dist before each build :contentReference[oaicite:4]{index=4}
     },
 
     resolve: {

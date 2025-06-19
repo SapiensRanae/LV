@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './LoginModal.css';
 import './RegistrationModal.css';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     onClose: () => void;
@@ -37,6 +38,7 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
             await login({ email: contact, password });
             console.log('Login successful');
             onLoginSuccess();
+            navigate('/profile');
         } catch (err: any) {
             const errorMsg = err.response?.data?.message || 'Login failed';
             console.error('Login error:', errorMsg, err);

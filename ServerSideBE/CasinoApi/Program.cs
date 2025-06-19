@@ -22,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Add Swagger
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Casino API", Version = "v1" });
+    c.SwaggerDoc("v1.01", new OpenApiInfo { Title = "Casino API", Version = "v1.01" });
 });
 
 // Add JWT authentication
@@ -38,7 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "casinoApi",
             ValidAudience = builder.Configuration["Jwt:Audience"] ?? "casinoClients",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration["Jwt:Key"] ?? "defaultSecretKey123456789012345678901234"))
+                builder.Configuration["Jwt:Key"]))
         };
     });
 
@@ -62,7 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Casino API v1"));
 }
 
-// Add CORS middleware (must be before routing and endpoints)
+// Add CORS middleware 
 app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
@@ -72,5 +72,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 
 app.Run();
