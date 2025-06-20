@@ -1,30 +1,26 @@
 .games {
-    display: flex;
-    gap: 2dvw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    justify-items: center;
+    column-gap: 0;
+    margin-left: 5vw;
+    margin-right: 5vw;
 
-    padding: 2dvh 0;
-
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    scroll-padding-inline: 0;
+    overflow: visible;
+    scroll-snap-type: none;
 }
-.games::before,
-.games::after {
-    content: "";
-    flex: 0 0 calc(
-            (100vw
-            - (4 * min(40dvw, 450px))
-            - (3 * 2dvw)
-            )/ 2
-    );
+
+.games > .card:nth-child(1),
+.games > .card:nth-child(2) {
+    margin-top: 0;
 }
 
 .games::-webkit-scrollbar { display: none; }
 
+
+
 .card {
-    flex-shrink: 0;
     width: min(40dvw, 450px);
     height: min(70dvh, 750px);
     margin-top: 10dvh;

@@ -28,6 +28,10 @@ export const logout = (): void => {
     localStorage.removeItem('token');
 };
 
+export const deleteUser = async (userId: number): Promise<void> => {
+    await apiClient.delete(`/users/${userId}`);
+};
+
 export const isAuthenticated = (): boolean => {
     const token = localStorage.getItem('token');
     if (!token) return false;

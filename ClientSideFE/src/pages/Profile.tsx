@@ -5,10 +5,13 @@ import coin from "../assets/coin.png";
 import hidden from "../assets/Hidden.png";
 import visible from "../assets/Visible.png";
 import { getUserHistoryByUser } from '../api/userHistoryService';
+import { deleteUser } from '../api/userService';
 import { UserHistory } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useUser } from '../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 import ProfileEditModal from '../components/ProfileEditModal';
+import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
 
 interface ProfileProps {
     onBuyVIPClick: () => void;
@@ -22,9 +25,11 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
     const [error, setError] = useState('');
     const [emailVisible, setEmailVisible] = useState(false);
     const [phoneVisible, setPhoneVisible] = useState(false);
+    const [deleteError, setDeleteError] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false);
-    const { isAuthenticated } = useAuth();
-
+    const { isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
     const formatPhoneNumber = (phone: string | undefined) => {
         if (!phone || phone.trim() === '') {
             return {
@@ -60,6 +65,19 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
             setError('Failed to refresh profile data');
         } finally {
             setLoading(false);
+        }
+    };
+    const handleDeleteAccount = async () => {
+        if (!user) return;
+
+        try {
+            await deleteUser(user.userID);
+            logout(); // Clear authentication
+            navigate('/'); // Redirect to home page
+        } catch (err: any) {
+            const errorMsg = err.response?.data?.message || 'Failed to delete account';
+            setDeleteError(errorMsg);
+            setShowDeleteModal(false);
         }
     };
 
@@ -167,7 +185,12 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                             <button className="btn Logout" onClick={onLogoutClick}>Logout</button>
                         </section>
                         <section className="DeleteBtn">
-                            <button className="btn Delete">Delete</button>
+                            <button
+                                className="btn Delete"
+                                onClick={() => setShowDeleteModal(true)}
+                            >
+                                Delete
+                            </button>
                         </section>
                     </section>
                     <section className="ContactInfo">
@@ -199,6 +222,7 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                     </section>
                 </section>
             </section>
+            {/* Edit profile modal */}
             {showEditModal && user && (
                 <ProfileEditModal
                     user={user}
@@ -206,8 +230,24 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                     onUpdateSuccess={handleProfileUpdate}
                 />
             )}
+
+            {/* Delete confirmation modal */}
+            {showDeleteModal && (
+                <DeleteConfirmationModal
+                    onClose={() => setShowDeleteModal(false)}
+                    onConfirm={handleDeleteAccount}
+                />
+            )}
+
+            {/* Show error if deletion fails */}
+            {deleteError && (
+                <div className="error-message delete-error">
+                    {deleteError}
+                </div>
+            )}
         </div>
     );
 };
+
 
 export default Profile;

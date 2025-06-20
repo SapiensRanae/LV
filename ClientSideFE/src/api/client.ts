@@ -1,7 +1,7 @@
 // src/api/client.ts
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5151/api';
+const API_URL = 'https://luckyapi-fje0bxcph0gyfmf3.germanywestcentral-01.azurewebsites.net/api';
 
 const apiClient = axios.create({
     baseURL: API_URL,

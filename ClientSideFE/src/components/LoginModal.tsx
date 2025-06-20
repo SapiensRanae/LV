@@ -4,6 +4,7 @@ import './LoginModal.css';
 import './RegistrationModal.css';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 
 interface Props {
     onClose: () => void;
@@ -16,7 +17,9 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { refreshUser } = useUser();
     const { login } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log('LoginModal mounted');
@@ -37,7 +40,10 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
         try {
             await login({ email: contact, password });
             console.log('Login successful');
+
             onLoginSuccess();
+
+            await refreshUser();
             navigate('/profile');
         } catch (err: any) {
             const errorMsg = err.response?.data?.message || 'Login failed';

@@ -8,6 +8,8 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +57,19 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/error");
+    // The default HSTS value is 30 days. You may want to change this for production.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 // Configure middleware
 if (app.Environment.IsDevelopment())
 {
@@ -64,8 +79,6 @@ if (app.Environment.IsDevelopment())
 
 // Add CORS middleware 
 app.UseCors("AllowReactApp");
-
-app.UseHttpsRedirection();
 
 // Add authentication before authorization
 app.UseAuthentication();

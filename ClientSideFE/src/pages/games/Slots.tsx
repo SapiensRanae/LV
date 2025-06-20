@@ -1,9 +1,83 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Slots.css';
 
+interface CardCollection {
+    [colorOrType: string]: {
+        [suit: string]: {
+            [cardName: string]: string;
+        };
+    };
+}
+
+declare const require: {
+    context(
+        directory: string,
+        useSubdirectories: boolean,
+        regExp: RegExp
+    ): {
+        keys(): string[];
+        <T>(id: string): T;
+    };
+};
+
+const importAllCards = (): CardCollection => {
+    const context = require.context('../../assets/Cards', true, /\.png$/);
+    const cards: CardCollection = {};
+
+    context.keys().forEach((key: string) => {
+        const parts = key.replace(/^\.\//, '').split('/');
+        if (parts.length !== 3) return;
+        const [colorOrType, suit, fileName] = parts;
+        const cardName = fileName.replace(/\.png$/, '');
+
+        cards[colorOrType] ??= {};
+        cards[colorOrType][suit] ??= {};
+        cards[colorOrType][suit][cardName] = context(key);
+    });
+
+    return cards;
+};
+
+const Cards = importAllCards();
+
+const allCardSrcs: string[] = [];
+Object.values(Cards).forEach(colorGroup =>
+    Object.values(colorGroup).forEach(suitGroup =>
+        Object.values(suitGroup).forEach(src => allCardSrcs.push(src))
+    )
+);
+
+const pickRandom = (count: number): string[] =>
+    Array(count)
+        .fill(0)
+        .map(
+            () => allCardSrcs[Math.floor(Math.random() * allCardSrcs.length)]
+        );
+
 const Slots: React.FC = () => {
-    const [turboOn, setTurboOn] = React.useState(false);
-    const [autoOn, setAutoOn] = React.useState(false);
+    const [turboOn, setTurboOn] = useState(false);
+    const [autoOn, setAutoOn] = useState(false);
+    const [spinning, setSpinning] = useState(false);
+
+    const [reels, setReels] = useState<string[][]>(() =>
+        Array(4).fill(0).map(() => pickRandom(5))
+    );
+
+    const handleSpin = () => {
+        if (spinning) return;
+        setSpinning(true);
+
+        const newCards = Array(4).fill(0).map(() => pickRandom(2));
+
+        setTimeout(() => {
+            setReels(prevReels => {
+                return prevReels.map((reel, index) => {
+                    return [...reel.slice(2), ...newCards[index]];
+                });
+            });
+            setSpinning(false);
+        }, 1000);
+    };
 
     return (
         <div className="game-wrapper">
@@ -42,31 +116,27 @@ const Slots: React.FC = () => {
                 </div>
             </div>
             <div className="slots">
-                <div className="slot">
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                </div>
-                <div className="slot">
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                </div>
-                <div className="slot">
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                </div>
-                <div className="slot">
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                    <section className="slot-section"></section>
-                </div>
+                {reels.map((column, colIdx) => {
+                    const [top, middle, bottom] = column;
+                    const padded = [bottom, top, middle, bottom, top];
+
+                    return (
+                        <div key={colIdx} className={`slot ${spinning ? 'spinning' : ''}`}>
+                            <div className="reel">
+                                {padded.map((src, idx) => (
+                                    <section className="slot-section" key={idx}>
+                                        <img src={src} alt="card" />
+                                    </section>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
             <div className="buttons">
                 <div className="stake-section">
                     <div className="stake-text">
-                        Stake <input type="number" defaultValue={10} /> coins
+                        Stake <input type="number" defaultValue={5} min={5}/> coins
                     </div>
                     <div className="min-stake-text">Minimal stake = 5 coins</div>
                 </div>
@@ -74,7 +144,7 @@ const Slots: React.FC = () => {
                 <div className="controls">
                     <button className={`side-button ${turboOn ? 'glow' : ''}`}
                             onClick={() => setTurboOn(t => !t)}>Turbo</button>
-                    <button className="spin-button">Spin</button>
+                    <button className="spin-button" onClick={handleSpin}>Spin</button>
                     <button className={`side-button ${autoOn ? 'glow' : ''}`}
                             onClick={() => setAutoOn(a => !a)}>Auto</button>
                 </div>

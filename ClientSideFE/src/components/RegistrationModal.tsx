@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RegistrationModal.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 import axios from 'axios';
 
@@ -12,6 +13,8 @@ interface Props {
 
 const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLoginPress }) => {
     const [nickname, setNickname] = useState('');
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -80,14 +83,7 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
                             required
                         />
                     </label>
-                    <label>
-                        Profile Icon:
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleIconSelect}
-                        />
-                    </label>
+
                     <label>
                         Enter your email address:
                         <input

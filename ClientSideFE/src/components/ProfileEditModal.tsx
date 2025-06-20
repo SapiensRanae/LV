@@ -11,6 +11,11 @@ interface Props {
     onUpdateSuccess: () => void;
 }
 
+interface UserUpdateRequest extends Omit<User, 'passwordHash'> {
+    currentPassword: string;
+    newPassword?: string;
+}
+
 const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) => {
     const [username, setUsername] = useState(user.username);
     const [description, setDescription] = useState(user.description || '');
@@ -96,7 +101,7 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
             }
 
             // Use all required user fields
-            const updateData: User = {
+            const updateData: UserUpdateRequest = {
                 userID: user.userID,
                 role: user.role,
                 email: user.email,

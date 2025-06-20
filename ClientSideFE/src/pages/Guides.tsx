@@ -27,22 +27,10 @@ const rules = [
     },
     { title: 'Slots', content: [
             'Match symbols on paylines to win.',
-            'Each slot has unique symbols and bonus features.',
+            'Each slot has unique symbols.',
             'Betting amount affects potential winnings.',
-            'Some slots include free spins, multipliers, or mini-games.',
-        ],
-    },
-    { title: 'Three-in-a-row', content: [
-            'Also known as Tic Tac Toe.',
-            'Get three of your symbols in a row to win.',
-            'Simple strategy game of placement and prediction.',
-        ],
-    },
-    { title: 'Fool', content: [
-            'Russian card game played with 36 cards (6s through Aces).',
-            'The player with the lowest trump starts the attack.',
-            'Defenders beat cards with higher trump or matching suit.',
-            'Game continues until one player is left with cards (the "Fool").',
+            'Our slot combinations include:',
+            '',
         ],
     },
     { title: 'Roulette', content: [
