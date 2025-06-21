@@ -2373,7 +2373,6 @@ textarea {
     padding: 4px;
 }
 
-/* Optional: Add hover effect */
 .card-container:hover {
     transform: scale(1.02);
     transition: transform 0.2s ease;
@@ -2383,6 +2382,179 @@ textarea {
 .card-container img {
     pointer-events: none;
     user-select: none;
+}
+/*!********************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/games/Roulette.css ***!
+  \********************************************************************************/
+
+.roulette-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: calc(100vh - 60px);
+}
+
+.wheel-section {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin-bottom: 40px;
+}
+
+.roulette-wheel {
+    width: 100%;
+    height: 100%;
+    transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid gold;
+}
+
+.result {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+.betting-table {
+    width: 80%;
+    max-width: 800px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.chips-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.chip {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    background: #666;
+    border: 2px solid white;
+    transition: transform 0.2s;
+}
+
+.chip.selected {
+    border-color: gold;
+    transform: scale(1.1);
+}
+
+.numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+    margin-bottom: 20px;
+}
+
+.number, .zero {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    border: 1px solid #444;
+}
+
+.red { background-color: #c41e3a; }
+.black { background-color: #000000; }
+.green { background-color: #008000; }
+
+.outside-bets {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.column-bets,
+.dozen-bets,
+.simple-bets {
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+}
+
+.column-bets div,
+.dozen-bets div,
+.simple-bets div {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    border: 1px solid #444;
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.control-buttons button {
+    padding: 10px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.control-buttons button:first-child {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.control-buttons button:last-child {
+    background-color: #f44336;
+    color: white;
+}
+
+.control-buttons button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .wheel-section {
+        width: 300px;
+        height: 300px;
+    }
+
+    .betting-table {
+        width: 95%;
+    }
+
+    .chip {
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+    }
 }
 /*!***************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/App.css ***!
