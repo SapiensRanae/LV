@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');             // injects
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');      // extracts CSS into separate files :contentReference[oaicite:1]{index=1}
 
 module.exports = {
-    mode: 'development',                                               // ‘development’ for unminified builds; switch to ‘production’ for deploy :contentReference[oaicite:2]{index=2}
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',                                          // ‘development’ for unminified builds; switch to ‘production’ for deploy :contentReference[oaicite:2]{index=2}
 
     entry: './src/index.jsx',                                          // your React+TS entry point :contentReference[oaicite:3]{index=3}
 
     output: {
         filename: '[name].bundle.js',                                   // name bundles after entry keys
-        path: path.resolve(__dirname, 'dist'),                          // emit into ./dist
+        path: path.resolve(__dirname, 'build'),                          // emit into ./dist
         clean: true,
         publicPath: '/',// clear ./dist before each build :contentReference[oaicite:4]{index=4}
     },
@@ -79,11 +79,11 @@ module.exports = {
 
     devServer: {
         static: {
-            directory: path.resolve(__dirname, 'dist')                   // serve from ./dist
+            directory: path.resolve(__dirname, 'build')  // Changed from 'dist' to 'build'
         },
-        port: 8080,                                                    // dev server port
-        hot: true,                                                     // enable HMR
+        port: 8080,
+        hot: true,
         open: true,
-        historyApiFallback: true// open browser on start
+        historyApiFallback: true
     }
 };
