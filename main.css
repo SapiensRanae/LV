@@ -346,6 +346,55 @@
 .footer a:hover::after {
     transform: scaleX(1);
 }
+/*!*****************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/ProjectNoticeModal.css ***!
+  \*****************************************************************************************/
+.project-notice-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.project-notice-modal {
+
+  background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+}
+
+.project-notice-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.project-notice-button {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.8rem 1.5rem;
+  background: #DC143C;
+  color: #fff;
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
 /*!***********************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/slick-carousel/slick/slick.css ***!
   \***********************************************************************************************/
