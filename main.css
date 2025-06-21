@@ -2437,7 +2437,7 @@ textarea {
     width: 1.2rem;
     height: 2.6rem;
     background-color: crimson;
-    clip-path: polygon(0% 50%, 50% 100%, 100% 50%, 50% 0%);  /* Diamond shape */
+    clip-path: polygon(0% 50%, 50% 100%, 100% 50%, 50% 0%);
     filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.7));
 }
 .wheel-pointer::after {
