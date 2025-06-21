@@ -19,6 +19,7 @@ import { useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import { UserProvider } from './contexts/UserContext';
 import Slots from './pages/games/Slots';
+import Roulette from './pages/games/Roulette';
 import './App.css';
 
 const App: React.FC = () => {
@@ -158,6 +159,7 @@ const App: React.FC = () => {
                         <Route path="/" element={<Home />} />
                         <Route path="/games" element={<Games />} />
                         <Route path="/games/slots" element={<Slots />} />
+                        <Route path="/games/roulette" element={<Roulette />} />
                         <Route path="/guides" element={<Guides />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/faq" element={<FAQ />} />

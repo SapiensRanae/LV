@@ -406,7 +406,6 @@
     padding: 4px;
 }
 
-/* Optional: Add hover effect */
 .card-container:hover {
     transform: scale(1.02);
     transition: transform 0.2s ease;
