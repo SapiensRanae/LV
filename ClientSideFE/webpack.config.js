@@ -12,7 +12,7 @@ module.exports = {
         filename: '[name].bundle.js',                                   // name bundles after entry keys
         path: path.resolve(__dirname, 'build'),                          // emit into ./dist
         clean: true,
-        publicPath: '/',// clear ./dist before each build :contentReference[oaicite:4]{index=4}
+        publicPath: process.env.NODE_ENV === 'production' ? './' : '/',// clear ./dist before each build :contentReference[oaicite:4]{index=4}
     },
 
     resolve: {

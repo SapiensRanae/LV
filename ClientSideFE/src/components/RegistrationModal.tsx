@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './RegistrationModal.css';
 import { Link, useNavigate } from "react-router-dom";
+import { register, RegisterRequest } from '../api/authService';
 
 
 import axios from 'axios';
@@ -26,7 +27,6 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-
         // Validate passwords match
         if (password !== passwordConfirm) {
             setError("Passwords don't match");
@@ -37,17 +37,15 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
         setError('');
 
         try {
-            console.log('Sending registration request');
-            const response = await axios.post('http://localhost:5151/api/Auth/register', {
+            const userData: RegisterRequest = {
                 username: nickname,
                 email,
                 phoneNumber: phone,
                 password,
                 userIcon
-            });
+            };
 
-            console.log('Registration successful:', response.data);
-            localStorage.setItem('token', response.data.token);
+            await register(userData);
             onRegisterSuccess();
             navigate('/profile');
         } catch (err: any) {
@@ -58,16 +56,7 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
             setIsLoading(false);
         }
     };
-    const handleIconSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setUserIcon(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
