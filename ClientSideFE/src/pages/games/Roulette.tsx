@@ -29,6 +29,16 @@ const Roulette: React.FC = () => {
     const row2 = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35];
     const row3 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34];
 
+    const RED_NUMBERS   = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+    const BLACK_NUMBERS = numbers.filter(n => n !== 0 && !RED_NUMBERS.includes(n));
+
+    const RED_SET = new Set(RED_NUMBERS);
+
+    const numberColor = (n: number) => {
+        if (n === 0) return 'green';
+        return RED_SET.has(n) ? 'red' : 'black';
+    };
+
     const size = 800;
     const center = size / 2;
     const outerRadius = center - 20;
@@ -200,6 +210,9 @@ const Roulette: React.FC = () => {
         </div>
     );
 
+    const isNumberSelected = (n: number) =>
+        currentBets.some(bet => bet.numbers.includes(n));
+
     return (
         <div className="roulette-container">
             <div className="wheel-section">
@@ -222,33 +235,23 @@ const Roulette: React.FC = () => {
                 </div>
 
                 <div className="numbers-grid">
-                    <div className="zero" onClick={() => placeBet('single', [0])}>0</div>
-                    {row1.map(n => (
-                        <div
-                            key={n}
-                            className={`number ${n === 6 || n === 15 || n === 24 || n === 33 ? 'black' : 'red'}`}
-                            onClick={() => placeBet('single', [n])}
-                        >
-                            {n}
-                        </div>
-                    ))}
-                    {row2.map(n => (
-                        <div
-                            key={n}
-                            className={`number ${n === 2 || n === 8 || n === 11 || n === 17 || n === 20 || n === 26 || n === 29 || n === 35 ? 'black' : 'red'}`}
-                            onClick={() => placeBet('single', [n])}
-                        >
-                            {n}
-                        </div>
-                    ))}
-                    {row3.map(n => (
-                        <div
-                            key={n}
-                            className={`number ${n === 4 || n === 10 || n === 13 || n === 22 || n === 28 || n === 31 ? 'black' : 'red'}`}
-                            onClick={() => placeBet('single', [n])}
-                        >
-                            {n}
-                        </div>
+                    <div className={`zero ${isNumberSelected(0) ? 'highlight' : ''}`} onClick={() => placeBet('single', [0])}>0</div>
+                    {[row1, row2, row3].map((row, rowIdx) => (
+                        <React.Fragment key={rowIdx}>
+                            {row.map(n => (
+                                <div
+                                    key={n}
+                                    className={[
+                                        'number',
+                                        numberColor(n),
+                                        isNumberSelected(n) ? 'highlight' : ''
+                                    ].join(' ')}
+                                    onClick={() => placeBet('single', [n])}
+                                >
+                                    {n}
+                                </div>
+                            ))}
+                        </React.Fragment>
                     ))}
                 </div>
 
@@ -265,8 +268,8 @@ const Roulette: React.FC = () => {
                     </div>
                     <div className="simple-bets">
                         <div onClick={() => placeBet('even', Array.from({length: 18}, (_, i) => (i + 1) * 2))}>EVEN</div>
-                        <div onClick={() => placeBet('red', numbers.filter(n => n !== 0 && n % 2 !== 0))}>RED</div>
-                        <div onClick={() => placeBet('black', numbers.filter(n => n !== 0 && n % 2 === 0))}>BLACK</div>
+                        <div className="bet-button red" onClick={() => placeBet('red', RED_NUMBERS)}>RED</div>
+                        <div className="bet-button black" onClick={() => placeBet('black', BLACK_NUMBERS)}>BLACK</div>
                         <div onClick={() => placeBet('odd', Array.from({length: 18}, (_, i) => i * 2 + 1))}>ODD</div>
                     </div>
                 </div>

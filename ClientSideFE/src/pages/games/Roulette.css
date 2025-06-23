@@ -92,14 +92,24 @@
     font-weight: bold;
     color: white;
     border: 1px solid #444;
-    background-color: green;
+}
+
+.number:hover, .zero:hover {
+    border: 1px solid gold;
+    box-shadow: 0 0 0.6rem 0.2rem rgb(218, 165, 32);
+}
+
+.number.highlight,
+.zero.highlight {
+    border-color: white;
+    box-shadow: 0 0 0.6rem 0.2rem rgb(255, 255, 255);
 }
 
 .zero {
     grid-row: 1 / span 3;
     grid-column: 1;
     position: relative;
-    clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+    clip-path: polygon(100% 0%, 30% 0%, 0% 50%, 30% 100%, 100% 100%);
     background-color: #008000;
     color: white;
     font-weight: bold;
@@ -114,6 +124,16 @@
 .black { background-color: #000000; }
 .green { background-color: #008000; }
 
+.bet-button.red{
+    background-color: #c41e3a;
+    color: white;
+}
+
+.bet-button.black{
+    background-color: #000000;
+    color: white;
+}
+
 .outside-bets {
     display: flex;
     flex-direction: column;
@@ -126,6 +146,10 @@
     display: flex;
     justify-content: space-around;
     gap: 0.4rem;
+    :hover{
+        border: 1px solid goldenrod;
+        box-shadow: 0 0 0.6rem 0.2rem rgb(218, 165, 32);
+    }
 }
 
 .column-bets div,
