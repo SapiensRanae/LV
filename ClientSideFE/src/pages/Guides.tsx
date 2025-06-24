@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Guides.css';
 
+
 const rules = [
     { title: 'Common Rules', content: [
             'All players must be 21 years or older..',
@@ -26,11 +27,30 @@ const rules = [
         ],
     },
     { title: 'Slots', content: [
-            'Match symbols on paylines to win.',
-            'Each slot has unique symbols.',
-            'Betting amount affects potential winnings.',
-            'Our slot combinations include:',
-            '',
+            {
+                m: [
+                    'Match symbols on paylines to win.',
+                    'Each slot has unique symbols.',
+                    'Betting amount affects potential winnings.',
+                    'Our slot combinations include:'
+                ],
+                s: 'Four Card Combinations',
+                t: [
+                    'Legendary: Get 4 LV (Lucky Vegas) cards in one row',
+                    'Grand: Get 4 black cards of different suits in one row',
+                    'Epic: Get 4 white cards of different suits in one row',
+                    'Major: Get 4 black cards of the same suit in one row',
+                    'Advanced: Get 4 white cards of the same suit in one row',
+                    'Minor: Get 4 cards of the same suit (any color) in one row'
+                ],
+                s2: 'Three Card Combinations',
+                t2: [
+                    'Epic: Get 3 LV (Lucky Vegas) cards in one row',
+                    'Major: Get 3 black cards of the same suit in one row',
+                    'Advanced: Get 3 white cards of the same suit in one row',
+                    'Mini: Get 3 cards of the same suit (any color) in one row'
+                ]
+            }
         ],
     },
     { title: 'Roulette', content: [
