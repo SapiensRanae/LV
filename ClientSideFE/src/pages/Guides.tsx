@@ -115,9 +115,27 @@ const Guides: React.FC = () => {
                     {expandedIndex === i && (
                         <div className="dropdown-body">
                             <ul className="rule-list">
-                                {rule.content.map((line, idx) => (
-                                    <li key={idx}>{line}</li>
-                                ))}
+                                {Array.isArray(rule.content)
+                                    ? rule.content.map((line, idx) => (
+                                        typeof line === 'string' ? (
+                                            <li key={idx}>{line}</li>
+                                        ) : (
+                                            <React.Fragment key={idx}>
+                                                {line.m?.map((msg, mIdx) => (
+                                                    <li key={`m-${mIdx}`}>{msg}</li>
+                                                ))}
+                                                {line.s && <li className="slot-subtitle">{line.s}</li>}
+                                                {line.t?.map((combo, tIdx) => (
+                                                    <li key={`t-${tIdx}`}>– {combo}</li>
+                                                ))}
+                                                {line.s2 && <li className="slot-subtitle">{line.s2}</li>}
+                                                {line.t2?.map((combo, t2Idx) => (
+                                                    <li key={`t2-${t2Idx}`}>– {combo}</li>
+                                                ))}
+                                            </React.Fragment>
+                                        )
+                                    ))
+                                    : null}
                             </ul>
                         </div>
                     )}

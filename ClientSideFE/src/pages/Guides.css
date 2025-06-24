@@ -104,7 +104,6 @@
         position: relative;
         margin-bottom: 1dvh;
         padding-left: 1.25dvw;
-        color: #ffffff;
         line-height: 1.5;
         font-size: 1.05rem;
     }
@@ -117,4 +116,10 @@
         color: #ffffff;
         line-height: 1;
     }
+}
+
+.slot-subtitle {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: crimson;
 }

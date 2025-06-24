@@ -70,13 +70,13 @@ const App: React.FC = () => {
         }
     }
 
-    /*const handleGamesClick = () => {
+    const handleGamesClick = () => {
         if (isAuthenticated) {
             navigate('/games');
         } else {
             setShowRegModal(true);
         }
-    };*/
+    };
 
     const handleSignupClick = () => {
         setShowRegModal(true);
@@ -105,10 +105,18 @@ const App: React.FC = () => {
         navigate('/');
     }
 
+    const handleProtectedRoute = (path: string) => {
+        if (isAuthenticated) {
+            navigate(path);
+        } else {
+            setShowRegModal(true);
+        }
+    };
+
     return (
         <UserProvider>
             <Navbar
-                onGamesClick={() => navigate('/games')}
+                onGamesClick={() => navigate("/games")}
                 onSignupClick={handleSignupClick}
                 isSignedIn={isAuthenticated}
                 onProfileClick={handleProfileClick}
@@ -157,7 +165,7 @@ const App: React.FC = () => {
             ) : (
                 <div className="content">
                     <Routes>
-                        <Route path="/" element={<Home />} />
+                        <Route path="/" element={<Home onProtectedRoute={handleProtectedRoute} />} />
                         <Route path="/games" element={<Games />} />
                         <Route path="/games/slots" element={<Slots />} />
                         <Route path="/games/roulette" element={<Roulette />} />

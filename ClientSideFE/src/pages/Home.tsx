@@ -1,20 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import Slider from 'react-slick';
 import ProjectNoticeModal from '../components/ProjectNoticeModal';
 import Poker from '../assets/PokerCarousel.png';
 import Roulette from '../assets/RouletteCarousel.png';
+import Blackjack from '../assets/BlackjackCarousel.png';
+import Slots from '../assets/SlotsCarousel.png';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './Home.css';
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
-const images = [Poker, Roulette];
-const sliderSettings = {
-  infinite: true, speed: 1000, slidesToShow: 1, slidesToScroll: 1,
-  autoplay: true, autoplaySpeed: 3000, arrows: false, dots: true,
+
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 1,
+    slidesToSlide: 1
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 1,
+    slidesToSlide: 1
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1
+  }
 };
 
-const Home: React.FC = () => {
+interface HomeProps {
+  onProtectedRoute: (path: string) => void;
+}
+
+const Home: React.FC<HomeProps> = ({onProtectedRoute}) => {
   const { isAuthenticated } = useAuth();
   const [showNotice, setShowNotice] = useState(false);
 
@@ -24,18 +44,48 @@ const Home: React.FC = () => {
     }
   }, [isAuthenticated]);
 
+  const images: { src: string; path: string; alt: string }[] = [
+    { src: Poker,    path: '/games/poker',    alt: 'Poker'    },
+    { src: Blackjack, path: '/games/blackjack', alt: 'Blackjack'},
+    { src: Roulette, path: '/games/roulette', alt: 'Roulette' },
+    { src: Slots, path: '/games/slots', alt: 'Slots'}
+  ];
+
   return (
     <>
       {showNotice && <ProjectNoticeModal onClose={() => setShowNotice(false)} />}
 
       <div className="carousel">
-        <Slider {...sliderSettings}>
-          {images.map((src, idx) => (
-            <div className="carousel-item" key={idx}>
-              <img src={src} alt={`slide-${idx}`} />
-            </div>
+        <Carousel
+            swipeable={false}
+            draggable={false}
+            showDots={true}
+            responsive={responsive}
+            ssr={true}
+            infinite={true}
+            autoPlay={true}
+            autoPlaySpeed={2500}
+            keyBoardControl={true}
+            customTransition="all .5"
+            transitionDuration={500}
+            containerClass="carousel-container"
+            dotListClass="custom-dot-list-style"
+            itemClass="carousel-item"
+        >
+          {images.map((img) => (
+              <div
+                  key={img.path}
+                  onClick={() => onProtectedRoute(img.path)}
+                  style={{ cursor: 'pointer' }}
+              >
+                <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="carousel-item"
+                />
+              </div>
           ))}
-        </Slider>
+        </Carousel>
       </div>
     </>
   );
