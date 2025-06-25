@@ -1,0 +1,120 @@
+.blackjack-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.background-image {
+    content: "";
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    background:
+            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0,0,0,0.4)),
+            url('../../assets/BlackjackBG.jpg') center/cover no-repeat;
+    z-index: 1;
+
+    border-radius: inherit;
+}
+
+.frame {
+    position: relative;
+    padding: 2.5rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 30rem;
+    overflow: hidden;
+    z-index: 0
+}
+
+.frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+            circle at center,
+            rgba(22,22,22,1) 50%,
+            rgba(10,10,10,1) 90%
+    );
+    pointer-events: none;
+}
+
+.gray-zone {
+    position: absolute;
+    width: 8dvw;
+    height: 20dvh;
+    background-image: url('../../assets/Cards/Black/Ace/Joker.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0.8dvh;
+    z-index: 1;
+}
+
+.gray-zone.left {
+    top: 45dvh;
+    left: 5dvw;
+    transform: rotate(55deg);
+}
+
+.gray-zone.right {
+    top: 45dvh;
+    right: 5dvw;
+    transform: rotate(-55deg);
+}
+
+.player-cards {
+    position: absolute;
+    top: calc(150px + 40dvh);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3dvw;
+    z-index: 2;
+}
+
+.card {
+    background-color: #d4af37;
+    border-radius: 1dvh;
+    box-shadow: 0 0.3dvh 1dvh rgba(0, 0, 0, 0.4);
+}
+
+.center {
+    width: 11dvw;
+    height: 27.5dvh;
+}
+
+.side {
+    width: 8dvw;
+    height: 20dvh;
+    top: 3dvh;
+}
+
+
+.logo-mid {
+    position: absolute;
+    top: 15dvh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: "Crimson Text", sans-serif;
+    color: white;
+    user-select: none;
+    letter-spacing: 2px;
+    white-space: nowrap; /* чтобы не переносилось */
+    pointer-events: none; /* чтобы клики проходили сквозь */
+    z-index: 10; /* выше SVG */
+}
+
+/* Красные буквы */
+.logo-red-mid {
+    color: #DC143C;
+}

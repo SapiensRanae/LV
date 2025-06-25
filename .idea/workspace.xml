@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8cd0b85e-5df9-4f3b-8a42-8e9b1cfc9d12" name="Changes" comment="Started working on Blackjack, polished roulette">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8cd0b85e-5df9-4f3b-8a42-8e9b1cfc9d12" name="Changes" comment="Made carousel on the main page, added slot combinations to guides" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,6 +95,7 @@
       <workItem from="1747941584393" duration="604000" />
       <workItem from="1748189862027" duration="1581000" />
       <workItem from="1750701679811" duration="15812000" />
+      <workItem from="1750785445623" duration="10321000" />
     </task>
     <task id="LOCAL-00001" summary="Started working on Blackjack, polished roulette">
       <option name="closed" value="true" />
@@ -106,7 +105,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750718504181</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Started working on Blackjack, polished roulette">
+      <option name="closed" value="true" />
+      <created>1750796573494</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750796573494</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Made carousel on the main page, added slot combinations to guides">
+      <option name="closed" value="true" />
+      <created>1750796655842</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1750796655842</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +140,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Started working on Blackjack, polished roulette" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started working on Blackjack, polished roulette" />
+    <MESSAGE value="Changes by user" />
+    <MESSAGE value="Made carousel on the main page, added slot combinations to guides" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made carousel on the main page, added slot combinations to guides" />
   </component>
 </project>

@@ -70,13 +70,13 @@ const App: React.FC = () => {
         }
     }
 
-    const handleGamesClick = () => {
+    /*const handleGamesClick = () => {
         if (isAuthenticated) {
             navigate('/games');
         } else {
             setShowRegModal(true);
         }
-    };
+    };*/
 
     const handleSignupClick = () => {
         setShowRegModal(true);
