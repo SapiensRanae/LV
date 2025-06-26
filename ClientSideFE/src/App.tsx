@@ -21,6 +21,7 @@ import { UserProvider } from './contexts/UserContext';
 import Slots from './pages/games/Slots';
 import Roulette from './pages/games/Roulette';
 import Blackjack from './pages/games/Blackjack';
+import Poker from './pages/games/Poker';
 import './App.css';
 
 const App: React.FC = () => {
@@ -170,6 +171,7 @@ const App: React.FC = () => {
                         <Route path="/games/slots" element={<Slots />} />
                         <Route path="/games/roulette" element={<Roulette />} />
                         <Route path="/games/blackjack" element={<Blackjack />} />
+                        <Route path="/games/poker" element={<Poker />} />
                         <Route path="/guides" element={<Guides />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/faq" element={<FAQ />} />

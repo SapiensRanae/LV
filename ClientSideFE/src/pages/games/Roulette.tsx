@@ -77,7 +77,7 @@ const Roulette: React.FC = () => {
         // Calculate the current position
         const currentAngle = wheelRotation % 360;
 
-        // Calculate target angle for the number to align with pointer (at -90 degrees)
+        // Calculate target angle for the number to align with pointer
         const targetAngle = -(numberIndex * anglePerNumber + 90);
 
         // Calculate shortest path to target

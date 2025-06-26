@@ -57,7 +57,6 @@ const pickRandom = (count: number): string[] =>
 const Slots: React.FC = () => {
     const [turboOn, setTurboOn] = useState(false);
     const [autoOn, setAutoOn] = useState(false);
-    const [spinning, setSpinning] = useState(false);
 
     const [reels, setReels] = useState<string[][]>(
         Array(4).fill(0).map(() => pickRandom(5))

@@ -5,7 +5,7 @@ import Poker from '../assets/PokerCard.jpg';
 import Blackjack from '../assets/BlackjackCard.png';
 import Roulette from '../assets/RouletteCard.png';
 import Slots from '../assets/SlotsCard.png';
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const games = [
     {
