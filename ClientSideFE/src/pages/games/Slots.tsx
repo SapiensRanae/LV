@@ -135,10 +135,10 @@ const Slots: React.FC = () => {
                     return (
                         <div key={i} className={`slot ${status==='spinning' ? 'spinning' : ''} ${status==='stopping' ? 'stopping':''}`}>
                             <div className="reel"
-                                style={{
-                                    '--linear-duration': `${(0.8 + Math.random() * 0.4)}s`,
-                                    '--ease-duration': `${(0.8 + Math.random() * 0.6)}s`
-                                } as any}
+                                 style={{
+                                     '--linear-duration': `${(0.8 + Math.random() * 0.4)}s`,
+                                     '--ease-duration': `${(0.8 + Math.random() * 0.6)}s`
+                                 } as any}
                                  ref={el => {reelRefs.current[i] = el;}}>
                                 {padded.map((src, idx) =>
                                     <section className="slot-section" key={idx}>
