@@ -21,6 +21,7 @@ namespace CasinoApi.Models
         public decimal NewBalance { get; set; }
 
         // Navigation property
-        public User User { get; set; }
+[JsonIgnore]
+        public User? User { get; set; }
     }
 }

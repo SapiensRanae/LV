@@ -75,6 +75,14 @@
     border: 2px solid #DC143C;
 }
 
+.TableVip {
+    width: calc(1200 / 1920 * 100dvw);
+    height: calc(500 / 1080 * 100dvh);
+    background-color: #1B1B1B;
+    margin-bottom: 2dvh;
+    border: 2px solid #F0CE77;
+}
+
 .GameTable {
     width: 100%;
     border-collapse: collapse;
@@ -83,6 +91,27 @@
     font-weight: bold;
     text-align: center;
     border: 3px solid #DC143C;
+}
+
+.GameTableVip {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    font-size: 3dvh;
+    font-weight: bold;
+    text-align: center;
+    border: 3px solid #F0CE77;
+}
+
+.GameTableVip thead tr {
+    background-color: #1B1B1B;
+    border: 3px solid #F0CE77;
+}
+
+.GameTableVip th {
+    padding: 1dvh 0.5dvw;
+    border: 3px solid #F0CE77;
+    background-color: #2A2929;
 }
 
 .GameTable thead tr {
@@ -132,6 +161,21 @@
     box-sizing: border-box;
 }
 
+.EmailTextVip,
+.PhonetextVip {
+    width: calc(200 / 1920 * 100dvw);
+    height: calc(75 / 1080 * 100dvh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #F0CE77;
+    font-weight: bold;
+    font-size: 2.5dvh;
+    color: white;
+    background-color: #1B1B1B;
+    box-sizing: border-box;
+}
+
 .EmailPlaceHolder,
 .PhonePlaceHolder {
     width: calc(500 / 1920 * 100dvw);
@@ -153,7 +197,35 @@
     }
 }
 
+.EmailPlaceHolderVip,
+.PhonePlaceHolderVip {
+    width: calc(500 / 1920 * 100dvw);
+    height: calc(75 / 1080 * 100dvh);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1dvw;
+    border: 3px solid #F0CE77;
+    font-weight: bold;
+    font-size: 2.5dvh;
+    color: white;
+    background-color: #1B1B1B;
+    box-sizing: border-box;
+    img{
+        position: relative;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
 .divider {
+    width: 1px;
+    background-color: #F24769;
+    
+    height: 85%;
+}
+
+.dividerVip{
     width: 2px;
     background-color: #F24769;
     height: 85%;

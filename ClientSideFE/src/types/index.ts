@@ -29,6 +29,7 @@ export interface GameTransaction {
     userID: number;
     gameID: number;
     amount: number;
+
     isWin: boolean;
     timestamp: string;
     user?: User;
@@ -38,12 +39,12 @@ export interface GameTransaction {
 export interface FinancialTransaction {
     financialTransactionID: number;
     userID: number;
-    amount: number;
-    type: string;
-    timestamp: string;
-    user?: User;
+    cashAmount: number;
+    date: string;
+    transactionType: 'deposit' | 'withdrawal';
+    previousBalance: number;
+    newBalance: number;
 }
-
 export interface UserHistory {
     statisticID: number;
     userID: number;

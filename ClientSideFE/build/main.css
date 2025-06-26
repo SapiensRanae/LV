@@ -904,7 +904,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    background-color: #f5f5f5;
+    background-color: white;
 
     scroll-snap-align: center;
     scroll-snap-stop: always;
@@ -1429,6 +1429,124 @@ textarea {
     margin-bottom: 20px;
     gap: 20px;
 }
+/*!***********************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/PaymentModal.css ***!
+  \***********************************************************************************/
+/* PaymentModal.css */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content.payment-modal {
+    position: relative;
+    background: #111;
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 400px;
+    box-sizing: border-box;
+    background:
+            linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2)),
+            url(/b2702740c90779692504.png) center/cover no-repeat;
+}
+
+.modal-content.payment-modal h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.modal-content.payment-modal .error-message {
+    background: #8b0000;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.modal-content.payment-modal label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-content.payment-modal input[type="text"],
+.modal-content.payment-modal input[type="email"] {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    border: none;
+    margin-top: 0.5rem;
+    box-sizing: border-box;
+}
+
+.exp-cvv-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.expiration .exp-inputs {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.expiration .exp-inputs input {
+    width: 3rem;
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 2rem;
+    border: none;
+}
+
+.expiration .exp-inputs span {
+    margin: 0 0.5rem;
+    color: #ddd;
+}
+
+.cvv input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    border: none;
+    margin-top: 0.5rem;
+    box-sizing: border-box;
+}
+
+.btn-pay {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 2rem;
+    border: none;
+    background: #b06062;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #F0CE77;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+
 /*!****************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/TransactionsModal.css ***!
   \****************************************************************************************/
@@ -1620,124 +1738,6 @@ textarea {
     opacity: 0.9;
 }
 
-/*!***********************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/PaymentModal.css ***!
-  \***********************************************************************************/
-/* PaymentModal.css */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content.payment-modal {
-    position: relative;
-    background: #111;
-    color: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    width: 90%;
-    max-width: 400px;
-    box-sizing: border-box;
-    background:
-            linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2)),
-            url(/b2702740c90779692504.png) center/cover no-repeat;
-}
-
-.modal-content.payment-modal h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.modal-content.payment-modal .error-message {
-    background: #8b0000;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-.modal-content.payment-modal label {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-}
-
-.modal-content.payment-modal input[type="text"],
-.modal-content.payment-modal input[type="email"] {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    border-radius: 2rem;
-    border: none;
-    margin-top: 0.5rem;
-    box-sizing: border-box;
-}
-
-.exp-cvv-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.expiration .exp-inputs {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-}
-
-.expiration .exp-inputs input {
-    width: 3rem;
-    text-align: center;
-    padding: 0.6rem;
-    border-radius: 2rem;
-    border: none;
-}
-
-.expiration .exp-inputs span {
-    margin: 0 0.5rem;
-    color: #ddd;
-}
-
-.cvv input {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    border-radius: 2rem;
-    border: none;
-    margin-top: 0.5rem;
-    box-sizing: border-box;
-}
-
-.btn-pay {
-    width: 100%;
-    padding: 0.8rem;
-    border-radius: 2rem;
-    border: none;
-    background: #b06062;
-    color: white;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.modal-close {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: transparent;
-    border: none;
-    color: #F0CE77;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-
 /*!*************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/Profile.css ***!
   \*************************************************************************/
@@ -1818,6 +1818,14 @@ textarea {
     border: 2px solid #DC143C;
 }
 
+.TableVip {
+    width: calc(1200 / 1920 * 100dvw);
+    height: calc(500 / 1080 * 100dvh);
+    background-color: #1B1B1B;
+    margin-bottom: 2dvh;
+    border: 2px solid #F0CE77;
+}
+
 .GameTable {
     width: 100%;
     border-collapse: collapse;
@@ -1826,6 +1834,27 @@ textarea {
     font-weight: bold;
     text-align: center;
     border: 3px solid #DC143C;
+}
+
+.GameTableVip {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    font-size: 3dvh;
+    font-weight: bold;
+    text-align: center;
+    border: 3px solid #F0CE77;
+}
+
+.GameTableVip thead tr {
+    background-color: #1B1B1B;
+    border: 3px solid #F0CE77;
+}
+
+.GameTableVip th {
+    padding: 1dvh 0.5dvw;
+    border: 3px solid #F0CE77;
+    background-color: #2A2929;
 }
 
 .GameTable thead tr {
@@ -1875,6 +1904,21 @@ textarea {
     box-sizing: border-box;
 }
 
+.EmailTextVip,
+.PhonetextVip {
+    width: calc(200 / 1920 * 100dvw);
+    height: calc(75 / 1080 * 100dvh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #F0CE77;
+    font-weight: bold;
+    font-size: 2.5dvh;
+    color: white;
+    background-color: #1B1B1B;
+    box-sizing: border-box;
+}
+
 .EmailPlaceHolder,
 .PhonePlaceHolder {
     width: calc(500 / 1920 * 100dvw);
@@ -1884,6 +1928,27 @@ textarea {
     justify-content: space-between;
     padding: 0 1dvw;
     border: 3px solid #DC143C;
+    font-weight: bold;
+    font-size: 2.5dvh;
+    color: white;
+    background-color: #1B1B1B;
+    box-sizing: border-box;
+    img{
+        position: relative;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+.EmailPlaceHolderVip,
+.PhonePlaceHolderVip {
+    width: calc(500 / 1920 * 100dvw);
+    height: calc(75 / 1080 * 100dvh);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1dvw;
+    border: 3px solid #F0CE77;
     font-weight: bold;
     font-size: 2.5dvh;
     color: white;
@@ -2122,36 +2187,37 @@ textarea {
     color: #444;
     font-size: 2rem;
     overflow: hidden;
+    position: relative;
 
     box-shadow: inset 0 0.5rem 1rem 0.15rem #151515,
     inset 0 -0.5rem 1rem 0.15rem #151515;
 }
 
-@keyframes reel‑spin‑linear {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-50%); }
-}
-
-@keyframes reel‑spin‑ease {
-    from { transform: translateY(-50%); }
-    to   { transform: translateY(var(--final‑offset)); }
-}
-
 .reel {
-    height: 300%;
     width: 100%;
     display: flex;
     flex-direction: column;
     will-change: transform;
 }
 
+@keyframes spin {
+    from   { transform: translateY(-50%); }
+    to     { transform: translateY(-100%); }
+}
+
+@keyframes spinStop {
+    from   { transform: translateY(-100%); }
+    to     { transform: translateY(var(--final-offset)); }
+}
+
 .slot.spinning .reel {
-    animation: reel‑spin‑linear var(--linear‑duration, 0.5s) linear infinite;
+    animation: spin var(--linear-duration) linear infinite;
 }
 
 .slot.stopping .reel {
-    animation: reel‑spin‑ease var(--ease‑duration, 0.5s) ease‑out forwards;
-    animation‑delay: 0s;
+    animation:
+            spin     var(--linear-duration) linear,
+            spinStop var(--ease-duration) ease-out var(--linear-duration) forwards;
 }
 
 .slot-section{

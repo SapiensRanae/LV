@@ -4,10 +4,11 @@ import './TransactionsModal.css'
 import closeIcon from '../assets/close.png'
 import coinIcon from '../assets/coin.png'
 import {useUser} from "../contexts/UserContext";
+import {createFinancialTransaction, getFinancialTransactions} from "../api/transactionService";
+
 
 interface Props {
     onClose: () => void
-    onBuying: () => void
 }
 
 const leftPackages = [
@@ -34,31 +35,32 @@ const vipFeatures = [
     'Bake a cake:',
 ]
 
-export const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
+export const TransactionsModal: React.FC<Props> = ({ onClose }) => {
     const { user, refreshUser } = useUser();
     const [selectedPkg, setSelectedPkg] = useState<{ price: string; coins: string }|null>(null)
-
     const handlePaymentSuccess = async () => {
-        if (!user || !selectedPkg) return
-        // 1) POST transaction API
-        await fetch('/api/FinancialTransactions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${user.token}`
-            },
-            body: JSON.stringify({
-                userId: user.userID,
-                amount: parseFloat(selectedPkg.price),
-                coins: parseInt(selectedPkg.coins, 10),
-                type: 'purchase'
-            })
-        })
-        await refreshUser()
-        
-        setSelectedPkg(null)
-        onClose()
-    }
+        if (!user || !selectedPkg) return;
+        try {
+            const coins = parseInt(selectedPkg.coins, 10);
+            const previousBalance = user.balance;
+            const newBalance = previousBalance + coins;
+            await createFinancialTransaction({
+                userID: user.userID,
+                cashAmount: coins,
+                transactionType: 'deposit',
+                previousBalance,
+                newBalance,
+                date: new Date().toISOString() // if required by your interface
+            });
+
+            console.log('Transaction created',);
+            await refreshUser();
+            setSelectedPkg(null);
+            onClose();
+        } catch (err) {
+            console.error('Payment or transaction failed:', err);
+        }
+    };
 
     return (
         <div className="transactions-overlay" onClick={onClose}>
@@ -69,9 +71,13 @@ export const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
                 <div className="transactions-grid">
                     <div className="transactions-col">
                         {leftPackages.map((pkg, i) => (
-                            <div key={i} className="txn-row" onClick={onBuying}>
+                            <div
+                                key={i}
+                                className="txn-row"
+                                onClick={() => setSelectedPkg(pkg)}
+                            >
                                 <span className="txn-price">{pkg.price}</span>
-                                <span className="txn-coins">{pkg.coins } <img src={coinIcon} alt="coin"/> </span>
+                                <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin" /></span>
                             </div>
                         ))}
                     </div>
@@ -80,13 +86,25 @@ export const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
 
                     <div className="transactions-col">
                         {rightPackages.map((pkg, i) => (
-                            <div key={i} className="txn-row" onClick={onBuying}>
+                            <div
+                                key={i}
+                                className="txn-row"
+                                onClick={() => setSelectedPkg(pkg)}
+                            >
                                 <span className="txn-price">{pkg.price}</span>
-                                <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin"/> </span>
+                                <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin" /></span>
                             </div>
                         ))}
                     </div>
                 </div>
+
+                {selectedPkg && (
+                    <PaymentModal
+                        package={selectedPkg}
+                        onClose={() => setSelectedPkg(null)}
+                        onPaymentSuccess={handlePaymentSuccess}
+                    />
+                )}
 
                 <div className="vip-section">
                     <div className="vip-table">

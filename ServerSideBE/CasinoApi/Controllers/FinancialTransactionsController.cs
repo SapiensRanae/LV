@@ -35,20 +35,25 @@ namespace CasinoApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction(
-            FinancialTransaction transaction)
-        {
-            // Only allow "deposit" or "withdrawal" as TransactionType
-            if (transaction.TransactionType != "deposit" && transaction.TransactionType != "withdrawal")
-            {
-                return BadRequest(new { message = "TransactionType must be 'deposit' or 'withdrawal'." });
-            }
+public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction(FinancialTransaction transaction)
+{
+    if (transaction.TransactionType != "deposit" && transaction.TransactionType != "withdrawal")
+    {
+        return BadRequest(new { message = "TransactionType must be 'deposit' or 'withdrawal'." });
+    }
 
-            _context.FinancialTransactions.Add(transaction);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetFinancialTransaction), new { id = transaction.FinancialTransactionID },
-                transaction);
-        }
+    // Update user balance
+    var user = await _context.Users.FindAsync(transaction.UserID);
+    if (user == null)
+        return BadRequest(new { message = "User not found." });
+
+    user.Balance = transaction.NewBalance;
+
+    _context.FinancialTransactions.Add(transaction);
+    await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(GetFinancialTransaction), new { id = transaction.FinancialTransactionID }, transaction);
+}
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFinancialTransaction(int id, FinancialTransaction transaction)

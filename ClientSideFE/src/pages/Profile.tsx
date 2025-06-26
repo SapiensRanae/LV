@@ -12,6 +12,8 @@ import { useUser } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import ProfileEditModal from '../components/ProfileEditModal';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
+import { getFinancialTransactionsByUser } from '../api/transactionService';
+
 
 interface ProfileProps {
     onBuyVIPClick: () => void;
@@ -29,6 +31,9 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false);
     const { isAuthenticated, logout } = useAuth();
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const [totalWinnings, setTotalWinnings] = useState<number>(0);
+
     const navigate = useNavigate();
     const formatPhoneNumber = (phone: string | undefined) => {
         if (!phone || phone.trim() === '') {
@@ -101,6 +106,7 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
             setLoading(false);
             setError('User not authenticated');
         }
+
     }, [isAuthenticated, user]);
 
     if (loading) return <div className="profile-bg"><div className="loading">Loading profile...</div></div>;
@@ -151,8 +157,8 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                 <section className="divider"></section>
                 <section className="profile-right">
                     <h2>Game History</h2>
-                    <section className="Table">
-                        <table className="GameTable">
+                    <section className={user?.role === 'vip' ? "TableVip" : "Table"}>
+                        <table className={user?.role === 'vip' ? "GameTableVip" : "GameTable"}>
                             <thead>
                             <tr>
                                 <th>№</th>
@@ -164,21 +170,21 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                             </thead>
                             <tbody>
                             {history.length > 0 ? (
-                                history.map((item, index) => (
-                                    <tr key={item.statisticID}>
-                                        <td>{index + 1}</td>
-                                        <td>{item.gameTransaction?.game?.name || 'Unknown'}</td>
-                                        <td>{item.gameTransaction?.amount || 0}</td>
-                                        <td>
-                                            {item.gameTransaction?.isWin === true
-                                                ? `+${item.gameTransaction?.amount ?? 0}`
-                                                : item.gameTransaction?.isWin === false
-                                                    ? `-${item.gameTransaction?.amount ?? 0}`
-                                                    : 'N/A'}
-                                        </td>
-                                        <td>{new Date(item.gameTransaction?.timestamp || '').toLocaleDateString()}</td>
-                                    </tr>
-                                ))
+                                history.map((item, index) => {
+                                    const tx = item.gameTransaction;
+                                    if (!tx) return null;
+                                    return (
+                                        <tr key={item.statisticID}>
+                                            <td>{index + 1}</td>
+                                            <td>{tx.game?.name || 'Unknown'}</td>
+                                            <td>-{tx.amount}</td>
+                                            <td style={{color: tx.isWin ? 'green' : 'crimson'}}>
+                                                {tx.isWin ? `+${tx.amount}` : `-${tx.amount}`}
+                                            </td>
+                                            <td>{new Date(tx.timestamp).toLocaleString()}</td>
+                                        </tr>
+                                    );
+                                })
                             ) : (
                                 <tr>
                                     <td colSpan={5}>No game history yet</td>

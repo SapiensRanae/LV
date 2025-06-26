@@ -20,3 +20,8 @@ export const createFinancialTransaction = async (transaction: Omit<FinancialTran
     const response = await apiClient.post<FinancialTransaction>('/financialtransactions', transaction);
     return response.data;
 };
+
+export const getFinancialTransactionsByUser = async (userId: number): Promise<FinancialTransaction[]> => {
+    const response = await apiClient.get<FinancialTransaction[]>(`/financialtransactions/user/${userId}`);
+    return response.data;
+};
