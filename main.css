@@ -731,29 +731,42 @@
   \**********************************************************************/
 .carousel {
     position: relative;
-    width: 100%;
-    height: 80vh;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
-    margin: 0;
+    top: -4.25dvh;
+    left: -1dvw;
+    margin-bottom: -32.5vh;
+}
+
+.carousel-container{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     padding: 0;
 }
 
-.carousel-item {
+.carousel-container div,
+.carousel-item{
+    position: relative;
     width: 100%;
-    height: 100%;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    padding: 0;
 }
 
-.carousel-item img {
+.carousel-item img{
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Changed from cover to contain */
-    object-position: center;
-    border: none;
+    object-fit: cover;
+    object-position: center center;
     margin: 0;
+    padding: 0;
 }
+/*!****************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/react-multi-carousel/lib/styles.css ***!
+  \****************************************************************************************************/
+@font-face{font-family:"revicons";fallback:fallback;src:url(/e8746a624ed098489406.woff) format('woff'),url(/57fd05d4ae650374c8de.ttf) format('ttf'),url(/a77de540a38981833f9e.eot) format('ttf')}.react-multi-carousel-list{display:flex;align-items:center;overflow:hidden;position:relative}.react-multi-carousel-track{list-style:none;padding:0;margin:0;display:flex;flex-direction:row;position:relative;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,transition}.react-multiple-carousel__arrow{position:absolute;outline:0;transition:all .5s;border-radius:35px;z-index:1000;border:0;background:rgba(0,0,0,0.5);min-width:43px;min-height:43px;opacity:1;cursor:pointer}.react-multiple-carousel__arrow:hover{background:rgba(0,0,0,0.8)}.react-multiple-carousel__arrow::before{font-size:20px;color:#fff;display:block;font-family:revicons;text-align:center;z-index:2;position:relative}.react-multiple-carousel__arrow:disabled{cursor:default;background:rgba(0,0,0,0.5)}.react-multiple-carousel__arrow--left{left:calc(4% + 1px)}.react-multiple-carousel__arrow--left::before{content:"\e824"}.react-multiple-carousel__arrow--right{right:calc(4% + 1px)}.react-multiple-carousel__arrow--right::before{content:"\e825"}.react-multi-carousel-dot-list{position:absolute;bottom:0;display:flex;left:0;right:0;justify-content:center;margin:auto;padding:0;margin:0;list-style:none;text-align:center}.react-multi-carousel-dot button{display:inline-block;width:12px;height:12px;border-radius:50%;opacity:1;padding:5px 5px 5px 5px;box-shadow:none;transition:background .5s;border-width:2px;border-style:solid;border-color:grey;padding:0;margin:0;margin-right:6px;outline:0;cursor:pointer}.react-multi-carousel-dot button:hover:active{background:#080808}.react-multi-carousel-dot--active button{background:#080808}.react-multi-carousel-item{transform-style:preserve-3d;backface-visibility:hidden}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){.react-multi-carousel-item{flex-shrink:0 !important}.react-multi-carousel-track{overflow:visible !important}}[dir='rtl'].react-multi-carousel-list{direction:rtl}.rtl.react-multiple-carousel__arrow--right{right:auto;left:calc(4% + 1px)}.rtl.react-multiple-carousel__arrow--right::before{content:"\e824"}.rtl.react-multiple-carousel__arrow--left{left:auto;right:calc(4% + 1px)}.rtl.react-multiple-carousel__arrow--left::before{content:"\e825"}
 /*!***********************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/Games.css ***!
   \***********************************************************************/
@@ -946,7 +959,6 @@
         position: relative;
         margin-bottom: 1dvh;
         padding-left: 1.25dvw;
-        color: #ffffff;
         line-height: 1.5;
         font-size: 1.05rem;
     }
@@ -961,6 +973,11 @@
     }
 }
 
+.slot-subtitle {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: crimson;
+}
 /*!***********************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/About.css ***!
   \***********************************************************************/
@@ -2325,14 +2342,24 @@ textarea {
     font-weight: bold;
     color: white;
     border: 1px solid #444;
-    background-color: green;
+}
+
+.number:hover, .zero:hover {
+    border: 1px solid gold;
+    box-shadow: 0 0 0.6rem 0.2rem rgb(218, 165, 32);
+}
+
+.number.highlight,
+.zero.highlight {
+    border-color: white;
+    box-shadow: 0 0 0.6rem 0.2rem rgb(255, 255, 255);
 }
 
 .zero {
     grid-row: 1 / span 3;
     grid-column: 1;
     position: relative;
-    clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+    clip-path: polygon(100% 0%, 30% 0%, 0% 50%, 30% 100%, 100% 100%);
     background-color: #008000;
     color: white;
     font-weight: bold;
@@ -2347,6 +2374,16 @@ textarea {
 .black { background-color: #000000; }
 .green { background-color: #008000; }
 
+.bet-button.red{
+    background-color: #c41e3a;
+    color: white;
+}
+
+.bet-button.black{
+    background-color: #000000;
+    color: white;
+}
+
 .outside-bets {
     display: flex;
     flex-direction: column;
@@ -2359,6 +2396,10 @@ textarea {
     display: flex;
     justify-content: space-around;
     gap: 0.4rem;
+    :hover{
+        border: 1px solid goldenrod;
+        box-shadow: 0 0 0.6rem 0.2rem rgb(218, 165, 32);
+    }
 }
 
 .column-bets div,
@@ -2451,6 +2492,129 @@ textarea {
     transform: translateX(-50%);
     font-size: 1.5rem;
     font-weight: bold;
+}
+/*!*********************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/games/Blackjack.css ***!
+  \*********************************************************************************/
+.blackjack-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.background-image {
+    content: "";
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    background:
+            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0,0,0,0.4)),
+            url(/232243eecaea4620103b.jpg) center/cover no-repeat;
+    z-index: 1;
+
+    border-radius: inherit;
+}
+
+.frame {
+    position: relative;
+    padding: 2.5rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 30rem;
+    overflow: hidden;
+    z-index: 0
+}
+
+.frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+            circle at center,
+            rgba(22,22,22,1) 50%,
+            rgba(10,10,10,1) 90%
+    );
+    pointer-events: none;
+}
+
+.gray-zone {
+    position: absolute;
+    width: 8dvw;
+    height: 20dvh;
+    background-image: url(/9d97459eda926adf7a4d.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 0.8dvh;
+    z-index: 1;
+}
+
+.gray-zone.left {
+    top: 45dvh;
+    left: 5dvw;
+    transform: rotate(55deg);
+}
+
+.gray-zone.right {
+    top: 45dvh;
+    right: 5dvw;
+    transform: rotate(-55deg);
+}
+
+.player-cards {
+    position: absolute;
+    top: calc(150px + 40dvh);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 3dvw;
+    z-index: 2;
+}
+
+.card {
+    background-color: #d4af37;
+    border-radius: 1dvh;
+    box-shadow: 0 0.3dvh 1dvh rgba(0, 0, 0, 0.4);
+}
+
+.center {
+    width: 11dvw;
+    height: 27.5dvh;
+}
+
+.side {
+    width: 8dvw;
+    height: 20dvh;
+    top: 3dvh;
+}
+
+
+.logo-mid {
+    position: absolute;
+    top: 15dvh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: "Crimson Text", sans-serif;
+    color: white;
+    user-select: none;
+    letter-spacing: 2px;
+    white-space: nowrap; /* чтобы не переносилось */
+    pointer-events: none; /* чтобы клики проходили сквозь */
+    z-index: 10; /* выше SVG */
+}
+
+/* Красные буквы */
+.logo-red-mid {
+    color: #DC143C;
 }
 /*!***************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/App.css ***!
