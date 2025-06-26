@@ -18,7 +18,27 @@
     z-index: 100;
     font-size: 1.5rem;
     position: relative;
+}
 
+.navbar-vip{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vh 2vh;
+    background: linear-gradient(to right,
+    rgba(70, 69, 67, 0.5) 0%,
+    rgba(196, 196, 196, 0.5) 10%,
+    rgba(94, 94, 94, 0.5) 20%,
+    rgba(188, 159, 105, 0.5) 30%,
+    rgba(188, 159, 105, 0.5) 70%,
+    rgba(94, 94, 94, 0.5) 80%,
+    rgba(196, 196, 196, 0.5) 90%,
+    rgba(70, 69, 67, 0.5)
+    );
+    height: 6vh;
+    z-index: 100;
+    font-size: 1.5rem;
+    position: relative;
 }
 
 .navbar-center{
@@ -46,6 +66,10 @@
     color: #DC143C;
 }
 
+.logo-vip{
+    color: #D3B159;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -53,7 +77,18 @@
     padding: 0;
 }
 
+.nav-links-vip {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
 .nav-links li {
+    margin-left: 1.5dvw;
+}
+
+.nav-links-vip li {
     margin-left: 1.5dvw;
 }
 
@@ -70,10 +105,36 @@
     transition: all 0.2s ease-in-out;
 }
 
+.nav-links-vip a {
+    display: inline-block;
+    font-family: "Crimson Text", sans-serif;
+    background: rgba(188, 159, 105, 0.75);
+    color: #fff;
+    padding: 0.75vh 1.25vw;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+    margin: 0.25vw;
+    border: 0.1rem solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
 .nav-link-button {
     display: inline-block;
     font-family: "Crimson Text", sans-serif;
     background: rgba(181, 92, 91, 0.75);
+    color: #fff;
+    padding: 0.75vh 1.25vw;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+    margin: 0.25vw;
+    border: 0.1rem solid transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link-button-vip {
+    display: inline-block;
+    font-family: "Crimson Text", sans-serif;
+    background: rgba(188, 159, 105, 0.75);
     color: #fff;
     padding: 0.75vh 1.25vw;
     border-radius: 2rem;
@@ -89,7 +150,19 @@
     box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
 }
 
+.nav-links-vip a:hover{
+    text-decoration: none;
+    border: 0.1rem solid #ffffff;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
+}
+
 .nav-link-button:hover{
+    text-decoration: none;
+    border: 0.1rem solid #ffffff;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.nav-link-button-vip:hover{
     text-decoration: none;
     border: 0.1rem solid #ffffff;
     box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
@@ -143,6 +216,15 @@
     border: none;
     background-color: rgba(217, 217, 217, 0.25);
     color: #DC143C;
+    font-size: 1.5rem;
+}
+
+.subscriptionVIP{
+    height: 2.5rem;
+    width: 4rem;
+    border: none;
+    background-color: rgba(217, 217, 217, 0.25);
+    color: #D3B159;
     font-size: 1.5rem;
 }
 

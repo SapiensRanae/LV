@@ -1,12 +1,14 @@
 // src/components/Footer.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 import './Footer.css';
 
 const Footer: React.FC = () => {
+    const { user } = useUser();
     return (
         <footer className="footer">
-            <div className="footer-bg">
+            <div className={user?.role === 'vip' ? "footer-bg-vip" : "footer-bg"}>
                 <div className="footer-content">
                     <div className="contact">
                         <h3>Contact us:</h3>
@@ -20,7 +22,7 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="red-line"></div>
+            <div className={user?.role === 'vip' ? "gold-line" : "red-line"}></div>
             <div className="disclaimer">
                 <p>
                     Disclaimer: Customers must be at least 21 years old. All rights reserved. LuckyVegas &copy; 2025.

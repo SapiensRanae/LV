@@ -1,7 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
+import PaymentModal from './PaymentModal'
 import './TransactionsModal.css'
-import closeIcon from '../assets/close.png'     // or wherever your “×” lives
-import coinIcon from '../assets/coin.png'       // your coin icon
+import closeIcon from '../assets/close.png'
+import coinIcon from '../assets/coin.png'
+import {useUser} from "../contexts/UserContext";
 
 interface Props {
     onClose: () => void
@@ -32,7 +34,33 @@ const vipFeatures = [
     'Bake a cake:',
 ]
 
-const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
+export const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
+    const { user, refreshUser } = useUser();
+    const [selectedPkg, setSelectedPkg] = useState<{ price: string; coins: string }|null>(null)
+
+    const handlePaymentSuccess = async () => {
+        if (!user || !selectedPkg) return
+        // 1) POST transaction API
+        await fetch('/api/FinancialTransactions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            },
+            body: JSON.stringify({
+                userId: user.ID,
+                amount: parseFloat(selectedPkg.price),
+                coins: parseInt(selectedPkg.coins, 10),
+                type: 'purchase'
+            })
+        })
+        // 2) refresh your user context (so coins balance updates)
+        await refreshUser()
+        // 3) close everything
+        setSelectedPkg(null)
+        onClose()
+    }
+
     return (
         <div className="transactions-overlay" onClick={onClose}>
             <div className="transactions-modal" onClick={e => e.stopPropagation()}>
@@ -80,7 +108,7 @@ const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
                     <div className="vip-promo">
                         <h3>VIP ACCESS</h3>
                         <p className="vip-price">249,99 USD<span className="per-month">/month</span></p>
-                        <button className="vip-btn">Purchase</button>
+                        <button className={user?.role === 'vip' ? "vip-btn-owned" : "vip-btn"}>{user?.role === 'vip' ? "Owned" : "Purchase"}</button>
                     </div>
                 </div>
             </div>

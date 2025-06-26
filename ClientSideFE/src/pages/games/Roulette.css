@@ -235,6 +235,24 @@
     display: none;
 }
 
+.game-result{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 47.5%;
+
+    font-family: "Crimson Text", sans-serif;
+    font-size: 2rem;
+}
+
+.game-result.win {
+    color: green;
+}
+
+.game-result.lost {
+    color: crimson;
+}
+
 .result {
     position: absolute;
     bottom: -2.4rem;
@@ -242,4 +260,10 @@
     transform: translateX(-50%);
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+.total-bet{
+    position:relative;
+    display:flex;
+    align-self: center;
 }

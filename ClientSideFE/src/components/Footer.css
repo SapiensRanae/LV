@@ -40,6 +40,18 @@
     justify-content: flex-end;
 }
 
+.footer-bg-vip{
+    position: relative;
+    width: 100%;
+    background-image: url("../assets/GoldenLine.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 45dvh;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .footer-content {
     position: relative;
     display: flex;
@@ -82,6 +94,12 @@
     height: 0.2rem;
     width: 100%;
     background-color: #DC143C;
+}
+
+.gold-line{
+    height: 0.2rem;
+    width: 100%;
+    background-color: #F0CE77;
 }
 
 .disclaimer {

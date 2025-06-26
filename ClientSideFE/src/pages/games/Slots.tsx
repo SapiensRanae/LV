@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import './Slots.css';
 
 interface CardCollection {
@@ -57,7 +57,6 @@ const pickRandom = (count: number): string[] =>
 const Slots: React.FC = () => {
     const [turboOn, setTurboOn] = useState(false);
     const [autoOn, setAutoOn] = useState(false);
-    const [spinning, setSpinning] = useState(false);
 
     const [reels, setReels] = useState<string[][]>(
         Array(4).fill(0).map(() => pickRandom(5))
@@ -65,35 +64,55 @@ const Slots: React.FC = () => {
     const [status, setStatus] = useState<'idle'|'spinning'|'stopping'>('idle');
     const reelRefs = useRef<Array<HTMLDivElement| null>>([]);
 
+    const VISIBLE = 12;
+    const SCROLL_COUNT = 80;
+    const TOTAL_DURATION = 5000;
+
     const handleSpin = () => {
         if (status !== 'idle') return;
         setStatus('spinning');
 
-        const newCards = Array(4).fill(0).map(() => pickRandom(2));
-
-        const linearDuration = 0.8 + Math.random() * 0.4; // 0.8–1.2s
+        const longReels = Array(4)
+            .fill(0)
+            .map(() => pickRandom(SCROLL_COUNT));
+        setReels(longReels);
 
         setTimeout(() => {
-            reelRefs.current.forEach((reelEl, idx) => {
-                if (!reelEl) return;
-                const len = reels[idx].length;
-                const finalIndex = Math.floor(Math.random()*2);
-                const targetPos = (len - 2) + finalIndex;
-                const offsetPercent = 50 + (targetPos / (len * 2)) * 100;
-                reelEl.style.setProperty('--final-offset', `-${offsetPercent}%`);
-            });
-
-            setStatus('stopping');
-
-            const easeDur = 0.8 + Math.random() * 0.6; // 0.8–1.4s
-            setTimeout(() => {
-                setReels(prev => prev.map((col, i) => {
-                    return [...col.slice(2), ...newCards[i]];
-                }));
-                setStatus('idle');
-            }, easeDur * 1000);
-        }, linearDuration * 1000);
+            setReels(prevLong => prevLong.map(col => col.slice(-VISIBLE)));
+            setStatus('idle');
+        }, TOTAL_DURATION);
     };
+
+    useEffect(() => {
+        if (status !== 'spinning') return;
+
+        const listeners: Array<() => void> = [];
+
+        reelRefs.current.forEach((reelEl, idx) => {
+            if (!reelEl) return;
+
+            // on each loop, append one new card
+            const onLoop = () => {
+                setReels(prev => prev.map((col, colIdx) => {
+                    if (colIdx !== idx) return col;
+                    // pick 1 new card; you can pick 2 or 3 if your "row" is more
+                    const newCard = pickRandom(4)[0];
+                    const newCol = [...col, newCard];
+
+                    // to avoid unbounded growth, keep your last N cards
+                    const MAX_VISIBLE = 12;
+                    return newCol.slice(-MAX_VISIBLE);
+                }));
+            };
+
+            reelEl.addEventListener('animationiteration', onLoop);
+            listeners.push(() => reelEl.removeEventListener('animationiteration', onLoop));
+        });
+
+        // cleanup when we stop spinning
+        return () => { listeners.forEach(remove => remove()); };
+    }, [status]);
+
 
     return (
         <div className="game-wrapper">
@@ -132,24 +151,28 @@ const Slots: React.FC = () => {
                 </div>
             </div>
             <div className="slots">
-                {reels.map((column, i) => { const padded = [...column, ...column];
-                    return (
-                        <div key={i} className={`slot ${status==='spinning' ? 'spinning' : ''} ${status==='stopping' ? 'stopping':''}`}>
-                            <div className="reel"
-                                style={{
-                                    '--linear-duration': `${(0.8 + Math.random() * 0.4)}s`,
-                                    '--ease-duration': `${(0.8 + Math.random() * 0.6)}s`
-                                } as any}
-                                 ref={el => {reelRefs.current[i] = el;}}>
-                                {padded.map((src, idx) =>
-                                    <section className="slot-section" key={idx}>
-                                        <img src={src} alt="card"/>
-                                    </section>
-                                )}
-                            </div>
+                {reels.map((column, i) => (
+                    <div key={i} className={`slot ${status}`}>
+                        <div
+                            className="reel"
+                            ref={el => {reelRefs.current[i] = el;}}
+                            onAnimationEnd={() => {
+                                // (optional) you could also do the final slicing here instead
+                            }}
+                            style={{
+                                // only when spinning do we use a long scroll
+                                '--spin-duration': `${TOTAL_DURATION}ms`,
+                                '--scroll-distance': `${(reels[i].length - VISIBLE) * 33.33}%`,
+                            } as any}
+                        >
+                            {reels[i].map((src, idx) => (
+                                <section className="slot-section" key={idx}>
+                                    <img src={src} alt="" />
+                                </section>
+                            ))}
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
             <div className="buttons">
                 <div className="stake-section">

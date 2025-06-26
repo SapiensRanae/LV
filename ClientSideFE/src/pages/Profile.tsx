@@ -86,7 +86,8 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
             if (user) {
                 try {
                     const historyData = await getUserHistoryByUser(user.userID);
-                    setHistory(historyData);
+                    console.log('User history:', historyData); // <-- Add this line
+                    setHistory(historyData)
                 } catch {
                     setError('Failed to load profile data');
                 }
@@ -168,7 +169,13 @@ const Profile: React.FC<ProfileProps> = ({ onLogoutClick, onBuyVIPClick }) => {
                                         <td>{index + 1}</td>
                                         <td>{item.gameTransaction?.game?.name || 'Unknown'}</td>
                                         <td>{item.gameTransaction?.amount || 0}</td>
-                                        <td>{item.gameTransaction?.isWin ? 'Win' : 'Loss'}</td>
+                                        <td>
+                                            {item.gameTransaction?.isWin === true
+                                                ? `+${item.gameTransaction?.amount ?? 0}`
+                                                : item.gameTransaction?.isWin === false
+                                                    ? `-${item.gameTransaction?.amount ?? 0}`
+                                                    : 'N/A'}
+                                        </td>
                                         <td>{new Date(item.gameTransaction?.timestamp || '').toLocaleDateString()}</td>
                                     </tr>
                                 ))
