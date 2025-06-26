@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 namespace CasinoApi.Models
 {
     public class GameTransaction
@@ -21,8 +22,11 @@ namespace CasinoApi.Models
         public decimal GameResult { get; set; }
 
         // Navigation properties
+[JsonIgnore]
         public User User { get; set; }
-        public Game Game { get; set; }
-        public ICollection<UserHistory> UserHistory { get; set; }
+[JsonIgnore]        
+public Game Game { get; set; }
+[JsonIgnore]        
+public ICollection<UserHistory> UserHistory { get; set; }
     }
 }   

@@ -35,13 +35,35 @@ namespace CasinoApi.Controllers
             return historyItem;
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<UserHistory>>> GetUserHistoryByUser(int userId)
+[HttpGet("user/{userId}")]
+public async Task<ActionResult<IEnumerable<UserHistoryDto>>> GetUserHistoryByUser(int userId)
+{
+    var history = await _context.UserHistory
+        .Where(h => h.UserID == userId)
+        .Include(h => h.GameTransaction)
+            .ThenInclude(gt => gt.Game)
+        .OrderByDescending(h => h.GameTransaction.Date)
+        .Take(10)
+        .Select(h => new UserHistoryDto
         {
-            return await _context.UserHistory
-                .Where(h => h.UserID == userId)
-                .ToListAsync();
-        }
+            StatisticID = h.StatisticID,
+            UserID = h.UserID,
+            GameTransactionID = h.GameTransactionID,
+            GameTransaction = h.GameTransaction == null ? null : new GameTransactionDto
+            {
+                Amount = h.GameTransaction.CashAmount,
+                IsWin = h.GameTransaction.GameResult > 0, 
+                Timestamp = h.GameTransaction.Date,
+                Game = h.GameTransaction.Game == null ? null : new GameDto
+                {
+                    Name = h.GameTransaction.Game.GameName
+                }
+            }
+        })
+        .ToListAsync();
+
+    return history;
+}
 
         [HttpPost]
         public async Task<ActionResult<UserHistory>> CreateUserHistoryItem(UserHistory historyItem)

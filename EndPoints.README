@@ -1,33 +1,102 @@
-# CasinoApi Endpoints
+# Casino API Documentation
+
+## Overview
+This document provides information about the available endpoints in the Casino API, their functionality, and how to use them.
 
 ## Authentication
-- **POST /api/auth/login** - Authenticate a user
-- **POST /api/auth/register** - Register a new user
+Most endpoints require authentication using JWT Bearer tokens. Include the token in the Authorization header:
+```
+Authorization: Bearer {your_token}
+```
 
-## Users
-- **GET /api/users** - Get all users
-- **GET /api/users/{id}** - Get user by ID
-- **POST /api/users** - Create a new user
-- **PUT /api/users/{id}** - Update a user
-- **DELETE /api/users/{id}** - Delete a user
+## API Endpoints
 
-## Games
-- **GET /api/games** - Get all games
-- **GET /api/games/{id}** - Get game by ID
-- **POST /api/games** - Create a new game
-- **PUT /api/games/{id}** - Update a game
-- **DELETE /api/games/{id}** - Delete a game
+### Authentication
+- **POST /api/Auth/register** - Register a new user
+- **POST /api/Auth/login** - Login and receive JWT token
 
-## Games With Ratio
-- **GET /api/gameswithratio** - Get all games with ratio
-- **GET /api/gameswithratio/{id}** - Get game with ratio by ID
-- **POST /api/gameswithratio** - Create a new game with ratio
-- **PUT /api/gameswithratio/{id}** - Update a game with ratio
-- **DELETE /api/gameswithratio/{id}** - Delete a game with ratio
+### Users
+- **GET /api/Users** - Get all users
+- **GET /api/Users/{id}** - Get user by ID
+- **PUT /api/Users/{id}** - Update user
+- **DELETE /api/Users/{id}** - Delete user
 
-## Financial Transactions
-- **GET /api/financialtransactions** - Get all financial transactions
-- **GET /api/financialtransactions/{id}** - Get financial transaction by ID
-- **POST /api/financialtransactions** - Create a new financial transaction
-- **PUT /api/financialtransactions/{id}** - Update a financial transaction
-- **DELETE /api/financialtransactions/{id}** - Delete a financial transaction
+### Financial Transactions
+- **GET /api/FinancialTransactions** - Get all transactions
+- **GET /api/FinancialTransactions/user/{userId}** - Get transactions by user
+- **POST /api/FinancialTransactions** - Create new transaction
+
+### Games
+- **GET /api/Games** - Get all games
+- **GET /api/Games/{id}** - Get game by ID
+- **POST /api/Games** - Add new game
+- **PUT /api/Games/{id}** - Update game
+- **DELETE /api/Games/{id}** - Delete game
+
+### Games With Ratio
+- **GET /api/GamesWithRatio** - Get all games with ratio
+- **GET /api/GamesWithRatio/{id}** - Get game with ratio by ID
+
+### Game Transactions
+- **GET /api/GameTransactions** - Get all game transactions
+- **GET /api/GameTransactions/user/{userId}** - Get transactions by user
+- **POST /api/GameTransactions** - Create new game transaction
+
+### User History
+- **GET /api/UserHistory/user/{userId}** - Get history for user
+
+### Roulette
+- **POST /api/Roulette/spin** - Place a bet and spin the roulette
+
+## Detailed API Documentation
+
+### Roulette API
+
+#### Spin the Roulette
+```
+POST /api/Roulette/spin
+```
+
+**Request Body:**
+```json
+{
+  "userId": 1,
+  "betAmount": 100,
+  "betType": "red",
+  "betNumber": null,
+  "betColor": "red",
+  "columnType": null,
+  "dozenType": null
+}
+```
+
+**Bet Types:**
+- `single` - Bet on a specific number (0-36 or 00)
+- `column` - Bet on a column (first, second, third)
+- `dozen` - Bet on a dozen (first: 1-12, second: 13-24, third: 25-36)
+- `even` - Bet on even numbers
+- `odd` - Bet on odd numbers
+- `red` - Bet on red numbers
+- `black` - Bet on black numbers
+- `color` - Bet on a specific color
+
+**Response:**
+```json
+{
+  "outcome": "17",
+  "color": "black",
+  "betAmount": 100,
+  "winnings": 0,
+  "newBalance": 900
+}
+```
+
+## Error Handling
+The API returns appropriate HTTP status codes:
+- 200 - Success
+- 400 - Bad Request (invalid input)
+- 401 - Unauthorized (invalid or missing token)
+- 404 - Not Found
+- 500 - Server Error
+
+Errors include a message property explaining the issue.

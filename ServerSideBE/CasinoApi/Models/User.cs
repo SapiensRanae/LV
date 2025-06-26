@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 
 namespace CasinoApi.Models
 {
@@ -22,8 +24,11 @@ namespace CasinoApi.Models
         
         public string? Description { get; set; }
         // Navigation properties
+[JsonIgnore]
         public ICollection<GameTransaction> GameTransactions { get; set; } = new List<GameTransaction>();
-        public ICollection<FinancialTransaction> FinancialTransactions { get; set; } = new List<FinancialTransaction>();
-        public ICollection<UserHistory> UserHistory { get; set; } = new List<UserHistory>();
+[JsonIgnore]        
+public ICollection<FinancialTransaction> FinancialTransactions { get; set; } = new List<FinancialTransaction>();
+[JsonIgnore]        
+public ICollection<UserHistory> UserHistory { get; set; } = new List<UserHistory>();
     }
 }

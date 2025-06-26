@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 namespace CasinoApi.Models
 {
     public class Game
@@ -12,7 +13,9 @@ namespace CasinoApi.Models
         public bool HasRatio { get; set; }
 
         // Navigation properties
+		[JsonIgnore]
         public ICollection<GameTransaction> GameTransactions { get; set; }
+[JsonIgnore]
         public GameWithRatio GameWithRatio { get; set; }
     }
 }

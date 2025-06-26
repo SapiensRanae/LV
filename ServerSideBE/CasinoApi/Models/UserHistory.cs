@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace CasinoApi.Models
 {
@@ -16,7 +17,9 @@ namespace CasinoApi.Models
         public int GameTransactionID { get; set; }
 
         // Navigation properties
+[JsonIgnore]
         public User User { get; set; }
+[JsonIgnore]
         public GameTransaction GameTransaction { get; set; }
     }
 }

@@ -60,48 +60,51 @@ namespace CasinoApi.Controllers
                 // Record previous balance before update
                 decimal previousBalance = user.Balance;
 
-// Update user balance
-                user.Balance -= request.BetAmount; // Deduct bet
-                user.Balance += winnings; // Add winnings if any
+// Update user balance and save
+user.Balance -= request.BetAmount;
+user.Balance += winnings;
+await _context.SaveChangesAsync();
 
-// Create financial transaction
-                var financialTransaction = new FinancialTransaction
-                {
-                    UserID = request.UserId,
-                    CashAmount = winnings - request.BetAmount, // Net change
-                    TransactionType = "Roulette",
-                    Date = DateTime.Now,
-                    PreviousBalance = previousBalance,
-                    NewBalance = user.Balance
-                };
+// Add financial transaction with correct TransactionType
+var netChange = winnings - request.BetAmount;
+var gameTransactionType = winnings > 0 ? "win" : "bet";
+// For FinancialTransaction
+var financialTransactionType = (winnings - request.BetAmount) >= 0 ? "deposit" : "withdrawal";
+var financialTransaction = new FinancialTransaction
+{
+    UserID = request.UserId,
+    CashAmount = netChange,
+    TransactionType = financialTransactionType,
+    Date = DateTime.Now,
+    PreviousBalance = previousBalance,
+    NewBalance = user.Balance
+};
 
-                _context.FinancialTransactions.Add(financialTransaction);
+_context.FinancialTransactions.Add(financialTransaction);
 
-// Create game transaction
-                var gameTransaction = new GameTransaction
-                {
-                    UserID = request.UserId,
-                    GameID = 1, // Get the correct GameID for Roulette
-                    CashAmount = request.BetAmount,
-                    Date = DateTime.Now,
-                    TransactionType = "Roulette",
-                    PreviousBalance = previousBalance,
-                    NewBalance = user.Balance,
-                    GameResult = winnings
-                };
+// Add game transaction and save to get the generated ID
+var gameTransaction = new GameTransaction
+{
+    UserID = request.UserId,
+    GameID = 6,
+    CashAmount = request.BetAmount,
+    Date = DateTime.Now,
+    TransactionType = gameTransactionType,
+    PreviousBalance = previousBalance,
+    NewBalance = user.Balance,
+    GameResult = winnings
+};
+_context.GameTransactions.Add(gameTransaction);
+await _context.SaveChangesAsync();
 
-                _context.GameTransactions.Add(gameTransaction);
-                await _context.SaveChangesAsync();
-
-// Create user history record
-                var userHistory = new UserHistory
-                {
-                    UserID = request.UserId,
-                    GameTransactionID = gameTransaction.GameTransactionID
-                };
-
-                _context.UserHistory.Add(userHistory);
-                await _context.SaveChangesAsync();
+// Add user history
+var userHistory = new UserHistory
+{
+    UserID = request.UserId,
+    GameTransactionID = gameTransaction.GameTransactionID
+};
+_context.UserHistory.Add(userHistory);
+await _context.SaveChangesAsync();
 
                 return Ok(new
                 {
@@ -113,12 +116,12 @@ namespace CasinoApi.Controllers
                 });
             }
 
-            catch (Exception ex)
-            {
-                // Log the exception
-                Console.WriteLine($"Error in Roulette/Spin: {ex.Message}");
-                return StatusCode(500, new { message = "An error occurred while processing your bet" });
-            }
+catch (Exception ex)
+{
+    // Log the exception
+    Console.WriteLine($"Error in Roulette/Spin: {ex.Message}");
+    return StatusCode(500, new { message = $"Error: {ex.Message}" });
+}
         }
 
         private string GetRouletteColor(int number)

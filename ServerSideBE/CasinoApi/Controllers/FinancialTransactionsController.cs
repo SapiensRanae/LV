@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CasinoApi.Models;  
-using CasinoApi.Data;   
+using CasinoApi.Models;
+using CasinoApi.Data;
 
 namespace CasinoApi.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class FinancialTransactionsController : ControllerBase
@@ -39,6 +38,12 @@ namespace CasinoApi.Controllers
         public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction(
             FinancialTransaction transaction)
         {
+            // Only allow "deposit" or "withdrawal" as TransactionType
+            if (transaction.TransactionType != "deposit" && transaction.TransactionType != "withdrawal")
+            {
+                return BadRequest(new { message = "TransactionType must be 'deposit' or 'withdrawal'." });
+            }
+
             _context.FinancialTransactions.Add(transaction);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetFinancialTransaction), new { id = transaction.FinancialTransactionID },
