@@ -30,36 +30,37 @@
     color: #444;
     font-size: 2rem;
     overflow: hidden;
+    position: relative;
 
     box-shadow: inset 0 0.5rem 1rem 0.15rem #151515,
     inset 0 -0.5rem 1rem 0.15rem #151515;
 }
 
-@keyframes reel‑spin‑linear {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-50%); }
-}
-
-@keyframes reel‑spin‑ease {
-    from { transform: translateY(-50%); }
-    to   { transform: translateY(var(--final‑offset)); }
-}
-
 .reel {
-    height: 300%;
     width: 100%;
     display: flex;
     flex-direction: column;
     will-change: transform;
 }
 
+@keyframes spin {
+    from   { transform: translateY(-50%); }
+    to     { transform: translateY(-100%); }
+}
+
+@keyframes spinStop {
+    from   { transform: translateY(-100%); }
+    to     { transform: translateY(var(--final-offset)); }
+}
+
 .slot.spinning .reel {
-    animation: reel‑spin‑linear var(--linear‑duration, 0.5s) linear infinite;
+    animation: spin var(--linear-duration) linear infinite;
 }
 
 .slot.stopping .reel {
-    animation: reel‑spin‑ease var(--ease‑duration, 0.5s) ease‑out forwards;
-    animation‑delay: 0s;
+    animation:
+            spin     var(--linear-duration) linear,
+            spinStop var(--ease-duration) ease-out var(--linear-duration) forwards;
 }
 
 .slot-section{

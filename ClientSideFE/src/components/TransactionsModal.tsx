@@ -48,15 +48,14 @@ export const TransactionsModal: React.FC<Props> = ({ onClose, onBuying }) => {
                 Authorization: `Bearer ${user.token}`
             },
             body: JSON.stringify({
-                userId: user.ID,
+                userId: user.userID,
                 amount: parseFloat(selectedPkg.price),
                 coins: parseInt(selectedPkg.coins, 10),
                 type: 'purchase'
             })
         })
-        // 2) refresh your user context (so coins balance updates)
         await refreshUser()
-        // 3) close everything
+        
         setSelectedPkg(null)
         onClose()
     }
