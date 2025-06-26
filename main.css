@@ -1962,6 +1962,14 @@ textarea {
 }
 
 .divider {
+    width: 1px;
+    background-color: #F24769;
+    border: 0.1rem solid #ffffff;
+    box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.5);
+    height: 85%;
+}
+
+.dividerVip{
     width: 2px;
     background-color: #F24769;
     height: 85%;
