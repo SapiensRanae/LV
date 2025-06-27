@@ -86,5 +86,3 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 For questions or feedback, open an issue on GitHub.
 
 ---
-
-```
