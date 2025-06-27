@@ -16,17 +16,18 @@ interface UserUpdateRequest extends Omit<User, 'passwordHash'> {
     newPassword?: string;
 }
 
+// ProfileEditModal allows users to update profile info, icon, and password
 const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) => {
     const [username, setUsername] = useState(user.username);
     const [description, setDescription] = useState(user.description || '');
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber || '');
 
-    // For file upload
+    // File upload state
     const [iconFile, setIconFile] = useState<File | null>(null);
     const [iconPreview, setIconPreview] = useState<string | null>(null);
     const [uploadError, setUploadError] = useState('');
 
-    // For password change
+    // Password change state
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -36,12 +37,13 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
     const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    // Handle profile icon file selection and preview
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Check file size (15MB limit)
-        const MAX_SIZE = 15 * 1024 * 1024; // 15MB in bytes
+        // 15MB file size limit
+        const MAX_SIZE = 15 * 1024 * 1024;
         if (file.size > MAX_SIZE) {
             setUploadError(`File size exceeds 15MB limit (${(file.size / (1024 * 1024)).toFixed(2)}MB)`);
             return;
@@ -50,7 +52,7 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
         setUploadError('');
         setIconFile(file);
 
-        // Create preview
+        // Preview selected image
         const reader = new FileReader();
         reader.onloadend = () => {
             setIconPreview(reader.result as string);
@@ -58,24 +60,21 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
         reader.readAsDataURL(file);
     };
 
+    // Validate form fields and password change
     const validateForm = () => {
-        // Reset errors
         setError('');
         setPasswordError('');
 
-        // Require current password for any changes
         if (!currentPassword) {
             setError('Current password is required to save changes');
             return false;
         }
 
-        // If changing password, validate new password fields
         if (newPassword) {
             if (newPassword.length < 8) {
                 setPasswordError('New password must be at least 8 characters');
                 return false;
             }
-
             if (newPassword !== confirmPassword) {
                 setPasswordError('New passwords do not match');
                 return false;
@@ -85,6 +84,7 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
         return true;
     };
 
+    // Handle form submission and update user profile
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -95,12 +95,11 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
         try {
             let iconUrl = user.userIcon;
 
-            // If file is selected, convert to base64
+            // Convert uploaded file to base64 if present
             if (iconFile) {
                 iconUrl = await convertFileToBase64(iconFile);
             }
 
-            // Use all required user fields
             const updateData: UserUpdateRequest = {
                 userID: user.userID,
                 role: user.role,
@@ -124,6 +123,7 @@ const ProfileEditModal: React.FC<Props> = ({ user, onClose, onUpdateSuccess }) =
         }
     };
 
+    // Convert file to base64 string
     const convertFileToBase64 = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();

@@ -34,6 +34,7 @@ export interface GameTransaction {
     timestamp: string;
     user?: User;
     game?: Game;
+    gameResult?: number;
 }
 
 export interface FinancialTransaction {

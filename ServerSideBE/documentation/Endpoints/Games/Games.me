@@ -1,0 +1,50 @@
+# Games API
+
+## Overview
+Manage casino games and their properties.
+
+## Endpoints
+
+GET    /api/Games  
+    List all games.  
+    - Returns: Array of game objects.
+
+GET    /api/Games/{id}  
+    Get details for a specific game.  
+    - Path parameter: id (int) — Game identifier.  
+    - Returns: Game object.
+
+POST   /api/Games  
+    Add a new game.  
+    - Request body: Game object (GameName, Category, Description, MinimalDeposit, HasRatio).  
+    - Returns: Created game object.
+
+PUT    /api/Games/{id}  
+    Update an existing game.  
+    - Path parameter: id (int) — Game identifier.  
+    - Request body: Fields to update.  
+    - Returns: No content on success.
+
+DELETE /api/Games/{id}  
+    Delete a game by ID.  
+    - Path parameter: id (int) — Game identifier.  
+    - Returns: No content on success.
+
+## Error Responses
+
+- 400: Invalid game data.
+- 401: Unauthorized.
+- 404: Game not found.
+- 409: Duplicate game.
+- 500: Server error.
+
+## Example Game Object
+
+{
+  "GameID": 2,
+  "GameName": "Roulette",
+  "Category": "Table",
+  "Description": "Classic roulette game.",
+  "MinimalDeposit": 10.00,
+  "HasRatio": true
+}

@@ -7,25 +7,24 @@ interface Props {
     onPaymentSuccess: () => void;
 }
 
+// Luhn algorithm for card number validation
 function luhnCheck(cardNumber: string): boolean {
-    // 1) strip non-digits, split into array of numbers
     const digits = cardNumber.replace(/\D/g, '').split('').map(d => parseInt(d, 10));
-    // 2) from the rightmost, double every second digit
     let sum = 0;
     let shouldDouble = false;
     for (let i = digits.length - 1; i >= 0; i--) {
         let d = digits[i];
         if (shouldDouble) {
             d *= 2;
-            if (d > 9) d -= 9;        // subtract 9 = sum of digits for any 10+ result
+            if (d > 9) d -= 9;
         }
         sum += d;
         shouldDouble = !shouldDouble;
     }
-    // 3) valid if sum % 10 === 0
     return sum % 10 === 0;
 }
 
+// PaymentModal handles credit card payment UI and validation
 export const PaymentModal: React.FC<Props> = ({package: pkg, onClose, onPaymentSuccess}) => {
     const [cardNumber, setCardNumber] = useState('');
     const rawNumber = cardNumber.replace(/\s+/g, '');
@@ -35,6 +34,7 @@ export const PaymentModal: React.FC<Props> = ({package: pkg, onClose, onPaymentS
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
 
+    // Handle payment form submission and validation
     const handlePay = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
@@ -71,8 +71,8 @@ export const PaymentModal: React.FC<Props> = ({package: pkg, onClose, onPaymentS
 
             await onPaymentSuccess()
 
-} catch (err: any) {
-    setError('Payment failed, please try again.' + '\n' + (err?.message || err));
+        } catch (err: any) {
+            setError('Payment failed, please try again.' + '\n' + (err?.message || err));
         }
     };
 

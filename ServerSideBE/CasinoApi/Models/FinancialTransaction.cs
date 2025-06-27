@@ -1,27 +1,28 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace CasinoApi.Models
 {
+    // Financial transaction record for a user
     public class FinancialTransaction
     {
         [Key]
-        public int FinancialTransactionID { get; set; }
-        public int UserID { get; set; }
-        public decimal CashAmount { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
-        public string TransactionType { get; set; }
-        public decimal PreviousBalance { get; set; }
-        public decimal NewBalance { get; set; }
+        public int FinancialTransactionID { get; set; } // Transaction primary key
 
-        // Navigation property
-[JsonIgnore]
-        public User? User { get; set; }
+        public int UserID { get; set; } // Associated user ID
+
+        public decimal CashAmount { get; set; } // Transaction amount
+
+        public DateTime Date { get; set; } = DateTime.Now; // Transaction date and time
+
+        public string TransactionType { get; set; } // Transaction type (e.g., deposit, withdrawal)
+
+        public decimal PreviousBalance { get; set; } // Balance before transaction
+
+        public decimal NewBalance { get; set; } // Balance after transaction
+
+        [JsonIgnore]
+        public User? User { get; set; } // Navigation property to User
     }
 }

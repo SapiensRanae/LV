@@ -1,5 +1,6 @@
 import apiClient from './client';
 
+// Sends a spin request to the roulette API with bet data
 export async function spinRoulette(betData: {
     userId: number;
     betAmount: number;

@@ -53,17 +53,38 @@ const rules = [
             }
         ],
     },
-    { title: 'Roulette', content: [
+    {
+        title: 'Roulette',
+        content: [
             'Place bets on numbers, colors, odd/even, or groups.',
             'Wheel has 37 pockets (European) or 38 (American).',
             'Payouts vary by type of bet.',
         ],
+        s: 'European roulette payout ratios are:',
+        t: [
+            'Straight-up (single number) – 35:1',
+            'Split (2 numbers) – 17:1',
+            'Street (3-number row) – 11:1',
+            'Corner (4 numbers) – 8:1',
+            'Basket (1,2,3,0) – 8:1',
+            'Line (6 numbers) – 6:1',
+            'Dozen (12 numbers) – 2:1',
+            'Column (12 numbers) – 2:1',
+            'Low (1–18) – 1:1',
+            'High (19–36) – 1:1',
+            'Red/Black – 1:1',
+            'Odd/Even – 1:1',
+        ],
     },
     { title: 'Casino', content: [
-            'General casino rules apply to all games.',
-            'No use of external tools to influence game outcome.',
-            'All chips must be visible at all times.',
-            'Dealer decisions are final.',
+            {
+                m: [
+                    'General casino rules apply to all games.',
+                    'No use of external tools to influence game outcome.',
+                    'All chips must be visible at all times.',
+                    'Dealer decisions are final.'
+                ],
+            }
         ],
     },
     { title: 'Live Casino', content: [
@@ -115,27 +136,36 @@ const Guides: React.FC = () => {
                     {expandedIndex === i && (
                         <div className="dropdown-body">
                             <ul className="rule-list">
-                                {Array.isArray(rule.content)
-                                    ? rule.content.map((line, idx) => (
-                                        typeof line === 'string' ? (
-                                            <li key={idx}>{line}</li>
-                                        ) : (
-                                            <React.Fragment key={idx}>
-                                                {line.m?.map((msg, mIdx) => (
-                                                    <li key={`m-${mIdx}`}>{msg}</li>
-                                                ))}
-                                                {line.s && <li className="slot-subtitle">{line.s}</li>}
-                                                {line.t?.map((combo, tIdx) => (
-                                                    <li key={`t-${tIdx}`}>– {combo}</li>
-                                                ))}
-                                                {line.s2 && <li className="slot-subtitle">{line.s2}</li>}
-                                                {line.t2?.map((combo, t2Idx) => (
-                                                    <li key={`t2-${t2Idx}`}>– {combo}</li>
-                                                ))}
-                                            </React.Fragment>
-                                        )
-                                    ))
-                                    : null}
+                                {/* 1) Render the normal content array */}
+                                {rule.content.map((line, idx) =>
+                                    typeof line === 'string' ? (
+                                        <li key={idx}>{line}</li>
+                                    ) : (
+                                        <React.Fragment key={idx}>
+                                            {line.m?.map((msg, mIdx) => (
+                                                <li key={`m-${mIdx}`}>{msg}</li>
+                                            ))}
+                                            {line.s && <li className="slot-subtitle">{line.s}</li>}
+                                            {line.t?.map((combo, tIdx) => (
+                                                <li key={`t-${tIdx}`}>– {combo}</li>
+                                            ))}
+                                            {line.s2 && <li className="slot-subtitle">{line.s2}</li>}
+                                            {line.t2?.map((combo, t2Idx) => (
+                                                <li key={`t2-${t2Idx}`}>– {combo}</li>
+                                            ))}
+                                        </React.Fragment>
+                                    )
+                                )}
+
+                                {/* 2) Then—if this rule has top-level s/t arrays—render them too */}
+                                {rule.s && <li className="slot-subtitle">{rule.s}</li>}
+                                {rule.t?.map((combo, tIdx) => (
+                                    <li key={`rt-${tIdx}`}>– {combo}</li>
+                                ))}
+                                {rule.s2 && <li className="slot-subtitle">{rule.s2}</li>}
+                                {rule.t2?.map((combo, t2Idx) => (
+                                    <li key={`rt2-${t2Idx}`}>– {combo}</li>
+                                ))}
                             </ul>
                         </div>
                     )}

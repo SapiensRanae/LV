@@ -1,4 +1,3 @@
-// src/components/DeleteConfirmationModal.tsx
 import React, { useState } from 'react';
 import './RegistrationModal.css';
 
@@ -14,6 +13,7 @@ const DeleteConfirmationModal: React.FC<Props> = ({ onClose, onConfirm }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
+    // Handle the confirm button click
     const handleConfirm = () => {
         if (password !== confirmPassword) {
             setPasswordError("Passwords don't match");
@@ -24,6 +24,7 @@ const DeleteConfirmationModal: React.FC<Props> = ({ onClose, onConfirm }) => {
         onConfirm(password);
     };
 
+    // Enable confirm button only if requirements are met
     const isConfirmEnabled =
         confirmText.toLowerCase() === 'delete' &&
         password.length > 0 &&

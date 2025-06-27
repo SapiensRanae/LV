@@ -1,22 +1,25 @@
 ﻿{
+  // Defines the schema for launch settings
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
+    // Profile for launching the app using HTTP
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "applicationUrl": "http://localhost:5151",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development" // Sets the environment to Development
       }
     },
+    // Profile for launching the app using HTTPS and HTTP
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "applicationUrl": "https://localhost:7042;http://localhost:5151",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development" // Sets the environment to Development
       }
     }
   }

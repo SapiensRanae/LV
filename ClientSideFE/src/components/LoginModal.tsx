@@ -1,4 +1,4 @@
-// src/components/LoginModal.tsx
+
 import React, { useState, useEffect } from 'react';
 import './LoginModal.css';
 import './RegistrationModal.css';
@@ -12,6 +12,7 @@ interface Props {
     onRegisterClick: () => void;
 }
 
+// LoginModal component handles user login logic and UI
 const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick }) => {
     const [contact, setContact] = useState('');
     const [password, setPassword] = useState('');
@@ -22,40 +23,37 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Log when modal is mounted
         console.log('LoginModal mounted');
     }, []);
 
+    // Handle form submission
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log('Form submit triggered');
         doLogin();
     };
 
+    // Perform login and handle navigation
     const doLogin = async () => {
-        console.log('Starting login process', { contact, password });
         setError('');
         setIsLoading(true);
 
         try {
             await login({ email: contact, password });
-            console.log('Login successful');
-
             onLoginSuccess();
-
             await refreshUser();
             navigate('/profile');
         } catch (err: any) {
             const errorMsg = err.response?.data?.message || 'Login failed';
-            console.error('Login error:', errorMsg, err);
             setError(errorMsg);
         } finally {
             setIsLoading(false);
         }
     };
 
+    // Update contact (email) state
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Email changed:', e.target.value);
         setContact(e.target.value);
     };
 
@@ -90,7 +88,6 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
                         className="btn-login"
                         disabled={isLoading}
                         onClick={(e) => {
-                            console.log('Login button clicked');
                             if (!isLoading) handleSubmit(e);
                         }}
                     >

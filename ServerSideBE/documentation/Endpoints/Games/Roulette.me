@@ -1,0 +1,41 @@
+# Roulette API
+
+## Overview
+Place bets and spin the roulette wheel.
+
+## Endpoints
+
+POST   /api/Roulette/spin  
+    Place a bet and spin the roulette.  
+    - Request body: Bet details (userId, betAmount, betType, betNumber, betColor, columnType, dozenType).  
+    - Returns: Spin result (outcome, color, betAmount, winnings, newBalance).
+
+## Error Responses
+
+- 400: Invalid bet parameters.
+- 401: Unauthorized.
+- 404: User not found.
+- 422: Insufficient balance.
+- 500: Server error.
+
+## Example Request
+
+{
+  "userId": 1,
+  "betAmount": 100,
+  "betType": "red",
+  "betNumber": null,
+  "betColor": "red",
+  "columnType": null,
+  "dozenType": null
+}
+
+## Example Response
+
+{
+  "outcome": "17",
+  "color": "black",
+  "betAmount": 100,
+  "winnings": 0,
+  "newBalance": 900
+}

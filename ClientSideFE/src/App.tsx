@@ -24,6 +24,7 @@ import Blackjack from './pages/games/Blackjack';
 import Poker from './pages/games/Poker'
 import './App.css';
 
+// Main app component with routing, modals, and authentication logic
 const App: React.FC = () => {
     useEffect(() => {
         setTimeout(() => {
@@ -32,13 +33,14 @@ const App: React.FC = () => {
     }, []);
 
     const { isAuthenticated, logout } = useAuth();
-
     const location = useLocation();
 
+    // Modal state
     const [showRegModal, setShowRegModal] = React.useState(false);
     const [showLogModal, setShowLogModal] = React.useState(false);
     const [showPaymentModal, setShowPaymentModal] = React.useState(false);
     const [showTransactionModal, setShowTransactionModal] = React.useState(false);
+
     const navigate = useNavigate();
     const onProfilePage = location.pathname === '/profile';
     const onSlotsPage = location.pathname === '/games/slots';
@@ -46,6 +48,7 @@ const App: React.FC = () => {
     const onPokerPage = location.pathname === '/games/poker';
     const onBlackjackPage = location.pathname === '/games/blackjack';
 
+    // Modal and navigation handlers
     const handleBuying = () => {
         setShowTransactionModal(false);
         setShowPaymentModal(true);
@@ -71,13 +74,13 @@ const App: React.FC = () => {
         }
     }
 
-    /*const handleGamesClick = () => {
+    const handleGamesClick = () => {
         if (isAuthenticated) {
             navigate('/games');
         } else {
             setShowRegModal(true);
         }
-    };*/
+    };
 
     const handleSignupClick = () => {
         setShowRegModal(true);
@@ -106,6 +109,7 @@ const App: React.FC = () => {
         navigate('/');
     }
 
+    // Route protection for authenticated pages
     const handleProtectedRoute = (path: string) => {
         if (isAuthenticated) {
             navigate(path);
@@ -117,7 +121,7 @@ const App: React.FC = () => {
     return (
         <UserProvider>
             <Navbar
-                onGamesClick={() => navigate("/games")}
+                onGamesClick={handleGamesClick}
                 onSignupClick={handleSignupClick}
                 isSignedIn={isAuthenticated}
                 onProfileClick={handleProfileClick}
@@ -182,6 +186,7 @@ const App: React.FC = () => {
                 </div>
             )}
 
+            {/* Hide footer on game and profile pages */}
             {!onProfilePage && !onSlotsPage && !onRoulettePage && !onPokerPage && !onBlackjackPage && <Footer />}
         </UserProvider>
     );

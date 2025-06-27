@@ -1,0 +1,41 @@
+# Game Transactions API
+
+## Overview
+Track transactions for games played by users.
+
+## Endpoints
+
+GET    /api/GameTransactions
+    List all game transactions.
+    - Returns: Array of game transaction objects, including winnings (`GameResult`).
+
+GET    /api/GameTransactions/user/{userId}
+    List all game transactions for a specific user.
+    - Path parameter: userId (int) — User identifier.
+    - Returns: Array of game transaction objects, including winnings (`GameResult`).
+
+POST   /api/GameTransactions
+    Create a new game transaction.
+    - Request body: Game transaction object (UserID, GameID, CashAmount, TransactionType, etc.).
+    - Returns: Created transaction object, including winnings (`GameResult`).
+
+## Error Responses
+
+- 400: Invalid transaction data.
+- 401: Unauthorized.
+- 404: User or game not found.
+- 500: Server error.
+
+## Example GameTransaction Object
+
+{
+  "GameTransactionID": 5,
+  "UserID": 1,
+  "GameID": 2,
+  "CashAmount": 100.00,
+  "Date": "2024-06-01T12:30:00Z",
+  "TransactionType": "bet",
+  "PreviousBalance": 1000.00,
+  "NewBalance": 900.00,
+  "GameResult": 0.00 // Winnings for this transaction
+}

@@ -1,4 +1,6 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useUser } from '../../contexts/UserContext';
+import { spinSlots, SlotsSpinResult } from '../../api/slotsService';
 import './Slots.css';
 
 interface CardCollection {
@@ -9,6 +11,7 @@ interface CardCollection {
     };
 }
 
+// Import all card images from assets
 declare const require: {
     context(
         directory: string,
@@ -40,83 +43,207 @@ const importAllCards = (): CardCollection => {
 
 const Cards = importAllCards();
 
-const allCardSrcs: string[] = [];
-Object.values(Cards).forEach(colorGroup =>
-    Object.values(colorGroup).forEach(suitGroup =>
-        Object.values(suitGroup).forEach(src => allCardSrcs.push(src))
-    )
-);
+// Get card image by name, color, and suit
+const getCardImage = (name: string, color: string, suit: string): string => {
+    if (Cards[color]?.[suit]?.[name]) return Cards[color][suit][name];
+    for (const colorGroup of Object.values(Cards)) {
+        for (const suitGroup of Object.values(colorGroup)) {
+            if ((suitGroup as any)[name]) return (suitGroup as any)[name];
+        }
+    }
+    return '';
+};
 
-const pickRandom = (count: number): string[] =>
-    Array(count)
-        .fill(0)
-        .map(
-            () => allCardSrcs[Math.floor(Math.random() * allCardSrcs.length)]
-        );
+// Get a random card image
+const getRandomCard = (): string => {
+    const colorKeys = Object.keys(Cards);
+    const color = colorKeys[Math.floor(Math.random() * colorKeys.length)];
+    const suitKeys = Object.keys(Cards[color]);
+    const suit = suitKeys[Math.floor(Math.random() * suitKeys.length)];
+    const cardNames = Object.keys(Cards[color][suit]);
+    const name = cardNames[Math.floor(Math.random() * cardNames.length)];
+    return Cards[color][suit][name];
+};
 
+const REEL_SIZE = 4;
+const SPIN_LENGTH = 16;
+
+// Slots game component
 const Slots: React.FC = () => {
+    const { user, refreshUser } = useUser();
+    const [bet, setBet] = useState(5);
     const [turboOn, setTurboOn] = useState(false);
     const [autoOn, setAutoOn] = useState(false);
 
+    const [spinning, setSpinning] = useState(false);
+    const [result, setResult] = useState<SlotsSpinResult | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [userBalance, setUserBalance] = useState(user?.balance ?? 0);
+
     const [reels, setReels] = useState<string[][]>(
-        Array(4).fill(0).map(() => pickRandom(5))
+        Array(4).fill(0).map(() => Array(SPIN_LENGTH).fill('').map(getRandomCard))
     );
-    const [status, setStatus] = useState<'idle'|'spinning'|'stopping'>('idle');
-    const reelRefs = useRef<Array<HTMLDivElement| null>>([]);
 
-    const VISIBLE = 12;
-    const SCROLL_COUNT = 80;
-    const TOTAL_DURATION = 5000;
+    // Animation refs
+    const animTimeout = useRef<NodeJS.Timeout | null>(null);
+    const stopTimeouts = useRef<NodeJS.Timeout[]>([]);
+    const pendingResult = useRef<SlotsSpinResult | null>(null);
 
-    const handleSpin = () => {
-        if (status !== 'idle') return;
-        setStatus('spinning');
+    // Update balance when user changes
+    useEffect(() => {
+        if (user) setUserBalance(user.balance);
+    }, [user]);
 
-        const longReels = Array(4)
-            .fill(0)
-            .map(() => pickRandom(SCROLL_COUNT));
-        setReels(longReels);
+    // Initialize reels on mount
+    useEffect(() => {
+        setReels(Array(4).fill(0).map(() => Array(SPIN_LENGTH).fill('').map(getRandomCard)));
+    }, []);
 
-        setTimeout(() => {
-            setReels(prevLong => prevLong.map(col => col.slice(-VISIBLE)));
-            setStatus('idle');
-        }, TOTAL_DURATION);
+    // Clean up timeouts on unmount
+    useEffect(() => {
+        return () => {
+            if (animTimeout.current) clearTimeout(animTimeout.current);
+            stopTimeouts.current.forEach(clearTimeout);
+        };
+    }, []);
+
+    // Show backend result on reels after spin
+    const showResultOnReels = (spinResult: SlotsSpinResult) => {
+        setReels(() => {
+            return spinResult.reels.map((card) => {
+                const centerIdx = Math.floor(REEL_SIZE / 2);
+                const newReel = [];
+                for (let j = 0; j < REEL_SIZE; j++) {
+                    if (j === centerIdx) {
+                        newReel.push(getCardImage(card.name, card.color, card.suit));
+                    } else {
+                        newReel.push(getRandomCard());
+                    }
+                }
+                return newReel;
+            });
+        });
     };
 
+    // Handle spin button click
+    const handleSpin = async () => {
+        if (spinning || !user) return;
+        setError(null);
+        setResult(null);
+
+        if (bet < 5) {
+            setError('Minimal stake is 5 coins');
+            return;
+        }
+        if (bet > userBalance) {
+            setError('Insufficient balance');
+            return;
+        }
+
+        setSpinning(true);
+
+        try {
+            const spinResult = await spinSlots({ userId: user.userID, betAmount: bet });
+            pendingResult.current = spinResult;
+            setUserBalance(prev => prev - bet + spinResult.winnings);
+            refreshUser();
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Spin failed');
+            setSpinning(false);
+        }
+    };
+
+    // Handle slot animation and stopping logic
     useEffect(() => {
-        if (status !== 'spinning') return;
+        if (!spinning) return;
 
-        const listeners: Array<() => void> = [];
+        let stopped = false;
 
-        reelRefs.current.forEach((reelEl, idx) => {
-            if (!reelEl) return;
+        const spinStep = () => {
+            if (stopped) return;
+            setReels(prev =>
+                prev.map(reel =>
+                    [getRandomCard(), ...reel.slice(0, SPIN_LENGTH - 1)]
+                )
+            );
+            animTimeout.current = setTimeout(spinStep, turboOn ? 40 : 90);
+        };
 
-            // on each loop, append one new card
-            const onLoop = () => {
-                setReels(prev => prev.map((col, colIdx) => {
-                    if (colIdx !== idx) return col;
-                    // pick 1 new card; you can pick 2 or 3 if your "row" is more
-                    const newCard = pickRandom(4)[0];
-                    const newCol = [...col, newCard];
+        spinStep();
 
-                    // to avoid unbounded growth, keep your last N cards
-                    const MAX_VISIBLE = 12;
-                    return newCol.slice(-MAX_VISIBLE);
-                }));
-            };
+        // Hard stop after 2 seconds
+        const forceStopTimeout = setTimeout(() => {
+            stopped = true;
+            if (animTimeout.current) clearTimeout(animTimeout.current);
+            stopTimeouts.current.forEach(clearTimeout);
+            stopTimeouts.current = [];
+            setSpinning(false);
+            if (pendingResult.current) {
+                showResultOnReels(pendingResult.current);
+                setResult(pendingResult.current);
+                pendingResult.current = null;
+            }
+        }, 2000);
 
-            reelEl.addEventListener('animationiteration', onLoop);
-            listeners.push(() => reelEl.removeEventListener('animationiteration', onLoop));
-        });
+        // Usual reel stop logic
+        if (pendingResult.current) {
+            pendingResult.current.reels.forEach((card, i) => {
+                const delay = (turboOn ? 120 : 400) * i + (turboOn ? 200 : 600);
+                const timeout = setTimeout(() => {
+                    setReels(prev => {
+                        const newReels = [...prev];
+                        const centerIdx = Math.floor(REEL_SIZE / 2);
+                        const newReel = [];
+                        for (let j = 0; j < REEL_SIZE; j++) {
+                            if (j === centerIdx) {
+                                newReel.push(getCardImage(card.name, card.color, card.suit));
+                            } else {
+                                newReel.push(getRandomCard());
+                            }
+                        }
+                        newReels[i] = newReel;
+                        return newReels;
+                    });
+                    if (i === 3) {
+                        setTimeout(() => {
+                            stopped = true;
+                            if (animTimeout.current) clearTimeout(animTimeout.current);
+                            clearTimeout(forceStopTimeout);
+                            setSpinning(false);
 
-        // cleanup when we stop spinning
-        return () => { listeners.forEach(remove => remove()); };
-    }, [status]);
+                            showResultOnReels(pendingResult.current!);
+                            setResult(pendingResult.current!);
+                            pendingResult.current = null;
+                        }, turboOn ? 200 : 600);
+                    }
+                }, delay);
+                stopTimeouts.current.push(timeout);
+            });
+        }
 
+        return () => {
+            stopped = true;
+            if (animTimeout.current) clearTimeout(animTimeout.current);
+            stopTimeouts.current.forEach(clearTimeout);
+            clearTimeout(forceStopTimeout);
+            stopTimeouts.current = [];
+        };
+    }, [spinning, turboOn]);
+
+    // Handle auto-spin logic
+    useEffect(() => {
+        if (autoOn && !spinning && result) {
+            const autoTimeout = setTimeout(() => {
+                handleSpin();
+            }, turboOn ? 300 : 1000);
+            return () => clearTimeout(autoTimeout);
+        }
+    }, [autoOn, spinning, result, turboOn]);
 
     return (
         <div className="game-wrapper">
-            <div className="prizes-row">
+            {/* Prize multipliers row */}
+            <div className={user?.role === 'vip' ? "prizes-rowVip" : "prizes-row"}>
                 <div className="prizes-left">
                     <div className="prize-item">
                         <div className="legendary-title">Legendary</div>
@@ -126,69 +253,81 @@ const Slots: React.FC = () => {
                 <div className="prizes-right">
                     <div className="prize-item">
                         <div className="prize-title">Grand</div>
-                        <div className="prize-box">x500</div>
+                        <div className={user?.role === 'vip' ? "prize-boxVip" : "prize-box"}>x500</div>
                     </div>
                     <div className="prize-item">
                         <div className="prize-title">Epic</div>
-                        <div className="prize-box">x250</div>
+                        <div className={user?.role === 'vip' ? "prize-boxVip" : "prize-box"}>x250</div>
                     </div>
                     <div className="prize-item">
                         <div className="prize-title">Major</div>
-                        <div className="prize-box">x100</div>
+                        <div className={user?.role === 'vip' ? "prize-boxVip" : "prize-box"}>x100</div>
                     </div>
                     <div className="prize-item">
                         <div className="prize-title">Advanced</div>
-                        <div className="prize-box">x50</div>
+                        <div className={user?.role === 'vip' ? "prize-boxVip" : "prize-box"}>x50</div>
                     </div>
                     <div className="prize-item">
                         <div className="prize-title">Minor</div>
-                        <div className="prize-box">x20</div>
+                        <div className={user?.role === 'vip' ? "prize-boxVip" : "prize-box"}>x20</div>
                     </div>
                     <div className="prize-item">
                         <div className="prize-title">Mini</div>
-                        <div className="prize-box">x10</div>
+                        <div className={user?.role === 'vip' ? "prize-boxVip" : "prize-box"}>x10</div>
                     </div>
                 </div>
             </div>
+            {/* Slot reels */}
             <div className="slots">
-                {reels.map((column, i) => (
-                    <div key={i} className={`slot ${status}`}>
-                        <div
-                            className="reel"
-                            ref={el => {reelRefs.current[i] = el;}}
-                            onAnimationEnd={() => {
-                                // (optional) you could also do the final slicing here instead
-                            }}
-                            style={{
-                                // only when spinning do we use a long scroll
-                                '--spin-duration': `${TOTAL_DURATION}ms`,
-                                '--scroll-distance': `${(reels[i].length - VISIBLE) * 33.33}%`,
-                            } as any}
-                        >
-                            {reels[i].map((src, idx) => (
-                                <section className="slot-section" key={idx}>
-                                    <img src={src} alt="" />
+                {reels.map((reel, i) => (
+                    <div key={i} className={`${
+                        user?.role === 'vip' ? 'slotVip' : 'slot'
+                    }${spinning ? ' spinning' : ''}`}>
+                        <div className="reel">
+                            {reel.map((src, idx) => (
+                                <section className={user?.role === 'vip' ? "slot-sectionVip" : "slot-section"} key={idx}>
+                                    {src && <img src={src} alt="" />}
                                 </section>
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
-            <div className="buttons">
+            {/* Controls and stake section */}
+            <div className={user?.role === 'vip' ? "buttonsVip" : "buttons"}>
                 <div className="stake-section">
-                    <div className="stake-text">
-                        Stake <input type="number" defaultValue={5} min={5}/> coins
+                    <div className={user?.role === 'vip' ? "stake-textVip" : "stake-text"}>
+                        Stake <input
+                        type="number"
+                        min={5}
+                        value={bet}
+                        onChange={e => setBet(Math.max(5, Number(e.target.value)))}
+                        disabled={spinning || autoOn}
+                    /> coins
                     </div>
                     <div className="min-stake-text">Minimal stake = 5 coins</div>
+                    {result && (
+                        <div className="min-stake-text" style={{ color: result.winnings > 0 ? 'green' : 'crimson' }}>
+                            {result.combination} {result.winnings > 0 ? `You won ${result.winnings}!` : 'No win'}
+                        </div>
+                    )}
+                    <div className="min-stake-text">Balance: {userBalance} coins</div>
                 </div>
-
                 <div className="controls">
-                    <button className={`side-button ${turboOn ? 'glow' : ''}`}
-                            onClick={() => setTurboOn(t => !t)}>Turbo</button>
-                    <button className="spin-button" onClick={handleSpin}>Spin</button>
-                    <button className={`side-button ${autoOn ? 'glow' : ''}`}
-                            onClick={() => setAutoOn(a => !a)}>Auto</button>
+                    <button className={`side-button${turboOn ? ' glow' : ''}`}
+                            onClick={() => setTurboOn(t => !t)}
+                            disabled={spinning}
+                    >Turbo</button>
+                    <button className="spin-button"
+                            onClick={handleSpin}
+                            disabled={spinning || autoOn}
+                    >{spinning ? 'Spinning...' : 'Spin'}</button>
+                    <button className={`side-button${autoOn ? ' glow' : ''}`}
+                            onClick={() => setAutoOn(a => !a)}
+                            disabled={spinning}
+                    >Auto</button>
                 </div>
+                {error && <div className="error-message">{error}</div>}
             </div>
         </div>
     );

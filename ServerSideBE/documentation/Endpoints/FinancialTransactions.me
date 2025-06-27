@@ -1,0 +1,40 @@
+# Financial Transactions API
+
+## Overview
+Manage user deposits and withdrawals.
+
+## Endpoints
+
+GET    /api/FinancialTransactions  
+    List all financial transactions.  
+    - Returns: Array of transaction objects.
+
+GET    /api/FinancialTransactions/user/{userId}  
+    List all transactions for a specific user.  
+    - Path parameter: userId (int) — User identifier.  
+    - Returns: Array of transaction objects.
+
+POST   /api/FinancialTransactions  
+    Create a new financial transaction (deposit or withdrawal).  
+    - Request body: Transaction object (UserID, CashAmount, TransactionType).  
+    - Returns: Created transaction object.
+
+## Error Responses
+
+- 400: Invalid transaction data (e.g., negative amount, missing fields).
+- 401: Unauthorized.
+- 404: User not found.
+- 422: Insufficient balance for withdrawal.
+- 500: Server error.
+
+## Example Transaction Object
+
+{
+  "FinancialTransactionID": 10,
+  "UserID": 1,
+  "CashAmount": 200.00,
+  "Date": "2024-06-01T12:00:00Z",
+  "TransactionType": "deposit",
+  "PreviousBalance": 800.00,
+  "NewBalance": 1000.00
+}

@@ -1,20 +1,12 @@
 {
   "Version": 1,
-  "Hash": "ZKL6MZ37NsvF2ExZRN8h5H91w2adMceH6b8hwtoeScQ=",
+  "Hash": "3wxxTkj/YFNkBl/YQuoI9VpstnDwAzGRczR784OTawg=",
   "Source": "CasinoApi",
   "BasePath": "_content/CasinoApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "CasinoApi/wwwroot",
-      "Source": "CasinoApi",
-      "ContentRoot": "/home/ranae/WebstormProjects/LV/ServerSideBE/CasinoApi/wwwroot/",
-      "BasePath": "_content/CasinoApi",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": [],
   "Endpoints": []
 }

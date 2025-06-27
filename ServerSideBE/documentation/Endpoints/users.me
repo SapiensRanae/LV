@@ -1,0 +1,53 @@
+# Users API
+
+## Overview
+Manage user accounts, including retrieval, update, and deletion.
+
+## Endpoints
+
+GET    /api/Users  
+    Retrieve a list of all users.  
+    - Returns: Array of user objects (UserID, Username, Email, Role, Balance, UserIcon, PhoneNumber).
+
+GET    /api/Users/{id}  
+    Retrieve a specific user by ID.  
+    - Path parameter: id (int) — User identifier.  
+    - Returns: User object with details.
+
+POST   /api/Users  
+    Create a new user.  
+    - Request body: User object (Username, Email, PasswordHash, etc.).  
+    - Returns: Created user object.
+
+PUT    /api/Users/{id}  
+    Update an existing user.  
+    - Path parameter: id (int) — User identifier.  
+    - Request body: Fields to update (Username, Email, PhoneNumber, Description, UserIcon, Password).  
+    - Returns: No content on success.
+
+DELETE /api/Users/{id}  
+    Delete a user by ID.  
+    - Path parameter: id (int) — User identifier.  
+    - Returns: No content on success.
+
+## Error Responses
+
+- 400: Invalid input data (e.g., missing required fields, invalid email format).
+- 401: Unauthorized (missing or invalid JWT).
+- 403: Forbidden (attempt to modify another user).
+- 404: User not found.
+- 409: Duplicate user (username or email already exists).
+- 500: Server error.
+
+## Example User Object
+
+{
+  "UserID": 1,
+  "Username": "player1",
+  "Email": "player1@example.com",
+  "Role": "player",
+  "Balance": 1000.00,
+  "UserIcon": "data:image/png;base64,...",
+  "PhoneNumber": "+123456789",
+  "Description": "VIP player"
+}

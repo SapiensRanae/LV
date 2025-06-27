@@ -20,6 +20,7 @@ interface SpinResult {
     newBalance: number;
 }
 
+// Roulette page with interactive wheel, betting, and API integration
 const Roulette: React.FC = () => {
     const { isAuthenticated } = useAuth();
     const { user } = useUser();
@@ -40,18 +41,21 @@ const Roulette: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    // Redirect unauthenticated users
     useEffect(() => {
         if (!isAuthenticated) {
             navigate('/');
         }
     }, [isAuthenticated, navigate]);
 
+    // Update balance when user changes
     useEffect(() => {
         if (user) {
             setUserBalance(user.balance);
         }
     }, [user]);
 
+    // Roulette wheel and betting constants
     const numbers = [
         0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10,
         5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26
@@ -64,14 +68,15 @@ const Roulette: React.FC = () => {
 
     const RED_NUMBERS = [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
     const BLACK_NUMBERS = numbers.filter(n => n !== 0 && !RED_NUMBERS.includes(n));
-
     const RED_SET = new Set(RED_NUMBERS);
 
+    // Get color for a number
     const numberColor = (n: number) => {
         if (n === 0) return 'green';
         return RED_SET.has(n) ? 'red' : 'black';
     };
 
+    // Wheel rendering constants
     const size = 800;
     const center = size / 2;
     const outerRadius = center - 20;
@@ -80,6 +85,7 @@ const Roulette: React.FC = () => {
     const fontSize = 40;
     const labelRadiusFactor = 0.75;
 
+    // Get readable text color for a background
     const getTextColor = (bg: string) => {
         const hex = bg.slice(1);
         const rgb = [hex.substr(0,2), hex.substr(2,2), hex.substr(4,2)]
@@ -90,19 +96,16 @@ const Roulette: React.FC = () => {
         return lum > 0.179 ? '#000000' : '#ffffff';
     };
 
+    // Add a bet to the current bets
     const placeBet = (type: string, numbers: number[]) => {
         if (spinning) return;
         setCurrentBets([...currentBets, { type, amount: selectedChip, numbers }]);
     };
 
+    // Prepare bet data for API
     const getBetData = () => {
-        // Calculate total bet amount
         const totalBet = currentBets.reduce((sum, bet) => sum + bet.amount, 0);
-
-        // Get the first bet to determine type (simplified approach)
         const mainBet = currentBets[0];
-
-        // Map local bet types to API expected format
         let betType = '';
         let betNumber = null;
         let betColor = '';
@@ -149,7 +152,7 @@ const Roulette: React.FC = () => {
                 betColor = 'black';
                 break;
             default:
-                betType = 'red'; // Fallback
+                betType = 'red';
         }
 
         return {
@@ -163,6 +166,7 @@ const Roulette: React.FC = () => {
         };
     };
 
+    // Handle spinning the roulette wheel and updating state
     const spinWheel = async () => {
         if (spinning || currentBets.length === 0 || !user || !user.userID) return;
 
@@ -179,8 +183,6 @@ const Roulette: React.FC = () => {
 
             setLastWinnings(spinResult.winnings);
             setUserBalance(spinResult.newBalance);
-
-
 
             const numberIndex = numbers.indexOf(outcomeNumber);
             const fullRotations = 5 * 360;
@@ -202,8 +204,7 @@ const Roulette: React.FC = () => {
                 setSpinning(false);
                 setCurrentBets([]);
                 refreshUser();
-                setResult(spinResult.winnings > 0 ? 'win' : 'lose'); // <-- Show result after animation
-
+                setResult(spinResult.winnings > 0 ? 'win' : 'lose');
             }, 5000);
 
         } catch (err: any) {
@@ -214,12 +215,14 @@ const Roulette: React.FC = () => {
         }
     };
 
+    // Clear all bets
     const clearBets = () => {
         if (!spinning) {
             setCurrentBets([]);
         }
     };
 
+    // Render the SVG roulette wheel
     const renderWheel = () => (
         <div style={{
             position: 'relative',
@@ -250,7 +253,7 @@ const Roulette: React.FC = () => {
                     cy={center}
                     r={outerRadius + 5}
                     fill="#2c2c2c"
-                    stroke="crimson"
+                    stroke={user?.role === 'vip' ? "#F0CE77" : "crimson"}
                     strokeWidth={8}
                 />
 
@@ -322,6 +325,7 @@ const Roulette: React.FC = () => {
         </div>
     );
 
+    // Check if a number is selected in current bets
     const isNumberSelected = (n: number) =>
         currentBets.some(bet => bet.numbers.includes(n));
 
@@ -331,7 +335,7 @@ const Roulette: React.FC = () => {
         <div className="roulette-container">
             <div className="wheel-section">
                 {renderWheel()}
-                <div className="wheel-pointer"/>
+                <div className={user?.role === 'vip' ? "wheel-pointerVip" : "wheel-pointer"}/>
                 {result && (
                     <div className="game-result"
                          style={{
@@ -343,22 +347,21 @@ const Roulette: React.FC = () => {
                 {error && <div className="error-message">{error}</div>}
             </div>
 
-            <div className="betting-table">
+            <div className={user?.role === 'vip' ? "betting-tableVip" : "betting-table"}>
                 <div className="chips-section">
                     {chips.map((value) => (
                         <div
                             key={value}
-                            className={`chip ${selectedChip === value ? 'selected' : ''}`}
+                            className={user?.role === 'vip' ? `chip ${selectedChip === value ? 'selectedVip' : ''}` : `chip ${selectedChip === value ? 'selected' : ''}`}
                             onClick={() => setSelectedChip(value)}
                         >
                             {value}
                         </div>
                     ))}
                     <div className="total-bet">
-                        Total Bet: ${totalBetAmount}
+                        Total Bet: {totalBetAmount}
                     </div>
                 </div>
-
 
                 <div className="numbers-grid">
                     <div className={`zero ${isNumberSelected(0) ? 'highlight' : ''}`} onClick={() => placeBet('single', [0])}>0</div>

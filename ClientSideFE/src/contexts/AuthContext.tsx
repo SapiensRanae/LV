@@ -12,6 +12,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// AuthProvider manages authentication state and provides login/logout methods
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,6 +22,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setIsAuthenticated(authService.isAuthenticated());
     }, []);
 
+    // Handle user login and update authentication state
     const login = async (credentials: LoginRequest) => {
         setIsLoading(true);
         setError(null);
@@ -36,6 +38,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    // Handle user logout and clear authentication state
     const logout = () => {
         authService.logout();
         setIsAuthenticated(false);
@@ -48,6 +51,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
 };
 
+// useAuth provides access to authentication context
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {

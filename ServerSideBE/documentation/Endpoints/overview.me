@@ -1,0 +1,41 @@
+# Casino API Endpoints
+
+## Authentication
+POST   /api/Auth/register                Register a new user account.
+POST   /api/Auth/login                   Authenticate and receive a JWT token.
+
+## Users
+GET    /api/Users                        Retrieve all users.
+GET    /api/Users/{id}                   Retrieve a user by ID.
+PUT    /api/Users/{id}                   Update user details.
+DELETE /api/Users/{id}                   Remove a user.
+
+## Financial Transactions
+GET    /api/FinancialTransactions        List all financial transactions.
+GET    /api/FinancialTransactions/user/{userId}  List transactions for a user.
+POST   /api/FinancialTransactions        Create a financial transaction.
+
+## Games
+GET    /api/Games                        List all games.
+GET    /api/Games/{id}                   Get game details by ID.
+POST   /api/Games                        Add a new game.
+PUT    /api/Games/{id}                   Update a game.
+DELETE /api/Games/{id}                   Delete a game.
+
+## Games With Ratio
+GET    /api/GamesWithRatio               List all games with payout ratios.
+GET    /api/GamesWithRatio/{id}          Get game with ratio by ID.
+
+## Game Transactions
+GET    /api/GameTransactions             List all game transactions.
+GET    /api/GameTransactions/user/{userId}  List game transactions for a user.
+POST   /api/GameTransactions             Create a game transaction.
+
+## User History
+GET    /api/UserHistory/user/{userId}    Get game history for a user.
+
+## Roulette
+POST   /api/Roulette/spin                Place a bet and spin the roulette.
+
+## Slots
+POST   /api/Slots/spin                   Simulate a slot spin with a bet.

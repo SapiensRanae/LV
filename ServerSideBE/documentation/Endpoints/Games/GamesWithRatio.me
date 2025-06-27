@@ -1,0 +1,29 @@
+# Games With Ratio API
+
+## Overview
+Access payout ratios for games.
+
+## Endpoints
+
+GET    /api/GamesWithRatio  
+    List all games with their payout ratios.  
+    - Returns: Array of game-with-ratio objects.
+
+GET    /api/GamesWithRatio/{id}  
+    Get payout ratio for a specific game.  
+    - Path parameter: id (int) — Ratio identifier.  
+    - Returns: Game-with-ratio object.
+
+## Error Responses
+
+- 401: Unauthorized.
+- 404: Game or ratio not found.
+- 500: Server error.
+
+## Example GameWithRatio Object
+
+{
+  "RatioID": 1,
+  "GameID": 2,
+  "GamePayoutRatio": 1.95
+}

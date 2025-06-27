@@ -1,0 +1,61 @@
+# Slots API
+
+## Overview
+Simulate slot machine spins, check for winning combinations, and return results. Each spin uses card-based symbols and supports various win types based on combinations.
+
+## Endpoints
+
+POST   /api/Slots/spin
+    Simulate a slot spin with a bet.
+    - Request body: 
+        - userId (int): User identifier.
+        - betAmount (int): Amount to bet (minimum 5 coins).
+    - Returns: Spin result including reels, combination, multiplier, bet, and winnings.
+
+## Winning Combinations
+
+- Four Card Combinations:
+    - Legendary: 4 LV (Lucky Vegas) cards in one row (x1000)
+    - Grand: 4 black cards of different suits in one row (x500)
+    - Epic: 4 white cards of different suits in one row (x250)
+    - Major: 4 black cards of the same suit in one row (x100)
+    - Advanced: 4 white cards of the same suit in one row (x50)
+    - Minor: 4 cards of the same suit (any color) in one row (x20)
+
+- Three Card Combinations (any consecutive 3 in a row):
+    - Epic: 3 LV (Lucky Vegas) cards (x250)
+    - Major: 3 black cards of the same suit (x100)
+    - Advanced: 3 white cards of the same suit (x50)
+    - Mini: 3 cards of the same suit (any color) (x10)
+
+- No Win: No matching combination (x0)
+
+## Error Responses
+
+- 400: Invalid or missing bet amount (e.g., less than 5 coins).
+- 401: Unauthorized (missing or invalid JWT).
+- 404: User not found.
+- 422: Insufficient balance.
+- 500: Server error.
+
+## Example Request
+
+{
+  "userId": 1,
+  "betAmount": 10
+}
+
+## Example Response
+
+{
+  "reels": [
+    { "name": "LV", "color": "special", "suit": "special" },
+    { "name": "black_spades", "color": "black", "suit": "spades" },
+    { "name": "black_hearts", "color": "black", "suit": "hearts" },
+    { "name": "black_diamonds", "color": "black", "suit": "diamonds" }
+  ],
+  "combination": "Grand",
+  "multiplier": 500,
+  "betAmount": 10,
+  "winnings": 5000
+}

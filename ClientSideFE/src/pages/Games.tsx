@@ -7,19 +7,8 @@ import Roulette from '../assets/RouletteCard.png';
 import Slots from '../assets/SlotsCard.png';
 import {useNavigate} from "react-router-dom";
 
+// List of available games with metadata for display and navigation
 const games = [
-    {
-        name: 'Poker',
-        description: 'A classic card game where players bet on the strength of their hand, combining strategy, psychology, and luck to win chips or money.',
-        img: Poker,
-        route: 'poker',
-    },
-    {
-        name: 'Blackjack',
-        description: 'A fast-paced card game where players aim to beat the dealer by getting a hand value as close to 21 as possible without going over.',
-        img: Blackjack,
-        route: 'blackjack',
-    },
     {
         name: 'Roulette',
         description: 'A popular casino game where players bet on numbers, colors, or ranges before a ball spins around a wheel to determine the winning spot.',
@@ -32,8 +21,21 @@ const games = [
         img: Slots,
         route: 'slots',
     },
+    {
+        name: 'Poker',
+        description: 'A classic card game where players bet on the strength of their hand, combining strategy, psychology, and luck to win chips or money.',
+        img: Poker,
+        route: 'poker',
+    },
+    {
+        name: 'Blackjack',
+        description: 'A fast-paced card game where players aim to beat the dealer by getting a hand value as close to 21 as possible without going over.',
+        img: Blackjack,
+        route: 'blackjack',
+    },
 ]
 
+// Games page displays all available games as cards with navigation
 const Games: React.FC = () => {
     const navigate = useNavigate()
 

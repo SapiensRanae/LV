@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CasinoApi.Models;  
+using CasinoApi.Models;
 using CasinoApi.Data;   
 
 [ApiController]
@@ -18,12 +18,14 @@ public class GameTransactionsController : ControllerBase
         _context = context;
     }
 
+    // Returns all game transactions
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GameTransaction>>> GetGameTransactions()
     {
         return await _context.GameTransactions.ToListAsync();
     }
 
+    // Returns a specific game transaction by ID
     [HttpGet("{id}")]
     public async Task<ActionResult<GameTransaction>> GetGameTransaction(int id)
     {
@@ -32,6 +34,7 @@ public class GameTransactionsController : ControllerBase
         return transaction;
     }
 
+    // Creates a new game transaction
     [HttpPost]
     public async Task<ActionResult<GameTransaction>> CreateGameTransaction(GameTransaction transaction)
     {
@@ -40,6 +43,7 @@ public class GameTransactionsController : ControllerBase
         return CreatedAtAction(nameof(GetGameTransaction), new { id = transaction.GameTransactionID }, transaction);
     }
 
+    // Updates an existing game transaction
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateGameTransaction(int id, GameTransaction transaction)
     {
@@ -60,6 +64,7 @@ public class GameTransactionsController : ControllerBase
         return NoContent();
     }
 
+    // Deletes a game transaction by ID
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGameTransaction(int id)
     {
@@ -72,6 +77,7 @@ public class GameTransactionsController : ControllerBase
         return NoContent();
     }
 
+    // Checks if a game transaction exists by ID
     private async Task<bool> TransactionExists(int id)
     {
         return await _context.GameTransactions.AnyAsync(e => e.GameTransactionID == id);

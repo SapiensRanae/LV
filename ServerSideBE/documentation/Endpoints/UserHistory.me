@@ -1,0 +1,33 @@
+# User History API
+
+## Overview
+Retrieve a user's game transaction history.
+
+## Endpoints
+
+GET    /api/UserHistory/user/{userId}  
+    Get game history for a specific user.  
+    - Path parameter: userId (int) — User identifier.  
+    - Returns: Array of user history records.
+
+## Error Responses
+
+- 401: Unauthorized.
+- 404: User or history not found.
+- 500: Server error.
+
+## Example UserHistory Object
+
+{
+  "StatisticID": 1,
+  "UserID": 1,
+  "GameTransactionID": 5,
+  "GameTransaction": {
+    "Amount": 100.00,
+    "IsWin": false,
+    "Timestamp": "2024-06-01T12:30:00Z",
+    "Game": {
+      "Name": "Roulette"
+    }
+  }
+}

@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using CasinoApi.Models;  
-using CasinoApi.Data;    
+using CasinoApi.Models;
+using CasinoApi.Data;
 
 namespace CasinoApi.Controllers
 {
@@ -13,7 +11,6 @@ namespace CasinoApi.Controllers
     [Route("api/[controller]")]
     public class GamesController : ControllerBase
     {
-
         private readonly CasinoDbContext _context;
 
         public GamesController(CasinoDbContext context)
@@ -21,12 +18,14 @@ namespace CasinoApi.Controllers
             _context = context;
         }
 
+        // Returns all games
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
             return await _context.Games.ToListAsync();
         }
 
+        // Returns a specific game by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
@@ -35,6 +34,7 @@ namespace CasinoApi.Controllers
             return game;
         }
 
+        // Creates a new game
         [HttpPost]
         public async Task<ActionResult<Game>> CreateGame(Game game)
         {
@@ -43,6 +43,7 @@ namespace CasinoApi.Controllers
             return CreatedAtAction(nameof(GetGame), new { id = game.GameID }, game);
         }
 
+        // Updates an existing game
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGame(int id, Game game)
         {
@@ -63,6 +64,7 @@ namespace CasinoApi.Controllers
             return NoContent();
         }
 
+        // Deletes a game by ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
@@ -75,6 +77,7 @@ namespace CasinoApi.Controllers
             return NoContent();
         }
 
+        // Checks if a game exists by ID
         private async Task<bool> GameExists(int id)
         {
             return await _context.Games.AnyAsync(e => e.GameID == id);

@@ -10,9 +10,11 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+// UserProvider manages user state and provides a method to refresh user data
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
 
+    // Refresh user data from API using user ID from JWT
     const refreshUser = async () => {
         const token = localStorage.getItem('token');
         if (!token) return setUser(null);
@@ -39,6 +41,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     );
 };
 
+// useUser provides access to user context
 export const useUser = () => {
     const ctx = useContext(UserContext);
     if (!ctx) throw new Error('useUser must be used within a UserProvider');

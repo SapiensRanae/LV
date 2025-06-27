@@ -20,12 +20,14 @@ namespace CasinoApi.Controllers
             _context = context;
         }
 
+        // Returns all financial transactions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FinancialTransaction>>> GetFinancialTransactions()
         {
             return await _context.FinancialTransactions.ToListAsync();
         }
 
+        // Returns a specific financial transaction by ID
         [HttpGet("{id}")]
         public async Task<ActionResult<FinancialTransaction>> GetFinancialTransaction(int id)
         {
@@ -34,27 +36,28 @@ namespace CasinoApi.Controllers
             return transaction;
         }
 
+        // Creates a new financial transaction and updates user balance
         [HttpPost]
-public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction(FinancialTransaction transaction)
-{
-    if (transaction.TransactionType != "deposit" && transaction.TransactionType != "withdrawal")
-    {
-        return BadRequest(new { message = "TransactionType must be 'deposit' or 'withdrawal'." });
-    }
+        public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction(FinancialTransaction transaction)
+        {
+            if (transaction.TransactionType != "deposit" && transaction.TransactionType != "withdrawal")
+            {
+                return BadRequest(new { message = "TransactionType must be 'deposit' or 'withdrawal'." });
+            }
 
-    // Update user balance
-    var user = await _context.Users.FindAsync(transaction.UserID);
-    if (user == null)
-        return BadRequest(new { message = "User not found." });
+            var user = await _context.Users.FindAsync(transaction.UserID);
+            if (user == null)
+                return BadRequest(new { message = "User not found." });
 
-    user.Balance = transaction.NewBalance;
+            user.Balance = transaction.NewBalance;
 
-    _context.FinancialTransactions.Add(transaction);
-    await _context.SaveChangesAsync();
+            _context.FinancialTransactions.Add(transaction);
+            await _context.SaveChangesAsync();
 
-    return CreatedAtAction(nameof(GetFinancialTransaction), new { id = transaction.FinancialTransactionID }, transaction);
-}
+            return CreatedAtAction(nameof(GetFinancialTransaction), new { id = transaction.FinancialTransactionID }, transaction);
+        }
 
+        // Updates an existing financial transaction
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFinancialTransaction(int id, FinancialTransaction transaction)
         {
@@ -75,6 +78,7 @@ public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction
             return NoContent();
         }
 
+        // Deletes a financial transaction by ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFinancialTransaction(int id)
         {
@@ -87,6 +91,7 @@ public async Task<ActionResult<FinancialTransaction>> CreateFinancialTransaction
             return NoContent();
         }
 
+        // Checks if a transaction exists by ID
         private async Task<bool> TransactionExists(int id)
         {
             return await _context.FinancialTransactions.AnyAsync(e => e.FinancialTransactionID == id);

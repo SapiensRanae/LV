@@ -25,54 +25,46 @@ namespace CasinoApi.Controllers
             _configuration = configuration;
         }
 
+        // DTO for login requests
         public class LoginRequest
         {
             public string Email { get; set; } = string.Empty;
             public string Password { get; set; } = string.Empty;
         }
 
+        // Handles user login
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             try
             {
-                // Log the login attempt
-                Console.WriteLine($"Login attempt for email: {request.Email}");
-        
                 // Find user by email
                 var user = await _context.Users
                     .FirstOrDefaultAsync(u => u.Email == request.Email);
 
                 if (user == null)
                 {
-                    Console.WriteLine("User not found in database");
                     return Unauthorized(new { message = "Invalid email or password" });
                 }
 
-                Console.WriteLine($"User found: ID={user.UserID}, Username={user.Username}");
-        
-                // Log password verification attempt
-                var computedHash = ComputeHash(request.Password);
-                Console.WriteLine($"Stored hash: {user.PasswordHash}");
-                Console.WriteLine($"Computed hash: {computedHash}");
-        
+                // Verify password
                 if (!VerifyPassword(request.Password, user.PasswordHash))
                 {
-                    Console.WriteLine("Password verification failed");
                     return Unauthorized(new { message = "Invalid email or password" });
                 }
 
+                // Generate JWT token
                 var token = GenerateJwtToken(user);
-                Console.WriteLine("Login successful, token generated");
 
                 return Ok(new { token });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Login error: {ex.Message}");
                 return StatusCode(500, new { message = "Login failed: " + ex.Message });
             }
         }
+
+        // DTO for registration requests
         public class RegisterRequest
         {
             public string Email { get; set; } = string.Empty;
@@ -82,6 +74,8 @@ namespace CasinoApi.Controllers
             public string? PhoneNumber { get; set; }
             public string? Description { get; set; }
         }
+
+        // Handles user registration
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
@@ -112,15 +106,15 @@ namespace CasinoApi.Controllers
             return Ok(new { token });
         }
 
+        // Verifies if the provided password matches the stored hash
         private bool VerifyPassword(string password, string storedHash)
         {
-
             return ComputeHash(password) == storedHash;
         }
 
+        // Computes SHA256 hash for a password
         private string ComputeHash(string password)
         {
-
             using (SHA256 sha256 = SHA256.Create())
             {
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -133,6 +127,7 @@ namespace CasinoApi.Controllers
             }
         }
 
+        // Generates a JWT token for the authenticated user
         private string GenerateJwtToken(User user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? "defaultSecretKey123456789012345678901234"));
@@ -155,6 +150,5 @@ namespace CasinoApi.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        
     }
 }

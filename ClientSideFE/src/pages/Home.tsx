@@ -11,7 +11,7 @@ import './Home.css';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-
+// Carousel responsiveness settings
 const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
@@ -34,60 +34,63 @@ interface HomeProps {
   onProtectedRoute: (path: string) => void;
 }
 
+// Home page with carousel of games and project notice for unauthenticated users
 const Home: React.FC<HomeProps> = ({onProtectedRoute}) => {
   const { isAuthenticated } = useAuth();
   const [showNotice, setShowNotice] = useState(false);
 
+  // Show notice modal if user is not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
       setShowNotice(true);
     }
   }, [isAuthenticated]);
 
+  // Images and navigation paths for carousel
   const images: { src: string; path: string; alt: string }[] = [
-    { src: Poker,    path: '/games/poker',    alt: 'Poker'    },
-    { src: Blackjack, path: '/games/blackjack', alt: 'Blackjack'},
     { src: Roulette, path: '/games/roulette', alt: 'Roulette' },
-    { src: Slots, path: '/games/slots', alt: 'Slots'}
+    { src: Slots, path: '/games/slots', alt: 'Slots'},
+    { src: Poker,    path: '/games/poker',    alt: 'Poker'    },
+    { src: Blackjack, path: '/games/blackjack', alt: 'Blackjack'}
   ];
 
   return (
-    <>
-      {showNotice && <ProjectNoticeModal onClose={() => setShowNotice(false)} />}
+      <>
+        {showNotice && <ProjectNoticeModal onClose={() => setShowNotice(false)} />}
 
-      <div className="carousel">
-        <Carousel
-            swipeable={false}
-            draggable={false}
-            showDots={true}
-            responsive={responsive}
-            ssr={true}
-            infinite={true}
-            autoPlay={true}
-            autoPlaySpeed={2500}
-            keyBoardControl={true}
-            customTransition="all .5"
-            transitionDuration={500}
-            containerClass="carousel-container"
-            dotListClass="custom-dot-list-style"
-            itemClass="carousel-item"
-        >
-          {images.map((img) => (
-              <div
-                  key={img.path}
-                  onClick={() => onProtectedRoute(img.path)}
-                  style={{ cursor: 'pointer' }}
-              >
-                <img
-                    src={img.src}
-                    alt={img.alt}
-                    className="carousel-item"
-                />
-              </div>
-          ))}
-        </Carousel>
-      </div>
-    </>
+        <div className="carousel">
+          <Carousel
+              swipeable={false}
+              draggable={false}
+              showDots={true}
+              responsive={responsive}
+              ssr={true}
+              infinite={true}
+              autoPlay={true}
+              autoPlaySpeed={2500}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container"
+              dotListClass="custom-dot-list-style"
+              itemClass="carousel-item"
+          >
+            {images.map((img) => (
+                <div
+                    key={img.path}
+                    onClick={() => onProtectedRoute(img.path)}
+                    style={{ cursor: 'pointer' }}
+                >
+                  <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="carousel-item"
+                  />
+                </div>
+            ))}
+          </Carousel>
+        </div>
+      </>
   );
 };
 

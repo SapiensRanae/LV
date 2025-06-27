@@ -5,6 +5,7 @@ interface ProjectNoticeModalProps {
     onClose: () => void;
 }
 
+// ProjectNoticeModal displays a disclaimer that the site is a demo project
 const ProjectNoticeModal: React.FC<ProjectNoticeModalProps> = ({ onClose }) => (
     <div className="project-notice-overlay" onClick={onClose}>
         <div className="project-notice-modal" onClick={e => e.stopPropagation()}>

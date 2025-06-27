@@ -1,11 +1,13 @@
-// src/components/Footer.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import './Footer.css';
 
+// Footer displays contact info, legal links, and a disclaimer
 const Footer: React.FC = () => {
     const { user } = useUser();
+
+    // Use VIP styles if user is VIP
     return (
         <footer className="footer">
             <div className={user?.role === 'vip' ? "footer-bg-vip" : "footer-bg"}>
@@ -16,9 +18,17 @@ const Footer: React.FC = () => {
                     </div>
                     <div className="legal">
                         <h3>Legal:</h3>
-                        <label><Link to="/terms">Terms & Conditions</Link></label><br/>
-                        <label><Link to="/cookie-policy">Cookie Policy</Link></label><br/>
-                        <label><Link to="/privacy-policy">Privacy Policy</Link></label>
+                        <label>
+                            <Link to="/terms">Terms & Conditions</Link>
+                        </label>
+                        <br />
+                        <label>
+                            <Link to="/cookie-policy">Cookie Policy</Link>
+                        </label>
+                        <br />
+                        <label>
+                            <Link to="/privacy-policy">Privacy Policy</Link>
+                        </label>
                     </div>
                 </div>
             </div>

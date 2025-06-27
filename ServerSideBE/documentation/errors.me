@@ -1,0 +1,123 @@
+# Casino API Error Responses
+
+## HTTP Status Codes
+
+400 Bad Request
+    The request is invalid or missing required data.
+    - Example: Required fields are missing in the request body.
+    - Example: Invalid data format (e.g., string instead of integer).
+    - Example: Malformed JSON in request.
+
+401 Unauthorized
+    Authentication failed or JWT token is missing/invalid.
+    - Example: No Authorization header provided.
+    - Example: Expired or malformed JWT token.
+    - Example: Invalid credentials during login.
+
+403 Forbidden
+    The authenticated user does not have permission to access this resource.
+    - Example: User tries to access admin-only endpoints.
+    - Example: User attempts to modify another user's data.
+
+404 Not Found
+    The requested resource does not exist.
+    - Example: User, game, or transaction with specified ID does not exist.
+    - Example: Endpoint URL is incorrect.
+
+409 Conflict
+    The request could not be completed due to a conflict with the current state.
+    - Example: Attempt to create a user with an email or username that already exists.
+    - Example: Duplicate transaction.
+
+422 Unprocessable Entity
+    The request was well-formed but contains semantic errors.
+    - Example: Business rule violation (e.g., negative deposit amount).
+    - Example: Invalid bet type or parameters in game endpoints.
+
+429 Too Many Requests
+    The client has sent too many requests in a given amount of time.
+    - Example: Rate limiting is enforced.
+
+500 Internal Server Error
+    An unexpected server error occurred.
+    - Example: Database connection failure.
+    - Example: Unhandled exception in server logic.
+
+503 Service Unavailable
+    The server is currently unable to handle the request due to maintenance or overload.
+
+## Error Response Format
+
+All error responses return a JSON object with a `message` property describing the error.
+
+Example:
+{
+  "message": "Detailed error description here."
+}
+
+## Endpoint-Specific Error Scenarios
+
+### /api/Auth/register
+- 400: Missing username, email, or password.
+- 409: Username or email already exists.
+
+### /api/Auth/login
+- 400: Missing username or password.
+- 401: Invalid credentials.
+
+### /api/Users (GET, POST)
+- 401: Unauthorized access.
+- 400: Invalid user data (POST).
+- 409: Duplicate user (POST).
+
+### /api/Users/{id} (GET, PUT, DELETE)
+- 401: Unauthorized access.
+- 403: Forbidden (modifying another user).
+- 404: User not found.
+- 400: Invalid update data (PUT).
+
+### /api/FinancialTransactions
+- 401: Unauthorized access.
+- 400: Invalid transaction data.
+- 404: User not found.
+- 422: Insufficient balance for withdrawal.
+
+### /api/Games, /api/Games/{id}
+- 401: Unauthorized access.
+- 404: Game not found.
+- 400: Invalid game data (POST/PUT).
+- 409: Duplicate game (POST).
+
+### /api/GameTransactions
+- 401: Unauthorized access.
+- 400: Invalid transaction data.
+- 404: User or game not found.
+
+### /api/UserHistory/user/{userId}
+- 401: Unauthorized access.
+- 404: User or history not found.
+
+### /api/Roulette/spin
+- 401: Unauthorized access.
+- 400: Invalid bet parameters.
+- 422: Insufficient balance.
+- 404: User not found.
+
+### /api/Slots/spin
+- 400: Invalid or missing bet amount (e.g., less than 5 coins).
+- 401: Unauthorized (missing or invalid JWT).
+- 404: User not found.
+- 422: Insufficient balance for the bet.
+- 500: Internal server error (unexpected failure during spin).
+
+## General Error Causes
+
+- Invalid or missing input data.
+- Resource not found (user, game, transaction).
+- Authentication or authorization failure.
+- Database or server errors.
+- Attempt to create a duplicate resource.
+- Invalid file or image upload.
+- Insufficient balance for transaction.
+- Invalid bet or game parameters.
+- Rate limiting or service unavailable.

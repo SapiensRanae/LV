@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import './RegistrationModal.css';
 import { Link, useNavigate } from "react-router-dom";
 import { register, RegisterRequest } from '../api/authService';
-
-
 import axios from 'axios';
 
 interface Props {
@@ -12,6 +10,7 @@ interface Props {
     onLoginPress: () => void;
 }
 
+// RegistrationModal handles user registration form and validation
 const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLoginPress }) => {
     const [nickname, setNickname] = useState('');
     const navigate = useNavigate();
@@ -24,6 +23,7 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
     const [isLoading, setIsLoading] = useState(false);
     const [userIcon, setUserIcon] = useState<string>('');
 
+    // Handle registration form submission and validation
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
