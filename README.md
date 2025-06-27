@@ -33,7 +33,7 @@ Welcome to **LuckyVegas** — a modern, web-based casino platform where you can 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) & npm
-- [.NET 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+- [.NET 9.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
 ### Frontend Setup
 
