@@ -15,14 +15,14 @@ Welcome to **LuckyVegas** — a modern, web-based casino platform where you can 
 - **VIP Subscription:** Unlock special perks and enhanced features, as well as a unique website design.
 - **Balance & Transactions:** Manage your virtual balance.
 - **Game History:** Track your bets, results, and winnings.
-- **Modern Tech Stack:** Built with React, TypeScript, and .NET 7.0 Web API.
+- **Modern Tech Stack:** Built with React, TypeScript, and .NET 9.0 Web API.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** React, TypeScript, JavaScript, CSS
-- **Backend:** C# (.NET 7.0 Web API)
+- **Backend:** C# (.NET 9.0 Web API)
 - **Package Manager:** npm
 - **Other:** React Router, Context API, Slick Carousel, React Multi Carousel
 
@@ -33,7 +33,7 @@ Welcome to **LuckyVegas** — a modern, web-based casino platform where you can 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) & npm
-- [.NET 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [.NET 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
 ### Frontend Setup
 
