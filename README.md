@@ -10,12 +10,11 @@ Welcome to **LuckyVegas** — a modern, web-based casino platform where you can 
 - **Playable Casino Games:**  
   - Slots  
   - Roulette  
-  - Poker  
-  - Blackjack
-- **VIP Subscription:** Unlock special perks and enhanced features.
-- **Balance & Transactions:** Manage your virtual balance and view transaction history.
+  - Poker(W.I.P)  
+  - Blackjack(W.I.P)
+- **VIP Subscription:** Unlock special perks and enhanced features, as well as a unique website design.
+- **Balance & Transactions:** Manage your virtual balance.
 - **Game History:** Track your bets, results, and winnings.
-- **Responsive UI:** Optimized for desktop, tablet, and mobile.
 - **Modern Tech Stack:** Built with React, TypeScript, and .NET 7.0 Web API.
 
 ---
