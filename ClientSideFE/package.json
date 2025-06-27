@@ -14,7 +14,7 @@
 
     "start": "webpack serve --open",
 
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp build/index.html build/404.html",
 
     "deploy": "gh-pages -d build"
 

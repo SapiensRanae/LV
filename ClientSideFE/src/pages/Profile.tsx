@@ -16,13 +16,12 @@ import VipCancelModal from "../components/VipCancelModal";
 
 // Props for Profile component
 interface ProfileProps {
-    onClose: () => void;
     onBuyVIPClick: () => void;
     onLogoutClick: () => void;
 }
 
 // Profile page displays user info, game history, and allows editing/deleting account
-const Profile: React.FC<ProfileProps> = ({onClose, onLogoutClick, onBuyVIPClick }) => {
+const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
     const { user, refreshUser } = useUser();
     const [showCancelModal, setShowCancelModal] = useState(false);
     const [resolveModalClose, setResolveModalClose] = useState<(() => void) | null>(null);

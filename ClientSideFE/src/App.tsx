@@ -49,10 +49,6 @@ const App: React.FC = () => {
     const onBlackjackPage = location.pathname === '/games/blackjack';
 
     // Modal and navigation handlers
-    const handleBuying = () => {
-        setShowTransactionModal(false);
-        setShowPaymentModal(true);
-    }
 
     const handlePaymentSuccess = () => {
         setShowPaymentModal(false);
@@ -148,7 +144,6 @@ const App: React.FC = () => {
             {showTransactionModal && (
                 <TransactionsModal
                     onClose={() => setShowTransactionModal(false)}
-                    onBuying={handleBuying}
                 />
             )}
 
