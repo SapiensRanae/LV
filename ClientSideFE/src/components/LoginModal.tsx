@@ -40,12 +40,17 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
         setIsLoading(true);
 
         try {
-            await login({ email: contact, password });
+            const result = await login({ email: contact, password });
+            if (!result) {
+                setError('Invalid credentials');
+                setIsLoading(false);
+                return;
+            }
             onLoginSuccess();
             await refreshUser();
             navigate('/profile');
         } catch (err: any) {
-            const errorMsg = err.response?.data?.message || 'Login failed';
+            const errorMsg = err.response?.data?.message || err.message || 'Login failed';
             setError(errorMsg);
         } finally {
             setIsLoading(false);
@@ -87,9 +92,6 @@ const LoginModal: React.FC<Props> = ({ onClose, onLoginSuccess, onRegisterClick 
                         type="submit"
                         className="btn-login"
                         disabled={isLoading}
-                        onClick={(e) => {
-                            if (!isLoading) handleSubmit(e);
-                        }}
                     >
                         {isLoading ? 'Logging in...' : 'Log In'}
                     </button>

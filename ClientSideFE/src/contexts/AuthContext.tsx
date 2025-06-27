@@ -28,13 +28,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setError(null);
         try {
             const token = await authService.login(credentials);
+            if (!token) {
+                setError('Invalid credentials');
+                setIsLoading(false);
+                return null; // Ensure falsy return on failure
+            }
             setIsAuthenticated(true);
             setIsLoading(false);
             return token;
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Login failed');
+            setError(err.response?.data?.message || err.message || 'Login failed');
             setIsLoading(false);
-            throw err;
+            return null; // Ensure falsy return on failure
         }
     };
 
