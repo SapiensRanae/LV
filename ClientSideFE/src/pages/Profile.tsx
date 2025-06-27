@@ -176,7 +176,7 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                 <section className="profile">
                     <section className="profile-left">
                         <img
-                            src={user.userIcon ? user.userIcon : profileIco}
+                            src={user.userIcon && user.userIcon.trim() !== '' ? user.userIcon : profileIco}
                             alt="Profile icon"
                             className="Profile-icon"
                         />
