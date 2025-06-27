@@ -1738,6 +1738,56 @@ textarea {
     opacity: 0.9;
 }
 
+/*!*************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/VipAccessModal.css ***!
+  \*************************************************************************************/
+.vip-access-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.vip-access-modal {
+
+    background:
+            linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 25rem;
+    position: relative;
+    text-align: center;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+}
+
+.vip-access-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    color: #F0CE77;
+    cursor: pointer;
+}
+
+.vip-access-button {
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 0.8rem 1.5rem;
+    background: #F0CE77;
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
 /*!*************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/Profile.css ***!
   \*************************************************************************/
@@ -2024,10 +2074,41 @@ textarea {
     color: white;
 }
 
+.NicknameVip{
+    width: calc(250 / 1920 * 100dvw);
+    height: calc(100 / 1080 * 100dvh);
+    border: 3px solid #F0CE77;
+    background-color: #1B1B1B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 3dvh;
+    color: white;
+}
+
 .Balance {
     width: calc(200 / 1920 * 100dvw);
     height: calc(100 / 1080 * 100dvh);
     border: 3px solid #DC143C;
+    background-color: #1B1B1B;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 3dvh;
+    color: white;
+    padding: 0 0.5dvw;
+    span{
+        align-content: center;
+    }
+}
+
+.BalanceVip{
+    width: calc(200 / 1920 * 100dvw);
+    height: calc(100 / 1080 * 100dvh);
+    border: 3px solid #F0CE77;
     background-color: #1B1B1B;
     display: flex;
     justify-content: center;
@@ -2066,6 +2147,23 @@ textarea {
     margin-top: 2dvh;
 }
 
+.DescriptionVip {
+    width: calc(500 / 1920 * 100dvw);
+    height: calc(300 / 1080 * 100dvh);
+    border: 3px solid #F0CE77;
+    background-color: #1B1B1B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 3dvh;
+    color: white;
+    text-align: center;
+    padding: 0 1dvw;
+    margin-top: 2dvh;
+}
+
 .Btns-left {
     width: calc(500 / 1920 * 100dvw);
     height: calc(100 / 1080 * 100dvh);
@@ -2077,13 +2175,57 @@ textarea {
     box-sizing: border-box;
 }
 
-.ChangeBtn,
-.BuyVIPBtn {
+.Btns-leftVip{
+    width: calc(500 / 1920 * 100dvw);
+    height: calc(100 / 1080 * 100dvh);
+    margin-top: 2dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1dvw;
+    box-sizing: border-box;
+}
+
+.ChangeBtn {
     width: calc(200 / 1920 * 100dvw);
     height: calc(100 / 1080 * 100dvh);
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.BuyVIPBtn{
+    width: calc(200 / 1920 * 100dvw);
+    height: calc(100 / 1080 * 100dvh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CancelVipBtn{
+    width: calc(200 / 1920 * 100dvw);
+    height: calc(100 / 1080 * 100dvh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.change-btnVip {
+    width: 100%;
+    height: 100%;
+    background-color: #1B1B1B;
+    color: white;
+    font-size: 3dvh;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 3px solid #F0CE77;
+}
+
+.change-btnVip:hover {
+    background-color: #F0CE77;
+    color: #1B1B1B;
 }
 
 .btn {
@@ -2103,8 +2245,18 @@ textarea {
     border-color: #DC143C;
 }
 
-.vip-btn {
+.BuyVIPBtn {
     border-color: #F0CE77;
+}
+
+.CancelVipBtn{
+    border-color: #DC143C;
+}
+
+.CancelVipBtn:hover{
+    background-color: #DC143C;
+    color: #1B1B1B;
+    border-radius: 0.5rem;
 }
 
 .change-btn:hover {
@@ -2112,9 +2264,10 @@ textarea {
     color: #1B1B1B;
 }
 
-.vip-btn:hover {
+.BuyVIPBtn:hover {
     background-color: #F0CE77;
     color: #1B1B1B;
+    border-radius: 0.5rem;
 }
 
 .Btns-right {
@@ -2160,6 +2313,56 @@ textarea {
 }
 
 
+/*!*************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/VipCancelModal.css ***!
+  \*************************************************************************************/
+.vip-cancel-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.vip-cancel-modal {
+
+    background:
+            linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.4));
+    padding: 1.5rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 25rem;
+    position: relative;
+    text-align: center;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+}
+
+.vip-cancel-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    color: crimson;
+    cursor: pointer;
+}
+
+.vip-cancel-button {
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 0.8rem 1.5rem;
+    background: crimson;
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
 /*!*****************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/games/Slots.css ***!
   \*****************************************************************************/
@@ -2187,6 +2390,24 @@ textarea {
     flex: 1;
     height: 65vh;
     border: 0.2rem solid crimson;
+    background-color: #1b1b1b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #444;
+    font-size: 2rem;
+    overflow: hidden;
+    position: relative;
+
+    box-shadow: inset 0 0.5rem 1rem 0.15rem #151515,
+    inset 0 -0.5rem 1rem 0.15rem #151515;
+}
+
+.slotVip{
+    flex: 1;
+    height: 65vh;
+    border: 0.2rem solid #F0CE77;
     background-color: #1b1b1b;
     display: flex;
     flex-direction: column;
@@ -2243,6 +2464,21 @@ textarea {
     }
 }
 
+.slot-sectionVip{
+    display: flex;
+    height: 33.33%;
+    width: 100%;
+    border-top: 0.1rem solid #F0CE77;
+    justify-content: center;
+    align-items: center;
+    img{
+        position: relative;
+        width: 45%;
+        height: 95%;
+        object-fit: contain;
+    }
+}
+
 .prizes-row {
     display: flex;
     justify-content: space-between;
@@ -2252,6 +2488,17 @@ textarea {
     background: #1B1B1B;
     font-family: serif;
     border: 0.2rem solid crimson;
+}
+
+.prizes-rowVip{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90dvw;
+    padding: 1rem;
+    background: #1B1B1B;
+    font-family: serif;
+    border: 0.2rem solid #F0CE77;
 }
 
 .prizes-left {
@@ -2325,12 +2572,43 @@ textarea {
     z-index: 1;
 }
 
+.prize-boxVip{
+    width: 10dvw;
+    height: 6.25dvh;
+    background: #222;
+    color: white;
+    border: 0.25rem solid #F0CE77;
+    border-radius: 0.7dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2dvw;
+    font-weight: bold;
+    box-shadow: 0 0 2rem 0.2rem #F0CE77;
+    position: relative;
+    z-index: 1;
+}
+
 .buttons {
     width: 50dvw;
-    height: 25dvh;
+    height: auto;
     margin-top: 2vh;
     background-color: #1B1B1B;
     border: 0.2rem solid crimson    ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2dvh;
+    box-sizing: border-box;
+}
+
+.buttonsVip{
+    width: 50dvw;
+    height: auto;
+    margin-top: 2vh;
+    background-color: #1B1B1B;
+    border: 0.2rem solid #F0CE77;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2351,11 +2629,27 @@ textarea {
     font-weight: bold;
 }
 
+.stake-textVip{
+    font-size: 3dvh;
+    font-weight: bold;
+}
+
 .stake-text input {
     width: 5dvw;
     height: 5dvh;
     text-align: center;
     border: 0.3dvh solid #D1345B;
+    background: transparent;
+    color: white;
+    margin: 0 0.5dvw;
+    font-size: 1.5dvw;
+}
+
+.stake-textVip input{
+    width: 5dvw;
+    height: 5dvh;
+    text-align: center;
+    border: 0.3dvh solid #F0CE77;
     background: transparent;
     color: white;
     margin: 0 0.5dvw;
@@ -2428,6 +2722,11 @@ textarea {
         box-shadow: 0 0 1rem #F24769;
     }
 }
+
+.game-result{
+    font-size: 2dvh;
+    margin-top: 0.5dvh;
+}
 /*!********************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/games/Roulette.css ***!
   \********************************************************************************/
@@ -2463,6 +2762,16 @@ textarea {
     border-top: 1.2rem solid crimson;
 }
 
+.wheel-pinterVip{
+    position: absolute;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 0.8rem solid transparent;
+    border-right: 0.8rem solid transparent;
+    border-top: 1.4rem solid #F0CE77;
+}
+
 .result {
     text-align: center;
     font-size: 1.2rem;
@@ -2476,6 +2785,16 @@ textarea {
     margin-right: 5dvw;
     border-radius: 0.6rem;
     border: 0.25rem solid crimson;
+    background-color: #1B1B1B;
+}
+
+.betting-tableVip {
+    width: 40%;
+    max-width: 90vw;
+    padding: 1.2rem;
+    margin-right: 5dvw;
+    border-radius: 0.6rem;
+    border: 0.25rem solid #F0CE77;
     background-color: #1B1B1B;
 }
 
@@ -2505,6 +2824,13 @@ textarea {
     border-color: crimson;
     background: #0c0c0c;
     transform: scale(1.1);
+}
+
+.chip.selectedVip {
+    border-color: #F0CE77;
+    background: #dadada;
+    transform: scale(1.1);
+    color: black;
 }
 
 .numbers-grid {
@@ -2605,10 +2931,10 @@ textarea {
 }
 
 .control-buttons button {
-    padding: 10px 30px;
-    font-size: 18px;
+    padding: 0.625rem 1.875rem;
+    font-size: 1.125rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     cursor: pointer;
     transition: all 0.3s;
 }
@@ -2664,7 +2990,25 @@ textarea {
     clip-path: polygon(0% 50%, 50% 100%, 100% 50%, 50% 0%);
     filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.7));
 }
+
+.wheel-pointerVip{
+    position: absolute;
+    top: 9.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 2rem;
+    height: 2.8rem;
+    background-color: #F0CE77;
+    clip-path: polygon(0% 50%, 50% 100%, 100% 50%, 50% 0%);
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.7));
+}
+
 .wheel-pointer::after {
+    display: none;
+}
+
+.wheel-pointerVip::after{
     display: none;
 }
 
