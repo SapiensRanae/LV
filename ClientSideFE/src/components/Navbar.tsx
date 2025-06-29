@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import './Navbar.css';
@@ -14,7 +14,6 @@ interface NavbarProps {
     onBalanceClick: () => void;
 }
 
-// Navbar displays navigation links and user info based on sign-in state
 const Navbar: React.FC<NavbarProps> = ({
                                            onGamesClick,
                                            onSignupClick,
@@ -24,23 +23,45 @@ const Navbar: React.FC<NavbarProps> = ({
                                            onBalanceClick
                                        }) => {
     const { user } = useUser();
+    const isVip = user?.role === 'vip';
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    // Close menu on navigation (mobile)
+    const handleNavClick = (cb?: () => void) => {
+        setMenuOpen(false);
+        if (cb) cb();
+    };
 
     return (
-        <nav className={user?.role === 'vip' ? "navbar-vip" : "navbar"}>
+        <nav className={isVip ? "navbar-vip" : "navbar"}>
+            <button
+                className="hamburger"
+                aria-label="Toggle menu"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen(m => !m)}
+            >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect y="4" width="24" height="2" rx="1" fill="#FFFFFF"/>
+                    <rect y="11" width="24" height="2" rx="1" fill="#FFFFFF"/>
+                    <rect y="18" width="24" height="2" rx="1" fill="#FFFFFF"/>
+                </svg>
+            </button>
             <div className="logo">
                 <li>
-                    <Link to="/">
-                        <span className={user?.role === 'vip' ? "logo-vip" : "logo-red"}>L</span>ucky
-                        <span className={user?.role === 'vip' ? "logo-vip" : "logo-red"}>V</span>egas
+                    <Link to="/" onClick={() => setMenuOpen(false)}>
+                        <span className={isVip ? "logo-vip" : "logo-red"}>L</span>
+                        <span className="logo-rest">ucky</span>
+                        <span className={isVip ? "logo-vip" : "logo-red"}>V</span>
+                        <span className="logo-rest">egas</span>
                     </Link>
                 </li>
             </div>
-            <div className="navbar-center">
-                <ul className={user?.role === 'vip' ? "nav-links-vip" : "nav-links"}>
+            <div className={`navbar-center${menuOpen ? ' open' : ''}`}>
+                <ul className={isVip ? "nav-links-vip" : "nav-links"}>
                     <li>
                         <button
                             onClick={onGamesClick}
-                            className={user?.role === 'vip' ? "nav-link-button-vip" : "nav-link-button"}
+                            className={isVip ? "nav-link-button-vip" : "nav-link-button"}
                         >
                             Games
                         </button>
@@ -52,25 +73,37 @@ const Navbar: React.FC<NavbarProps> = ({
             </div>
             {isSignedIn ? (
                 <div className="infoPart">
-                    {/* Show user balance and coin icon */}
                     <label className="nav-balance" onClick={onBalanceClick}>
                         {user ? user.balance : 0} <img src={Coin} alt='Coins'/>
                     </label>
-                    {/* Show user profile icon */}
                     <button onClick={onProfileClick} className="nav-profile-button">
                         <img src={user && user.userIcon ? user.userIcon : Profile} alt="Profile"/>
                     </button>
-                    {/* Show subscription status */}
                     <button
                         onClick={onSubscriptionClick}
-                        className={user?.role === 'vip' ? "subscriptionVIP" : "subscription"}
+                        className={isVip ? "subscriptionVIP" : "subscription"}
                     >
-                        {user?.role === 'vip' ? 'VIP' : 'Standard'}
+                        {isVip ? 'VIP' : 'Standard'}
                     </button>
                 </div>
             ) : (
-                // Show sign up button if not signed in
                 <button onClick={onSignupClick} className="nav-signup-button">Sign Up</button>
+            )}
+            {/* Mobile menu overlay */}
+            {menuOpen && (
+                <div
+                    className="mobile-menu-overlay"
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        zIndex: 99,
+                        background: 'rgba(0,0,0,0.2)'
+                    }}
+                />
             )}
         </nav>
     );

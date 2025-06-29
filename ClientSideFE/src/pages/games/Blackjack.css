@@ -24,14 +24,155 @@
 }
 
 .frame {
-    position: relative;
-    padding: 2.5rem;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
     border-radius: 30rem;
+}
+
+.gray-zone.left, .gray-zone.right {
+    position: absolute;
+    top: 0;
+    width: 3.75rem;
+    height: 100%;
+    background: rgba(80,80,80,0.15);
+    z-index: 1;
+    border-radius: 2rem;
+}
+.gray-zone.left { left: -60px; }
+.gray-zone.right { right: -60px; }
+
+.arc {
+    margin: 32px 0 24px 0;
+    width: 100%;
+    height: 220px;
+    position: relative;
+    z-index: 2;
+}
+
+.arc-text, .arc-text-high {
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    text-shadow: 1px 1px 4px #000;
+}
+
+.player-cards {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0 20px 0;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
+.card.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #000a;
+    width: 64px;
+    height: 96px;
     overflow: hidden;
-    z-index: 0
+    border: 2px solid #444;
+    transition: border 0.2s;
+}
+.card.center img {
+    width: 60px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+.card-back {
+    width: 60px;
+    height: 90px;
+    background: repeating-linear-gradient(135deg, #444 0 10px, #222 10px 20px);
+    border-radius: 6px;
+}
+
+.lobby-controls {
+    margin: 32px auto 0 auto;
+    background: rgba(30,30,30,0.95);
+    border-radius: 16px;
+    padding: 24px 32px 16px 32px;
+    box-shadow: 0 2px 12px #0007;
+    max-width: 420px;
+    text-align: center;
+}
+
+.lobby-controls input[type="number"],
+.lobby-controls input[type="text"],
+.lobby-controls input[placeholder] {
+    background: #232323;
+    color: #fff;
+    border: 1.5px solid #555;
+    border-radius: 6px;
+    padding: 7px 12px;
+    margin: 0 8px 0 0;
+    font-size: 1rem;
+    width: 120px;
+    outline: none;
+    transition: border 0.2s;
+}
+.lobby-controls input:focus {
+    border: 1.5px solid #F0CE77;
+}
+
+.lobby-controls button {
+    background: linear-gradient(90deg, #F0CE77 0%, #bfa14a 100%);
+    color: #232323;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 6px 8px 0;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0003;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.lobby-controls button:disabled {
+    background: #888;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.betting-controls {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.betting-controls input[type="number"] {
+    width: 90px;
+    margin-right: 8px;
+}
+
+.lobby-controls b {
+    color: #F0CE77;
+    font-size: 1.1em;
+}
+
+.lobby-controls > div {
+    margin-bottom: 8px;
+}
+
+@media (max-width: 1000px) {
+    .background-image, .blackjack-container {
+        width: 98vw;
+        min-width: 0;
+        padding: 0;
+    }
+    .arc {
+        width: 100vw;
+    }
 }
 
 .frame::before {

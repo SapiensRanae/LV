@@ -39,3 +39,10 @@ POST   /api/Roulette/spin                Place a bet and spin the roulette.
 
 ## Slots
 POST   /api/Slots/spin                   Simulate a slot spin with a bet.
+
+## Blackjack
+POST   /api/Blackjack/create-lobby       Create a new blackjack lobby.
+POST   /api/Blackjack/join-lobby         Join an existing blackjack lobby.
+POST   /api/Blackjack/start-game/{lobbyCode}  Start a blackjack game in a lobby.
+GET    /api/Blackjack/profile/{userId}   View a player's profile.
+POST   /api/Blackjack/leave-lobby/{lobbyCode} Leave a blackjack lobby.

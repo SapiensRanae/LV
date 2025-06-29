@@ -33,95 +33,108 @@ namespace CasinoApi.Controllers
             public string? ColumnType { get; set; }
             public string? DozenType { get; set; }
         }
+        public class MultiSpinRequest
+        {
+            public int UserId { get; set; }
+            public List<RouletteController.SpinRequest> Bets { get; set; } = new();
+        }
 
         // Handles a roulette spin and processes the bet
         [HttpPost("spin")]
-        public async Task<IActionResult> Spin(SpinRequest request)
+public async Task<IActionResult> Spin([FromBody] MultiSpinRequest request)
+{
+    try
+    {
+        var user = await _context.Users.FindAsync(request.UserId);
+        if (user == null)
+            return NotFound(new { message = "User not found" });
+
+        decimal totalBet = 0;
+        foreach (var bet in request.Bets)
         {
-            try
-            {
-                // Get user from database
-                var user = await _context.Users.FindAsync(request.UserId);
-                if (user == null)
-                    return NotFound(new { message = "User not found" });
-
-                // Validate bet amount
-                if (request.BetAmount <= 0)
-                    return BadRequest(new { message = "Bet amount must be greater than zero" });
-
-                if (user.Balance < request.BetAmount)
-                    return BadRequest(new { message = "Insufficient balance" });
-
-                // Generate random outcome (0-36, plus 00 represented as 37)
-                int outcome = _random.Next(38); // 0-37
-                string outcomeColor = GetRouletteColor(outcome);
-
-                // Calculate winnings
-                decimal winnings = CalculateWinnings(request, outcome, outcomeColor);
-
-                // Record previous balance before update
-                decimal previousBalance = user.Balance;
-
-                // Update user balance and save
-                user.Balance -= request.BetAmount;
-                user.Balance += winnings;
-                await _context.SaveChangesAsync();
-
-                // Add financial transaction
-                var netChange = winnings - request.BetAmount;
-                var gameTransactionType = winnings > 0 ? "win" : "bet";
-                var financialTransactionType = (winnings - request.BetAmount) >= 0 ? "deposit" : "withdrawal";
-                var financialTransaction = new FinancialTransaction
-                {
-                    UserID = request.UserId,
-                    CashAmount = netChange,
-                    TransactionType = financialTransactionType,
-                    Date = DateTime.Now,
-                    PreviousBalance = previousBalance,
-                    NewBalance = user.Balance
-                };
-                _context.FinancialTransactions.Add(financialTransaction);
-
-                // Add game transaction and save to get the generated ID
-                var gameTransaction = new GameTransaction
-                {
-                    UserID = request.UserId,
-                    GameID = 6,
-                    CashAmount = request.BetAmount,
-                    Date = DateTime.Now,
-                    TransactionType = gameTransactionType,
-                    PreviousBalance = previousBalance,
-                    NewBalance = user.Balance,
-                    GameResult = winnings
-                };
-                _context.GameTransactions.Add(gameTransaction);
-                await _context.SaveChangesAsync();
-
-                // Add user history
-                var userHistory = new UserHistory
-                {
-                    UserID = request.UserId,
-                    GameTransactionID = gameTransaction.GameTransactionID
-                };
-                _context.UserHistory.Add(userHistory);
-                await _context.SaveChangesAsync();
-
-                return Ok(new
-                {
-                    outcome = outcome == 37 ? "00" : outcome.ToString(),
-                    color = outcomeColor,
-                    betAmount = request.BetAmount,
-                    winnings = winnings,
-                    newBalance = user.Balance
-                });
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                Console.WriteLine($"Error in Roulette/Spin: {ex.Message}");
-                return StatusCode(500, new { message = $"Error: {ex.Message}" });
-            }
+            if (bet.BetAmount <= 0)
+                return BadRequest(new { message = "Bet amount must be greater than zero" });
+            totalBet += bet.BetAmount;
         }
+
+        if (user.Balance < totalBet)
+            return BadRequest(new { message = "Insufficient balance" });
+
+        int outcome = _random.Next(38); // 0-37
+        string outcomeColor = GetRouletteColor(outcome);
+
+        decimal totalWinnings = 0;
+        var betResults = new List<object>();
+        foreach (var bet in request.Bets)
+        {
+            decimal winnings = CalculateWinnings(bet, outcome, outcomeColor);
+            totalWinnings += winnings;
+            betResults.Add(new
+            {
+                betType = bet.BetType,
+                betNumber = bet.BetNumber,
+                betColor = bet.BetColor,
+                betAmount = bet.BetAmount,
+                winnings
+            });
+        }
+
+        decimal previousBalance = user.Balance;
+        user.Balance -= totalBet;
+        user.Balance += totalWinnings;
+        await _context.SaveChangesAsync();
+
+        var netChange = totalWinnings - totalBet;
+        var financialTransactionType = netChange >= 0 ? "deposit" : "withdrawal";
+        var financialTransaction = new FinancialTransaction
+        {
+            UserID = request.UserId,
+            CashAmount = netChange,
+            TransactionType = financialTransactionType,
+            Date = DateTime.Now,
+            PreviousBalance = previousBalance,
+            NewBalance = user.Balance
+        };
+        _context.FinancialTransactions.Add(financialTransaction);
+
+        var gameTransaction = new GameTransaction
+        {
+            UserID = request.UserId,
+            GameID = 6,
+            CashAmount = totalBet,
+            Date = DateTime.Now,
+            TransactionType = totalWinnings > 0 ? "win" : "bet",
+            PreviousBalance = previousBalance,
+            NewBalance = user.Balance,
+            GameResult = totalWinnings
+        };
+        _context.GameTransactions.Add(gameTransaction);
+        await _context.SaveChangesAsync();
+
+        var userHistory = new UserHistory
+        {
+            UserID = request.UserId,
+            GameTransactionID = gameTransaction.GameTransactionID
+        };
+        _context.UserHistory.Add(userHistory);
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            outcome = outcome == 37 ? "00" : outcome.ToString(),
+            color = outcomeColor,
+            bets = betResults,
+            totalBet,
+            totalWinnings,
+            newBalance = user.Balance
+        });
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error in Roulette/Spin: {ex.Message}");
+        return StatusCode(500, new { message = $"Error: {ex.Message}" });
+    }
+}
 
         // Returns the color for a given roulette number
         private string GetRouletteColor(int number)

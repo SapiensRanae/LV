@@ -1,0 +1,145 @@
+# Blackjack API
+
+## Overview
+Play multiplayer blackjack with up to three players or against a bot dealer. Create private lobbies with unique codes to invite friends or join public games through matchmaking. View other players' avatars and profiles, including their game history. The game now includes a poker-style betting system where players can bet, call, raise, or fold.
+
+## Endpoints
+
+### Create Lobby
+**POST** `/api/Blackjack/create-lobby`
+Create a new blackjack lobby.
+- **Request Body**:
+  - `IsPrivate` (bool) — Whether the lobby is private.
+- **Response**:
+  - `lobbyCode` (string) — The unique code for the created lobby.
+
+### Join Lobby
+**POST** `/api/Blackjack/join-lobby`
+Join an existing blackjack lobby.
+- **Request Body**:
+  - `LobbyCode` (string) — Code of the lobby to join.
+- **Response**:
+  - Confirmation of joining the lobby.
+
+### Start Game
+**POST** `/api/Blackjack/start-game/{lobbyCode}`
+Start a blackjack game in the specified lobby with poker-style betting.
+- **Path Parameter**:
+  - `lobbyCode` (string) — Code of the lobby.
+- **Response**:
+  - Confirmation of game start and list of players.
+
+### Player Actions
+During the game, players can take the following actions:
+- **Bet**: Place an initial bet.
+- **Call**: Match the current highest bet.
+- **Raise**: Increase the current highest bet.
+- **Fold**: Leave the current round.
+
+### View Player Profile
+**GET** `/api/Blackjack/profile/{userId}`
+View a player's profile.
+
+- **Path Parameter**:
+  - `userId` (int) — ID of the user.
+
+- **Response**:
+  - **PlayerProfileResponse**:
+    - `Username` (string) — The player's username.
+    - `Description` (string, nullable) — A description of the player.
+    - `UserIcon` (string, nullable) — Base64-encoded image of the player's icon.
+    - `History` (array of objects) — List of the player's game history:
+      - `GameTransactionID` (int) — ID of the game transaction.
+      - `CashAmount` (decimal) — Amount of cash involved in the transaction.
+      - `Date` (string) — Date and time of the transaction.
+      - `TransactionType` (string) — Type of transaction (e.g., "win", "bet").
+
+**Example Response**:
+```json
+{
+  "Username": "player1",
+  "Description": "Blackjack enthusiast",
+  "UserIcon": "data:image/png;base64,...",
+  "History": [
+    {
+      "GameTransactionID": 1,
+      "CashAmount": 100,
+      "Date": "2025-06-29T12:41:30Z",
+      "TransactionType": "win"
+    },
+    {
+      "GameTransactionID": 2,
+      "CashAmount": -50,
+      "Date": "2025-06-30T15:20:10Z",
+      "TransactionType": "bet"
+    }
+  ]
+}
+
+
+### Leave Lobby
+**POST** `/api/Blackjack/leave-lobby/{lobbyCode}`
+Leave a blackjack lobby.
+- **Path Parameter**:
+  - `lobbyCode` (string) — Code of the lobby.
+- **Response**:
+  - Confirmation of leaving the lobby.
+
+## Error Responses
+
+- **400**: Invalid input data (e.g., missing required fields).
+- **401**: Unauthorized (missing or invalid JWT).
+- **404**: Lobby or user not found.
+- **409**: Lobby is full or user already in the lobby.
+- **500**: Server error.
+
+## Example Requests
+
+### Create Lobby
+**Request**:
+```json
+{
+  "IsPrivate": true
+}
+```
+
+**Response**:
+```json
+{
+  "lobbyCode": "ABC123"
+}
+```
+
+### Join Lobby
+**Request**:
+```json
+{
+  "LobbyCode": "ABC123"
+}
+```
+
+**Response**:
+```json
+{
+  "message": "Joined lobby",
+  "lobbyCode": "ABC123"
+}
+```
+
+### Player Profile Response
+**Response**:
+```json
+{
+  "Username": "player1",
+  "Description": "Blackjack enthusiast",
+  "UserIcon": "data:image/png;base64,...",
+  "History": [
+    {
+      "GameTransactionID": 1,
+      "CashAmount": 100,
+      "Date": "2025-06-29T12:41:30Z",
+      "TransactionType": "win"
+    }
+  ]
+}
+```

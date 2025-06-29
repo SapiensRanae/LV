@@ -212,8 +212,13 @@
     color: white;
 }
 
-.control-buttons button:last-child {
+.control-buttons button:nth-child(2) {
     background-color: #f44336;
+    color: white;
+}
+
+.control-buttons button:last-child {
+    background-color: #b73125;
     color: white;
 }
 

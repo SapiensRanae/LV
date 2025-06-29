@@ -79,13 +79,14 @@ namespace CasinoApi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            // Check if user already exists
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             {
-                return BadRequest(new { message = "User with this email already exists" });
+                return Conflict(new { message = "User with this email already exists" });
             }
-
-            // Create new user
+            if (await _context.Users.AnyAsync(u => u.Username == request.Username))
+            {
+                return Conflict(new { message = "User with this username already exists" });
+            }
             var user = new User
             {
                 Email = request.Email,
@@ -93,17 +94,31 @@ namespace CasinoApi.Controllers
                 PasswordHash = ComputeHash(request.Password),
                 Role = "player",
                 Balance = 0,
-                UserIcon = request.UserIcon,
+           
                 PhoneNumber = request.PhoneNumber,
                 Description = request.Description
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Generate token for the new user
             var token = GenerateJwtToken(user);
 
-            return Ok(new { token });
+            // Return both token and user info
+            return Ok(new
+            {
+                token,
+                user = new
+                {
+                    user.UserID,
+                    user.Username,
+                    user.Email,
+                    user.Role,
+                    user.Balance,
+                    UserIcon = user.UserIcon != null ? "data:image/png;base64," + Convert.ToBase64String(user.UserIcon) : null,
+                    user.PhoneNumber,
+                    user.Description
+                }
+            });
         }
 
         // Verifies if the provided password matches the stored hash

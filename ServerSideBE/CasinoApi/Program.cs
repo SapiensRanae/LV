@@ -35,13 +35,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // Allow only https://luckyvegas.me for CORS
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowReactApp", policy =>
+//    {
+//        policy.WithOrigins("https://luckyvegas.me")
+//              .AllowAnyHeader()
+//              .AllowAnyMethod();
+//    });
+//});
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("https://luckyvegas.me")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.AllowAnyOrigin() // Allow all origins
+              .AllowAnyHeader() // Allow all headers
+              .AllowAnyMethod(); // Allow all HTTP methods
     });
 });
 

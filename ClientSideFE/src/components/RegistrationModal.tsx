@@ -3,6 +3,7 @@ import './RegistrationModal.css';
 import { Link, useNavigate } from "react-router-dom";
 import { register, RegisterRequest } from '../api/authService';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 
 interface Props {
     onClose: () => void;
@@ -14,7 +15,7 @@ interface Props {
 const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLoginPress }) => {
     const [nickname, setNickname] = useState('');
     const navigate = useNavigate();
-
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -23,19 +24,33 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
     const [isLoading, setIsLoading] = useState(false);
     const [userIcon, setUserIcon] = useState<string>('');
 
+    const isPasswordStrong = (pwd: string) => {
+        // At least 8 characters, one special character, one number, one uppercase, one lowercase
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(pwd);
+    };
+
+    const isEmailValid = (email: string) => {
+        // Simple email regex for validation
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
     // Handle registration form submission and validation
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Validate passwords match
-        if (password !== passwordConfirm) {
-            setError("Passwords don't match");
+            if (password !== passwordConfirm) {
+                setError("Passwords don't match");
+                return;
+            }
+            if (!isPasswordStrong(password)) {
+                setError("Password must be at least 8 characters, include upper and lower case letters, a number, and a special symbol.");
+                return;
+            }
+        if (!isEmailValid(email)) {
+            setError("Please enter a valid email address.");
             return;
         }
-
         setIsLoading(true);
         setError('');
-
         try {
             const userData: RegisterRequest = {
                 username: nickname,
@@ -45,12 +60,14 @@ const RegistrationModal: React.FC<Props> = ({ onClose, onRegisterSuccess, onLogi
                 userIcon
             };
 
-            await register(userData);
-            onRegisterSuccess();
-            navigate('/profile');
+            const token = await register(userData);
+            if (token) {
+                login(token);
+                window.location.reload();
+            }
+
         } catch (err: any) {
             const errorMsg = err.response?.data?.message || 'Registration failed';
-            console.error('Registration error:', errorMsg, err);
             setError(errorMsg);
         } finally {
             setIsLoading(false);

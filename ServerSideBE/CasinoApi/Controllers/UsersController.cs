@@ -168,5 +168,6 @@ namespace CasinoApi.Controllers
         {
             return await _context.Users.AnyAsync(e => e.UserID == id);
         }
+
     }
 }

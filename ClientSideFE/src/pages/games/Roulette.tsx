@@ -34,6 +34,7 @@ const Roulette: React.FC = () => {
     const [currentBets, setCurrentBets] = useState<BetType[]>([]);
     const [wheelRotation, setWheelRotation] = useState(0);
     const [spinDirection, setSpinDirection] = useState(1);
+    const [cancelMode, setCancelMode] = useState(false);
 
     // API integration state
     const [userBalance, setUserBalance] = useState<number | null>(user?.balance || null);
@@ -102,68 +103,85 @@ const Roulette: React.FC = () => {
         setCurrentBets([...currentBets, { type, amount: selectedChip, numbers }]);
     };
 
+    const removeBetsOnNumber = (n: number) => {
+        setCurrentBets(prev =>
+            prev.filter(bet => !(bet.type === 'single' && bet.numbers[0] === n))
+        );
+    };
+
+    const handleNumberClick = (type: BetType['type'], nums: number[]) => {
+        if (spinning) return;
+
+        if (cancelMode) {
+            // only support cancelling single-number bets for now
+            if (type === 'single') removeBetsOnNumber(nums[0]);
+        } else {
+            placeBet(type, nums);
+        }
+    };
+
     // Prepare bet data for API
     const getBetData = () => {
-        const totalBet = currentBets.reduce((sum, bet) => sum + bet.amount, 0);
-        const mainBet = currentBets[0];
-        let betType = '';
-        let betNumber = null;
-        let betColor = '';
-        let columnType = null;
-        let dozenType = null;
+        return currentBets.map(bet => {
+            let betType = '';
+            let betNumber = null;
+            let betColor = '';
+            let columnType = null;
+            let dozenType = null;
 
-        switch (mainBet.type) {
-            case 'single':
-                betType = 'single';
-                betNumber = mainBet.numbers[0];
-                break;
-            case 'column':
-                betType = 'column';
-                if (JSON.stringify(mainBet.numbers) === JSON.stringify(row1)) {
-                    columnType = 'first';
-                } else if (JSON.stringify(mainBet.numbers) === JSON.stringify(row2)) {
-                    columnType = 'second';
-                } else {
-                    columnType = 'third';
-                }
-                break;
-            case 'dozen':
-                betType = 'dozen';
-                if (mainBet.numbers[0] === 1) {
-                    dozenType = 'first';
-                } else if (mainBet.numbers[0] === 13) {
-                    dozenType = 'second';
-                } else {
-                    dozenType = 'third';
-                }
-                break;
-            case 'even':
-                betType = 'even';
-                break;
-            case 'odd':
-                betType = 'odd';
-                break;
-            case 'red':
-                betType = 'color';
-                betColor = 'red';
-                break;
-            case 'black':
-                betType = 'color';
-                betColor = 'black';
-                break;
-            default:
-                betType = 'red';
-        }
+            switch (bet.type) {
+                case 'single':
+                    betType = 'single';
+                    betNumber = bet.numbers[0];
+                    break;
+                case 'column':
+                    betType = 'column';
+                    if (JSON.stringify(bet.numbers) === JSON.stringify(row1)) {
+                        columnType = 'first';
+                    } else if (JSON.stringify(bet.numbers) === JSON.stringify(row2)) {
+                        columnType = 'second';
+                    } else {
+                        columnType = 'third';
+                    }
+                    break;
+                case 'dozen':
+                    betType = 'dozen';
+                    if (bet.numbers[0] === 1) {
+                        dozenType = 'first';
+                    } else if (bet.numbers[0] === 13) {
+                        dozenType = 'second';
+                    } else {
+                        dozenType = 'third';
+                    }
+                    break;
+                case 'even':
+                    betType = 'even';
+                    break;
+                case 'odd':
+                    betType = 'odd';
+                    break;
+                case 'red':
+                    betType = 'color';
+                    betColor = 'red';
+                    break;
+                case 'black':
+                    betType = 'color';
+                    betColor = 'black';
+                    break;
+                default:
+                    betType = 'red';
+            }
 
-        return {
-            userId: user?.userID || 0,
-            betAmount: totalBet,
-            betType,
-            betNumber,
-            betColor,
-            columnType,
-            dozenType
-        };
+            return {
+                userId: user?.userID || 0,
+                betAmount: bet.amount,
+                betType,
+                betNumber,
+                betColor,
+                columnType,
+                dozenType
+            };
+        });
     };
 
     // Handle spinning the roulette wheel and updating state
@@ -175,9 +193,10 @@ const Roulette: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const betData = getBetData();
-            const result = await spinRoulette(betData);
+            const betDataArray = getBetData();
+            const result = await spinRoulette({ bets: betDataArray, userId: user.userID });
 
+            // Assume backend returns: { outcome: string, color, totalBetAmount, totalWinnings, newBalance }
             const spinResult = result as SpinResult;
             const outcomeNumber = parseInt(spinResult.outcome);
 
@@ -364,7 +383,7 @@ const Roulette: React.FC = () => {
                 </div>
 
                 <div className="numbers-grid">
-                    <div className={`zero ${isNumberSelected(0) ? 'highlight' : ''}`} onClick={() => placeBet('single', [0])}>0</div>
+                    <div className={`zero ${isNumberSelected(0) ? 'highlight' : ''}`} onClick={() => handleNumberClick('single', [0])}>0</div>
                     {[row1, row2, row3].map((row, rowIdx) => (
                         <React.Fragment key={rowIdx}>
                             {row.map(n => (
@@ -375,7 +394,7 @@ const Roulette: React.FC = () => {
                                         numberColor(n),
                                         isNumberSelected(n) ? 'highlight' : ''
                                     ].join(' ')}
-                                    onClick={() => placeBet('single', [n])}
+                                    onClick={() => handleNumberClick('single', [n])}
                                 >
                                     {n}
                                 </div>
@@ -412,6 +431,11 @@ const Roulette: React.FC = () => {
                     </button>
                     <button onClick={clearBets} disabled={spinning || isLoading}>
                         CLEAR BETS
+                    </button>
+                    <button
+                        onClick={() => setCancelMode(m => !m)}
+                        disabled={spinning || isLoading}>
+                        {cancelMode ? 'EXIT CANCEL MODE' : 'CANCEL BET MODE'}
                     </button>
                 </div>
             </div>

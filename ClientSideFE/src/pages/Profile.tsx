@@ -95,25 +95,41 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
 
     // Fetch user game history on mount or user change
     useEffect(() => {
+        let timeoutId: NodeJS.Timeout | null = null;
+        let isMounted = true;
+
         const fetchHistory = async () => {
             if (user) {
                 try {
                     const historyData = await getUserHistoryByUser(user.userID);
-                    console.log('User history:', historyData);
-                    setHistory(historyData)
+                    if (isMounted) setHistory(historyData);
                 } catch {
-                    setError('Failed to load profile data');
+                    if (isMounted) setError('Failed to load profile data');
                 }
             }
-            setLoading(false);
+            if (isMounted) setLoading(false);
+            if (timeoutId) clearTimeout(timeoutId);
         };
+
         if (isAuthenticated && user) {
             setLoading(true);
+            setError('');
+            timeoutId = setTimeout(() => {
+                if (isMounted) {
+                    setError('Loading timed out. Please try again.');
+                    setLoading(false);
+                }
+            }, 10000);
             fetchHistory();
         } else if (!isAuthenticated) {
             setLoading(false);
             setError('User not authenticated');
         }
+
+        return () => {
+            isMounted = false;
+            if (timeoutId) clearTimeout(timeoutId);
+        };
     }, [isAuthenticated, user]);
 
     if (loading) return <div className="profile-bg"><div className="loading">Loading profile...</div></div>;

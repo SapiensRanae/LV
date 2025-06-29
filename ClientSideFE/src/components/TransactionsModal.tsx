@@ -19,11 +19,25 @@ const leftPackages = [
     { price: '249,99 USD', coins: '50' },
 ]
 
+const leftPackagesVip = [
+    { price: '4,75 USD', coins: '1' },
+    { price: '47,50 USD', coins: '10' },
+    { price: '118,75 USD', coins: '25' },
+    { price: '237,50 USD', coins: '50' },
+]
+
 const rightPackages = [
     { price: '499,99 USD', coins: '100' },
     { price: '1249,99 USD', coins: '250' },
     { price: '2499,99 USD', coins: '500' },
     { price: '4999,99 USD', coins: '1000' },
+]
+
+const rightPackagesVip = [
+    { price: '474,99 USD', coins: '100' },
+    { price: '1187,50 USD', coins: '250' },
+    { price: '2374,99 USD', coins: '500' },
+    { price: '4749,99 USD', coins: '1000' },
 ]
 
 const vipFeatures = [
@@ -42,6 +56,11 @@ export const TransactionsModal: React.FC<Props> = ({ onClose}) => {
     const [resolveModalClose, setResolveModalClose] = useState<(() => void) | null>(null);
     const {user, refreshUser} = useUser();
     const [selectedPkg, setSelectedPkg] = useState<{ price: string; coins: string } | null>(null)
+
+    const isVip = user?.role === 'vip';
+
+    const effectiveLeft = isVip ? leftPackagesVip : leftPackages;
+    const effectiveRight = isVip ? rightPackagesVip : rightPackages;
 
     // Handle successful payment: create transaction and update user
     const handlePaymentSuccess = async () => {
@@ -118,31 +137,59 @@ export const TransactionsModal: React.FC<Props> = ({ onClose}) => {
                     </button>
                     <div className="transactions-grid">
                         <div className="transactions-col">
-                            {leftPackages.map((pkg, i) => (
-                                <div
-                                    key={i}
-                                    className="txn-row"
-                                    onClick={() => setSelectedPkg(pkg)}
-                                >
-                                    <span className="txn-price">{pkg.price}</span>
-                                    <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin"/></span>
-                                </div>
-                            ))}
+                            {effectiveLeft.map((pkg, i) => {
+                                const original = leftPackages[i].price;
+                                return (
+                                    <div
+                                        key={i}
+                                        className="txn-row"
+                                        onClick={() => setSelectedPkg(pkg)}
+                                    >
+                                    <span className="txn-price">
+                                {isVip ? (
+                                    <>
+                                    <span className="old-price">{original}</span>
+                                    <span className="new-price">{pkg.price}</span>
+                                    </>
+                                        ) : (
+                                    pkg.price
+                                )}
+                                    </span>
+                                        <span className="txn-coins">
+                                            {pkg.coins} <img src={coinIcon} alt="coin" />
+                                        </span>
+                                    </div>
+                                );
+                            })}
                         </div>
 
                         <div className="transactions-divider"/>
 
                         <div className="transactions-col">
-                            {rightPackages.map((pkg, i) => (
-                                <div
-                                    key={i}
-                                    className="txn-row"
-                                    onClick={() => setSelectedPkg(pkg)}
-                                >
-                                    <span className="txn-price">{pkg.price}</span>
-                                    <span className="txn-coins">{pkg.coins} <img src={coinIcon} alt="coin"/></span>
-                                </div>
-                            ))}
+                            {effectiveRight.map((pkg, i) => {
+                                const original = rightPackages[i].price;
+                                return (
+                                    <div
+                                        key={i}
+                                        className="txn-row"
+                                        onClick={() => setSelectedPkg(pkg)}
+                                    >
+                                    <span className="txn-price">
+                                {isVip ? (
+                                    <>
+                                        <span className="old-price">{original}</span>
+                                        <span className="new-price">{pkg.price}</span>
+                                    </>
+                                ) : (
+                                    pkg.price
+                                )}
+                                    </span>
+                                        <span className="txn-coins">
+                                            {pkg.coins} <img src={coinIcon} alt="coin" />
+                                        </span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
 
