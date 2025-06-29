@@ -249,11 +249,133 @@
     color: white;
     padding: 0 0.5dvw;
     cursor: pointer;
-    img{
-        width: 2rem;
-        height: auto;
-        margin-left: 0.5rem;
+}
+
+.nav-balance img{
+    width: 2rem;
+    height: auto;
+    margin-left: 0.5rem;
+    position: relative;
+}
+
+.hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) and (max-height: 840px) {
+    .navbar {
         position: relative;
+        background: rgba(181, 92, 91, 0.5);
+    }
+
+    .hamburger {
+        display: block;
+        position: absolute;
+        left: 1rem;
+        top: 10%;
+        z-index: 200;
+    }
+
+    .navbar-center {
+        display: none;
+        position: absolute;
+        top: 6vh;
+        left: 0;
+        width: 100vw;
+        background: rgba(181, 92, 91, 0.98);
+        z-index: 200;
+        padding: 2vh 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+    .navbar-center.open {
+        display: block;
+        animation: dropdown-fade 0.25s;
+    }
+    .nav-links,
+    .nav-links-vip {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 2vw;
+        width: 100%;
+    }
+    .nav-links li,
+    .nav-links-vip li {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-links,
+    .nav-links-vip {
+        flex-direction: column;
+        align-items: stretch;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links a,
+    .nav-links-vip a,
+    .nav-link-button,
+    .nav-link-button-vip {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0.5rem 0;
+        font-size: 1.25rem;
+        padding: 1.2rem 1.5rem;
+        border-radius: 0.8rem;
+        text-align: left;
+        background: rgba(255,255,255,0.08);
+        border: none;
+    }
+
+    .nav-links a:hover,
+    .nav-links-vip a:hover,
+    .nav-link-button:hover,
+    .nav-link-button-vip:hover {
+        background: rgba(255,255,255,0.18);
+        color: #fff;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    /* center the logo */
+    .logo {
+        position: absolute;
+        right: 30%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+    }
+
+    /* show the sign‑up (or user) button on right */
+    .nav-signup-button,
+    .infoPart {
+        display: flex;
+        position: absolute;
+        right: 1rem;
+        top: 2%;
+
+    }
+}
+
+@keyframes dropdown-fade {
+    from { opacity: 0; transform: translateY(-10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+@media (max-width: 500px) {
+    .logo .logo-rest {
+        display: none;
+    }
+    .logo{
+        left: 35%;
     }
 }
 /*!*****************************************************************************!*\
@@ -445,6 +567,41 @@
 }
 .footer a:hover::after {
     transform: scaleX(1);
+}
+
+@media (max-width: 900px) and (max-height: 840px) {
+    .footer {
+        position: relative;
+        width: 100%;
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+        h3 {
+            color: white;
+            font-size: 2rem;
+            text-align: left;
+            font-family: "Crimson Text", sans-serif;
+        }
+        a {
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--gold-light);
+        }
+    }
+
+    .footer-bg {
+        position: relative;
+        background-image: url(/e011e6750fab0691134e.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        height: 45vh;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
 }
 /*!*****************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/ProjectNoticeModal.css ***!
@@ -1622,6 +1779,24 @@ textarea {
     cursor: pointer;
     background: rgba(255, 255, 255, 0.20);
     box-shadow: 0 0 0.6rem 0.2rem rgba(255, 255, 255, 0.25);
+}
+
+.txn-price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: gray;
+    font-size: 0.85em;
+}
+
+.new-price {
+    font-size: 1.05em;
+    margin-top: 0.1em;
 }
 
 .txn-coins{
@@ -2944,8 +3119,13 @@ textarea {
     color: white;
 }
 
-.control-buttons button:last-child {
+.control-buttons button:nth-child(2) {
     background-color: #f44336;
+    color: white;
+}
+
+.control-buttons button:last-child {
+    background-color: #b73125;
     color: white;
 }
 
@@ -3070,18 +3250,159 @@ textarea {
             url(/232243eecaea4620103b.jpg) center/cover no-repeat;
     z-index: 1;
 
-    border-radius: inherit;
+    border-radius: 30rem;
 }
 
 .frame {
-    position: relative;
-    padding: 2.5rem;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
     border-radius: 30rem;
+}
+
+.gray-zone.left, .gray-zone.right {
+    position: absolute;
+    top: 0;
+    width: 3.75rem;
+    height: 100%;
+    background: rgba(80,80,80,0.15);
+    z-index: 1;
+    border-radius: 2rem;
+}
+.gray-zone.left { left: -60px; }
+.gray-zone.right { right: -60px; }
+
+.arc {
+    margin: 32px 0 24px 0;
+    width: 100%;
+    height: 220px;
+    position: relative;
+    z-index: 2;
+}
+
+.arc-text, .arc-text-high {
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    text-shadow: 1px 1px 4px #000;
+}
+
+.player-cards {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0 20px 0;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
+.card.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #000a;
+    width: 64px;
+    height: 96px;
     overflow: hidden;
-    z-index: 0
+    border: 2px solid #444;
+    transition: border 0.2s;
+}
+.card.center img {
+    width: 60px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+.card-back {
+    width: 60px;
+    height: 90px;
+    background: repeating-linear-gradient(135deg, #444 0 10px, #222 10px 20px);
+    border-radius: 6px;
+}
+
+.lobby-controls {
+    margin: 32px auto 0 auto;
+    background: rgba(30,30,30,0.95);
+    border-radius: 16px;
+    padding: 24px 32px 16px 32px;
+    box-shadow: 0 2px 12px #0007;
+    max-width: 420px;
+    text-align: center;
+}
+
+.lobby-controls input[type="number"],
+.lobby-controls input[type="text"],
+.lobby-controls input[placeholder] {
+    background: #232323;
+    color: #fff;
+    border: 1.5px solid #555;
+    border-radius: 6px;
+    padding: 7px 12px;
+    margin: 0 8px 0 0;
+    font-size: 1rem;
+    width: 120px;
+    outline: none;
+    transition: border 0.2s;
+}
+.lobby-controls input:focus {
+    border: 1.5px solid #F0CE77;
+}
+
+.lobby-controls button {
+    background: linear-gradient(90deg, #F0CE77 0%, #bfa14a 100%);
+    color: #232323;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0 6px 8px 0;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0003;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.lobby-controls button:disabled {
+    background: #888;
+    color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.betting-controls {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.betting-controls input[type="number"] {
+    width: 90px;
+    margin-right: 8px;
+}
+
+.lobby-controls b {
+    color: #F0CE77;
+    font-size: 1.1em;
+}
+
+.lobby-controls > div {
+    margin-bottom: 8px;
+}
+
+@media (max-width: 1000px) {
+    .background-image, .blackjack-container {
+        width: 98vw;
+        min-width: 0;
+        padding: 0;
+    }
+    .arc {
+        width: 100vw;
+    }
 }
 
 .frame::before {
