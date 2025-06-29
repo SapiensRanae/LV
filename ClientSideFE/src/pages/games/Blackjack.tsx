@@ -150,11 +150,11 @@ const Blackjack: React.FC = () => {
     );
 
     // --- Table SVG Layout ---
-    const widthTop = 500;
-    const widthBottom = 400;
+    const widthTop = 700;
+    const widthBottom = 600;
     const arcHeightTop = 160;
     const arcHeightBottom = 130;
-    const commonY = 120;
+    const commonY = 60;
     const topX1 = (1000 - widthTop) / 2;
     const topX2 = topX1 + widthTop;
     const bottomX1 = (1000 - widthBottom) / 2;

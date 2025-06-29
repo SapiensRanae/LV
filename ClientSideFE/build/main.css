@@ -3250,7 +3250,7 @@ textarea {
             url(/232243eecaea4620103b.jpg) center/cover no-repeat;
     z-index: 1;
 
-    border-radius: 30rem;
+    border-radius: inherit;
 }
 
 .frame {
@@ -3276,7 +3276,7 @@ textarea {
 .gray-zone.right { right: -60px; }
 
 .arc {
-    margin: 32px 0 24px 0;
+    margin: 2rem 0 1.5rem 0;
     width: 100%;
     height: 220px;
     position: relative;
