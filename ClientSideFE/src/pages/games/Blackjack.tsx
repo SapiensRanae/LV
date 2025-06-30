@@ -117,17 +117,15 @@ const Blackjack: React.FC = () => {
             const profiles: { [id: string]: any } = {};
             await Promise.all(
                 lobbyState.players.map(async (id: number | string) => {
-
                     const numericId = typeof id === 'string' ? Number(id) : id;
-
                     try {
                         const profile = await blackjackApi.getPlayerProfile(numericId);
-                        // Normalize keys to match render expectations
+                        // Use only PascalCase keys as per the type definition
                         profiles[id.toString()] = {
-                            Username: profile.Username ?? profile.username,
-                            Description: profile.Description ?? profile.description,
-                            UserIcon: profile.UserIcon ?? profile.userIcon,
-                            History: profile.History ?? profile.history,
+                            Username: profile.Username,
+                            Description: profile.Description,
+                            UserIcon: profile.UserIcon,
+                            History: profile.History,
                         };
                     } catch {
                         profiles[id.toString()] = { Username: `Player ${id}` };
