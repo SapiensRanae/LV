@@ -271,6 +271,9 @@
         position: relative;
         background: rgba(181, 92, 91, 0.5);
     }
+    .navbar-vip{
+        background: rgba(188, 159, 105, 0.5);
+    }
 
     .hamburger {
         display: block;
@@ -293,7 +296,22 @@
         border-bottom-left-radius: 18px;
         border-bottom-right-radius: 18px;
     }
-    .navbar-center.open {
+    .navbar-centerVip{
+        display: none;
+        position: absolute;
+        top: 6vh;
+        left: 0;
+        width: 100vw;
+        background: rgba(188, 159, 105, 0.98);
+        z-index: 200;
+        padding: 2vh 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+
+    .navbar-center.open,
+    .navbar-centerVip.open {
         display: block;
         animation: dropdown-fade 0.25s;
     }
@@ -452,7 +470,7 @@
     margin-left: 35%;
     font-family: "Crimson Text", sans-serif;
     font-size: 1.5rem;
-     h3{
+    h3{
         width: 10rem;
     }
 }
@@ -569,38 +587,112 @@
     transform: scaleX(1);
 }
 
-@media (max-width: 900px) and (max-height: 840px) {
-    .footer {
+@media (max-width: 900px) and (max-height: 840px) and (min-width: 501px) {
+    .footer-bg {
         position: relative;
         width: 100%;
-        color: var(--text-color);
+        background-image: url(/e011e6750fab0691134e.png) center/fit no-repeat;
+        background-size: 100% 100%;
+        height: 40dvh;
+    }
+    .footer-bg-vip{
+        position: relative;
+        width: 100%;
+        background-image: url(/77c6e540b39531ab617c.png) center/fit no-repeat;
+        background-size: 100% 100%;
+        height: 40dvh;
+    }
+
+    .footer-content {
+        position: relative;
         display: flex;
-        flex-direction: column;
-        h3 {
-            color: white;
-            font-size: 2rem;
-            text-align: left;
-            font-family: "Crimson Text", sans-serif;
-        }
-        a {
-            color: var(--text-color);
-            transition: color 0.3s ease;
-        }
-        a:hover {
-            color: var(--gold-light);
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 8rem;
+        max-width: 100dvw;
+        margin-bottom: 1rem;
+    }
+
+    .contact {
+        flex: 0 0 35%;
+        text-align: left;
+        text-shadow: 0.5rem 0.5rem 0.6rem rgba(0, 0, 0, 0.8);
+        margin-left: 40%;
+        font-family: "Crimson Text", sans-serif;
+        font-size: 1rem;
+        h3{
+            width: 10rem;
         }
     }
 
+    .legal {
+        flex: 0 0 35%;
+        text-align: left;
+        padding-left: 0;
+        text-shadow: 0.2rem 0.2rem 0.6rem rgba(0, 0, 0, 0.8);
+        margin-right: 8%;
+        font-family: "Crimson Text", sans-serif;
+        font-size: 1rem;
+        h3{
+            width: 5rem;
+        }
+        label{
+            line-height: 1.5;
+        }
+    }
+}
+
+@media (max-width: 500px){
     .footer-bg {
         position: relative;
-        background-image: url(/e011e6750fab0691134e.png);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        height: 45vh;
         width: 100%;
+        background-image: url(/e011e6750fab0691134e.png) center/fit no-repeat;
+        background-size: 100% 100%;
+        height: 40dvh;
+    }
+    .footer-bg-vip{
+        position: relative;
+        width: 100%;
+        background-image: url(/77c6e540b39531ab617c.png) center/fit no-repeat;
+        background-size: 100% 100%;
+        height: 40dvh;
+    }
+
+    .footer-content {
+        position: relative;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 8rem;
+        max-width: 100dvw;
+        margin-bottom: 2rem;
+    }
+
+    .contact {
+        flex: 0 0 35%;
+        text-align: center;
+        text-shadow: 0.5rem 0.5rem 0.6rem rgba(0, 0, 0, 0.8);
+        margin-left: 35%;
+        font-family: "Crimson Text", sans-serif;
+        font-size: 1rem;
+        h3{
+            width: 10rem;
+        }
+    }
+
+    .legal {
+        flex: 0 0 35%;
+        text-align: left;
+        padding-left: 0;
+        text-shadow: 0.2rem 0.2rem 0.6rem rgba(0, 0, 0, 0.8);
+        font-family: "Crimson Text", sans-serif;
+        font-size: 1rem;
+        h3{
+            width: 5rem;
+        }
+        label{
+            line-height: 1.5;
+        }
     }
 }
 /*!*****************************************************************************************!*\
@@ -1020,6 +1112,26 @@
     margin: 0;
     padding: 0;
 }
+
+@media (max-width: 900px){
+    .carousel {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        top: -4.8dvh;
+        left: -2.5vh;
+        overflow: hidden;
+    }
+
+    .carousel-item img{
+        width: 100%;
+        height: 100%;
+        object-fit:  cover;
+        object-position: center center;
+        margin: 0;
+        padding: 0;
+    }
+}
 /*!****************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/react-multi-carousel/lib/styles.css ***!
   \****************************************************************************************************/
@@ -1234,6 +1346,28 @@
     margin-top: 1rem;
     font-weight: 700;
     color: crimson;
+}
+
+@media (max-width: 900px){
+    .guides-container {
+        max-width: 80dvw;
+        margin: 2.5dvh auto;
+        padding: 0 1.25dvh;
+    }
+
+    .rule-list {
+        list-style: none;
+        margin: 0;
+        padding: 0 2dvh;
+
+        li {
+            position: relative;
+            margin-bottom: 1dvh;
+            padding-left: 3dvw;
+            line-height: 1.5;
+            font-size: 1.05rem;
+        }
+    }
 }
 /*!***********************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/About.css ***!
@@ -1546,6 +1680,33 @@
     justify-content: center;
     color: #F0CE77;
     margin-top: 1dvh;
+}
+
+@media (max-width: 900px) {
+    .modal-content {
+        background: #111;
+        padding: 2rem;
+        border-radius: 1rem;
+        width: 90vw;
+        max-width: 60dvw;
+        position: relative;
+        color: white;
+        background:
+                linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.2)),
+                url(/b2702740c90779692504.png) center/cover no-repeat;
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2dvh;
+        }
+        label {
+            display: block;
+            margin-bottom: 2dvh;
+            font-size: 0.9rem;
+            padding-right: 1dvw;
+        }
+    }
 }
 /*!*********************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/LoginModal.css ***!
@@ -1913,6 +2074,20 @@ textarea {
     opacity: 0.9;
 }
 
+@media (max-width: 768px) {
+    .transactions-modal {
+        position: relative;
+        width: 90dvw;
+        padding: 2rem;
+        background-size: cover;
+        background: #111 url(/084c2bd8c4e9e2beab88.jpeg) center;
+        border: 0.15rem solid #DC143C;
+        border-radius: 0.5rem;
+        color: white;
+        box-shadow: 0 0 0.6rem 0.2rem rgba(220, 20, 60, 0.5);
+    }
+}
+
 /*!*************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/VipAccessModal.css ***!
   \*************************************************************************************/
@@ -2041,6 +2216,14 @@ textarea {
     background-color: #1B1B1B;
     margin-bottom: 2dvh;
     border: 2px solid #DC143C;
+}
+
+.Table td{
+    border: 2px solid crimson;
+}
+
+.TableVip td{
+    border: 2px solid #F0CE77;
 }
 
 .TableVip {
@@ -2487,7 +2670,64 @@ textarea {
     color: #1B1B1B;
 }
 
+@media (max-width: 900px){
+    .NicknameBalance{
+        width: 100dvw;
+        height: 25dvh;
+        margin-top: 2dvh;
 
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1dvw;
+        box-sizing: border-box;
+    }
+
+    .Nickname,
+    .NicknameVip {
+        width: 30%;
+    }
+    .Balance,
+    .BalanceVip {
+        width: 30%;
+    }
+    .balance-icon{
+        position: relative;
+        height: 2rem;
+        width: 2rem;
+        object-fit: contain;
+    }
+
+    .Btns-left,
+    .Btns-leftVip {
+        width: 100%;
+        justify-content: center;
+        gap: 15%;
+    }
+
+    .btn,
+    .change-btnVip {
+        width: 20vw;
+    }
+
+    .profile-right {
+        height: 90%;
+    }
+
+    .Table,
+    .TableVip{
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .EmailPlaceHolder,
+    .EmailPlaceHolderVip,
+    .PhonePlaceHolder,
+    .PhonePlaceHolderVip{
+        font-size: 1rem;
+    }
+}
 /*!*************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/components/VipCancelModal.css ***!
   \*************************************************************************************/
@@ -2902,6 +3142,24 @@ textarea {
     font-size: 2dvh;
     margin-top: 0.5dvh;
 }
+
+@media (max-width: 900px){
+    .slot,
+    .slots{
+        height: 25vh;
+    }
+    .buttons{
+        width: 80vw;
+        padding: 0.5rem;
+    }
+    .side-button{
+        width: fit-content;
+    }
+    .controls{
+        width: 80%;
+        gap: 0;
+    }
+}
 /*!********************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/games/Roulette.css ***!
   \********************************************************************************/
@@ -3272,13 +3530,13 @@ textarea {
     z-index: 1;
     border-radius: 2rem;
 }
-.gray-zone.left { left: -60px; }
-.gray-zone.right { right: -60px; }
+.gray-zone.left { left: -3.75rem; }
+.gray-zone.right { right: -3.75rem; }
 
 .arc {
     margin: 2rem 0 1.5rem 0;
     width: 100%;
-    height: 220px;
+    height: 13.75rem;
     position: relative;
     z-index: 2;
 }
@@ -3290,11 +3548,11 @@ textarea {
 
 .player-cards {
     display: flex;
-    gap: 12px;
-    margin: 12px 0 20px 0;
+    gap: 0.8rem;
+    margin: 0.8rem 0 1.25rem 0;
     justify-content: center;
     align-items: center;
-    min-height: 100px;
+    min-height: 6.25rem;
 }
 
 .card.center {
@@ -3302,7 +3560,7 @@ textarea {
     align-items: center;
     justify-content: center;
     background: #222;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     box-shadow: 0 2px 8px #000a;
     width: 64px;
     height: 96px;
@@ -3311,26 +3569,51 @@ textarea {
     transition: border 0.2s;
 }
 .card.center img {
-    width: 60px;
-    height: 90px;
+    width: 3.75rem;
+    height: 5.625rem;
     object-fit: contain;
-    border-radius: 6px;
+    border-radius: 0.375rem;
 }
 .card-back {
-    width: 60px;
-    height: 90px;
+    width: 3.75rem;
+    height: 5.625rem;
     background: repeating-linear-gradient(135deg, #444 0 10px, #222 10px 20px);
-    border-radius: 6px;
+    border-radius: 0.375rem;
 }
 
 .lobby-controls {
-    margin: 32px auto 0 auto;
+    margin: 2rem auto 0 auto;
     background: rgba(30,30,30,0.95);
-    border-radius: 16px;
-    padding: 24px 32px 16px 32px;
-    box-shadow: 0 2px 12px #0007;
-    max-width: 420px;
+    border-radius: 1rem;
+    padding: 1.5rem 2rem 1rem 2rem;
+    box-shadow: 0 2px 0.8rem #0007;
+    max-width: 26.25rem;
     text-align: center;
+    border: 0.25rem solid crimson;
+}
+
+.lobby-controlsVip {
+    margin: 2rem auto 0 auto;
+    background: rgba(30,30,30,0.95);
+    border-radius: 1rem;
+    padding: 1.5rem 2rem 1rem 2rem;
+    box-shadow: 0 2px 0.8rem #0007;
+    max-width: 26.25rem;
+    text-align: center;
+    border: 0.25rem solid #F0CE77;
+}
+
+.lobby-controlsVip button{
+    background: linear-gradient(90deg, #ffe5a5 0%, #e7c260 100%);
+    color: #232323;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1.375rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 0.5rem #0003;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .lobby-controls input[type="number"],
@@ -3338,30 +3621,45 @@ textarea {
 .lobby-controls input[placeholder] {
     background: #232323;
     color: #fff;
-    border: 1.5px solid #555;
-    border-radius: 6px;
-    padding: 7px 12px;
-    margin: 0 8px 0 0;
+    border: 1.5px solid crimson;
+    border-radius: 0.375rem;
+    padding: 0.435rem 0.75rem;
+    margin: 0 0.5rem 0 0;
     font-size: 1rem;
-    width: 120px;
+    width: 7.5rem;
     outline: none;
     transition: border 0.2s;
 }
+
+.lobby-controlsVip input[type="number"],
+.lobby-controlsVip input[type="text"],
+.lobby-controlsVip input[placeholder] {
+    background: #232323;
+    color: #fff;
+    border: 1.5px solid #F0CE77;
+    border-radius: 0.375rem;
+    padding: 0.435rem 0.75rem;
+    margin: 0 0.5rem 0 0;
+    font-size: 1rem;
+    width: 7.5rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
 .lobby-controls input:focus {
     border: 1.5px solid #F0CE77;
 }
 
 .lobby-controls button {
-    background: linear-gradient(90deg, #F0CE77 0%, #bfa14a 100%);
+    background: linear-gradient(90deg, #e51616 0%, #bb0a2d 50%);
     color: #232323;
     border: none;
-    border-radius: 6px;
-    padding: 8px 22px;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1.375rem;
     font-size: 1rem;
     font-weight: bold;
-    margin: 0 6px 8px 0;
     cursor: pointer;
-    box-shadow: 0 2px 8px #0003;
+    box-shadow: 0 2px 0.5rem #0003;
     transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 .lobby-controls button:disabled {
@@ -3372,26 +3670,31 @@ textarea {
 }
 
 .betting-controls {
-    margin-top: 18px;
+    margin-top: 1.125rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 0.625rem;
     justify-content: center;
     align-items: center;
 }
 
 .betting-controls input[type="number"] {
-    width: 90px;
-    margin-right: 8px;
+    width: 5.625rem;
+    margin-right: 0.5rem;
 }
 
 .lobby-controls b {
+    color: crimson;
+    font-size: 1.1rem;
+}
+
+.lobby-controlsVip b {
     color: #F0CE77;
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 .lobby-controls > div {
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
 }
 
 @media (max-width: 1000px) {
@@ -3415,40 +3718,7 @@ textarea {
             rgba(10,10,10,1) 90%
     );
     pointer-events: none;
-}
-
-.gray-zone {
-    position: absolute;
-    width: 8dvw;
-    height: 20dvh;
-    background-image: url(/9d97459eda926adf7a4d.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 0.8dvh;
-    z-index: 1;
-}
-
-.gray-zone.left {
-    top: 45dvh;
-    left: 5dvw;
-    transform: rotate(55deg);
-}
-
-.gray-zone.right {
-    top: 45dvh;
-    right: 5dvw;
-    transform: rotate(-55deg);
-}
-
-.player-cards {
-    position: absolute;
-    top: calc(150px + 40dvh);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 3dvw;
-    z-index: 2;
+    border-radius: 30rem;
 }
 
 .card {
@@ -3488,6 +3758,31 @@ textarea {
 /* Красные буквы */
 .logo-red-mid {
     color: #DC143C;
+}
+
+.Avatar{
+    height: 2rem;
+    width: auto;
+}
+
+.Bot{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    img{
+        margin-top: 1.5rem;
+        justify-self: center;
+    }
+}
+
+.BotText{
+    font-weight: bold;
+    color: #F0CE77;
 }
 /*!*****************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./src/pages/games/Poker.css ***!
