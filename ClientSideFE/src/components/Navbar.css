@@ -268,6 +268,9 @@
         position: relative;
         background: rgba(181, 92, 91, 0.5);
     }
+    .navbar-vip{
+        background: rgba(188, 159, 105, 0.5);
+    }
 
     .hamburger {
         display: block;
@@ -290,7 +293,22 @@
         border-bottom-left-radius: 18px;
         border-bottom-right-radius: 18px;
     }
-    .navbar-center.open {
+    .navbar-centerVip{
+        display: none;
+        position: absolute;
+        top: 6vh;
+        left: 0;
+        width: 100vw;
+        background: rgba(188, 159, 105, 0.98);
+        z-index: 200;
+        padding: 2vh 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+
+    .navbar-center.open,
+    .navbar-centerVip.open {
         display: block;
         animation: dropdown-fade 0.25s;
     }

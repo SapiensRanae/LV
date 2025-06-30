@@ -19,12 +19,12 @@ const responsive = {
     slidesToSlide: 1
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 1024, min: 900 },
     items: 1,
     slidesToSlide: 1
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 900, min: 0 },
     items: 1,
     slidesToSlide: 1
   }
@@ -38,6 +38,16 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({onProtectedRoute}) => {
   const { isAuthenticated } = useAuth();
   const [showNotice, setShowNotice] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Show notice modal if user is not authenticated
   useEffect(() => {
@@ -60,8 +70,8 @@ const Home: React.FC<HomeProps> = ({onProtectedRoute}) => {
 
         <div className="carousel">
           <Carousel
-              swipeable={false}
-              draggable={false}
+              swipeable={isMobile}
+              arrows={!isMobile}
               showDots={true}
               responsive={responsive}
               ssr={true}

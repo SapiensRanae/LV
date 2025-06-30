@@ -97,10 +97,35 @@
     margin: 2rem auto 0 auto;
     background: rgba(30,30,30,0.95);
     border-radius: 1rem;
-    padding: 24px 32px 16px 32px;
+    padding: 1.5rem 2rem 1rem 2rem;
     box-shadow: 0 2px 0.8rem #0007;
     max-width: 26.25rem;
     text-align: center;
+    border: 0.25rem solid crimson;
+}
+
+.lobby-controlsVip {
+    margin: 2rem auto 0 auto;
+    background: rgba(30,30,30,0.95);
+    border-radius: 1rem;
+    padding: 1.5rem 2rem 1rem 2rem;
+    box-shadow: 0 2px 0.8rem #0007;
+    max-width: 26.25rem;
+    text-align: center;
+    border: 0.25rem solid #F0CE77;
+}
+
+.lobby-controlsVip button{
+    background: linear-gradient(90deg, #ffe5a5 0%, #e7c260 100%);
+    color: #232323;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1.375rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 0.5rem #0003;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .lobby-controls input[type="number"],
@@ -108,7 +133,7 @@
 .lobby-controls input[placeholder] {
     background: #232323;
     color: #fff;
-    border: 1.5px solid #555;
+    border: 1.5px solid crimson;
     border-radius: 0.375rem;
     padding: 0.435rem 0.75rem;
     margin: 0 0.5rem 0 0;
@@ -117,19 +142,34 @@
     outline: none;
     transition: border 0.2s;
 }
+
+.lobby-controlsVip input[type="number"],
+.lobby-controlsVip input[type="text"],
+.lobby-controlsVip input[placeholder] {
+    background: #232323;
+    color: #fff;
+    border: 1.5px solid #F0CE77;
+    border-radius: 0.375rem;
+    padding: 0.435rem 0.75rem;
+    margin: 0 0.5rem 0 0;
+    font-size: 1rem;
+    width: 7.5rem;
+    outline: none;
+    transition: border 0.2s;
+}
+
 .lobby-controls input:focus {
     border: 1.5px solid #F0CE77;
 }
 
 .lobby-controls button {
-    background: linear-gradient(90deg, #F0CE77 0%, #bfa14a 100%);
+    background: linear-gradient(90deg, #e51616 0%, #bb0a2d 50%);
     color: #232323;
     border: none;
     border-radius: 0.375rem;
     padding: 0.5rem 1.375rem;
     font-size: 1rem;
     font-weight: bold;
-    margin: 0 0.375 0.5rem 0;
     cursor: pointer;
     box-shadow: 0 2px 0.5rem #0003;
     transition: background 0.2s, color 0.2s, box-shadow 0.2s;
@@ -156,8 +196,13 @@
 }
 
 .lobby-controls b {
+    color: crimson;
+    font-size: 1.1rem;
+}
+
+.lobby-controlsVip b {
     color: #F0CE77;
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 .lobby-controls > div {
@@ -225,4 +270,29 @@
 /* Красные буквы */
 .logo-red-mid {
     color: #DC143C;
+}
+
+.Avatar{
+    height: 2rem;
+    width: auto;
+}
+
+.Bot{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    img{
+        margin-top: 1.5rem;
+        justify-self: center;
+    }
+}
+
+.BotText{
+    font-weight: bold;
+    color: #F0CE77;
 }

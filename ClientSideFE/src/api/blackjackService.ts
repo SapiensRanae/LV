@@ -53,3 +53,7 @@ export const getPlayerProfile = async (userId: number): Promise<{
     const response = await apiClient.get(`/Blackjack/profile/${userId}`);
     return response.data;
 };
+export const getLobbyState = async (lobbyCode: string): Promise<any> => {
+    const response = await apiClient.get(`/Blackjack/lobby-state/${lobbyCode}`);
+    return response.data;
+};

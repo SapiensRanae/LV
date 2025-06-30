@@ -32,3 +32,23 @@
     margin: 0;
     padding: 0;
 }
+
+@media (max-width: 900px){
+    .carousel {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        top: -4.8dvh;
+        left: -2.5vh;
+        overflow: hidden;
+    }
+
+    .carousel-item img{
+        width: 100%;
+        height: 100%;
+        object-fit:  cover;
+        object-position: center center;
+        margin: 0;
+        padding: 0;
+    }
+}

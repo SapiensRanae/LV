@@ -56,8 +56,8 @@ const Navbar: React.FC<NavbarProps> = ({
                     </Link>
                 </li>
             </div>
-            <div className={`navbar-center${menuOpen ? ' open' : ''}`}>
-                <ul className={isVip ? "nav-links-vip" : "nav-links"}>
+            <div className={`${isVip ? 'navbar-centerVip' : 'navbar-center'}${menuOpen ? ' open' : ''}`}>
+            <ul className={isVip ? "nav-links-vip" : "nav-links"}>
                     <li>
                         <button
                             onClick={onGamesClick}

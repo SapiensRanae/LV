@@ -75,6 +75,14 @@
     border: 2px solid #DC143C;
 }
 
+.Table td{
+    border: 2px solid crimson;
+}
+
+.TableVip td{
+    border: 2px solid #F0CE77;
+}
+
 .TableVip {
     width: calc(1200 / 1920 * 100dvw);
     height: calc(500 / 1080 * 100dvh);
@@ -519,3 +527,61 @@
     color: #1B1B1B;
 }
 
+@media (max-width: 900px){
+    .NicknameBalance{
+        width: 100dvw;
+        height: 25dvh;
+        margin-top: 2dvh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1dvw;
+        box-sizing: border-box;
+    }
+
+    .Nickname,
+    .NicknameVip {
+        width: 30%;
+    }
+    .Balance,
+    .BalanceVip {
+        width: 30%;
+    }
+    .balance-icon{
+        position: relative;
+        height: 2rem;
+        width: 2rem;
+        object-fit: contain;
+    }
+
+    .Btns-left,
+    .Btns-leftVip {
+        width: 100%;
+        justify-content: center;
+        gap: 15%;
+    }
+
+    .btn,
+    .change-btnVip {
+        width: 20vw;
+    }
+
+    .profile-right {
+        height: 90%;
+    }
+
+    .Table,
+    .TableVip{
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .EmailPlaceHolder,
+    .EmailPlaceHolderVip,
+    .PhonePlaceHolder,
+    .PhonePlaceHolderVip{
+        font-size: 1rem;
+    }
+}

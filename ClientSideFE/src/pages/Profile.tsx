@@ -37,6 +37,16 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
     const [transactions, setTransactions] = useState<any[]>([]);
     const [totalWinnings, setTotalWinnings] = useState<number>(0);
 
+    const isVip = user?.role === 'vip';
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setScreenWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
     const navigate = useNavigate();
 
     // Format phone number for display (masked/unmasked)
@@ -184,6 +194,7 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
         }
     };
 
+
     return (
         <>
             {showCancelModal && <VipCancelModal onClose={handleVipCancelModalClose} />}
@@ -197,13 +208,13 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                             className="Profile-icon"
                         />
                         <section className="NicknameBalance">
-                            <section className={user?.role === 'vip' ? "NicknameVip" : "Nickname"}>{user.username}</section>
-                            <section className={user?.role === 'vip' ? "BalanceVip" : "Balance"}>
+                            <section className={isVip ? "NicknameVip" : "Nickname"}>{user.username}</section>
+                            <section className={isVip ? "BalanceVip" : "Balance"}>
                                 <span>{user.balance}</span>
                                 <img src={coin} alt="Balance icon" className="balance-icon" />
                             </section>
                         </section>
-                        <section className={user?.role === 'vip' ? "DescriptionVip" : "Description"}>
+                        <section className={isVip ? "DescriptionVip" : "Description"}>
                             {user.description
                                 ? user.description
                                 : "No description provided. Click 'Change' to add one."
@@ -211,23 +222,23 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                         </section>
                         <section className="Btns-left">
                             <section className="ChangeBtn">
-                                <button className={user?.role === 'vip' ? "change-btnVip" : "btn change-btn"} onClick={() => setShowEditModal(true)}>Change</button>
+                                <button className={isVip ? "change-btnVip" : "btn change-btn"} onClick={() => setShowEditModal(true)}>Change</button>
                             </section>
                             <section className="BuyVIPBtn">
                                 <button
-                                    className={user?.role === 'vip' ? "btn CancelVipBtn" : "btn BuyVIPBtn"}
-                                    onClick={user?.role === 'vip' ? handleVipCancel : onBuyVIPClick}
+                                    className={isVip ? "btn CancelVipBtn" : "btn BuyVIPBtn"}
+                                    onClick={isVip ? handleVipCancel : onBuyVIPClick}
                                 >
-                                    {user?.role === 'vip' ? "Cancel VIP" : "Buy VIP"}
+                                    {isVip ? "Cancel VIP" : "Buy VIP"}
                                 </button>
                             </section>
                         </section>
                     </section>
-                    <section className={user?.role === 'vip' ? "dividerVip" : "divider"}></section>
+                    <section className={isVip ? "dividerVip" : "divider"}></section>
                     <section className="profile-right">
                         <h2>Game History</h2>
-                        <section className={user?.role === 'vip' ? "TableVip" : "Table"}>
-                            <table className={user?.role === 'vip' ? "GameTableVip" : "GameTable"}>
+                        <section className={isVip ? "TableVip" : "Table"}>
+                            <table className={isVip ? "GameTableVip" : "GameTable"}>
                                 <thead>
                                 <tr>
                                     <th>№</th>
@@ -239,7 +250,12 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                                 </thead>
                                 <tbody>
                                 {history.length > 0 ? (
-                                    history.map((item, index) => {
+                                    (screenWidth < 750
+                                            ? history.slice(0, 3)
+                                            : screenWidth < 901
+                                                ? history.slice(0, 5)
+                                                : history
+                                    ).map((item, index) => {
                                         const tx = item.gameTransaction;
                                         if (!tx) return null;
                                         const bet = tx.amount;
@@ -250,7 +266,7 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                                                 <td>{tx.game?.name || 'Unknown'}</td>
                                                 <td>{bet}</td>
                                                 <td style={{color: winnings > 0 ? 'green' : 'crimson'}}>
-                                                    {winnings > 0 ? `+${winnings}` : '0'}
+                                                    {winnings > 0 ? `+${winnings}` : `-${bet}`}
                                                 </td>
                                                 <td>{new Date(tx.timestamp).toLocaleString()}</td>
                                             </tr>
@@ -279,8 +295,8 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                         </section>
                         <section className="ContactInfo">
                             <section className="Email">
-                                <section className={user?.role === 'vip' ? "EmailTextVip" : "EmailText"}>Email:</section>
-                                <section className={user?.role === 'vip' ? "EmailPlaceHolderVip" : "EmailPlaceHolder"}>
+                                <section className={isVip ? "EmailTextVip" : "EmailText"}>Email:</section>
+                                <section className={isVip ? "EmailPlaceHolderVip" : "EmailPlaceHolder"}>
                                     {emailVisible ? user.email : user.email.replace(/(.{2})(.*)(@.*)/, "$1***$3")}
                                     <img
                                         src={emailVisible ? visible : hidden}
@@ -290,8 +306,8 @@ const Profile: React.FC<ProfileProps> = ({onLogoutClick, onBuyVIPClick }) => {
                                 </section>
                             </section>
                             <section className="Phone">
-                                <section className={user?.role === 'vip' ? "PhonetextVip" : "Phonetext"}>Phone:</section>
-                                <section className={user?.role === 'vip' ? "PhonePlaceHolderVip" : "PhonePlaceHolder"}>
+                                <section className={isVip ? "PhonetextVip" : "Phonetext"}>Phone:</section>
+                                <section className={isVip ? "PhonePlaceHolderVip" : "PhonePlaceHolder"}>
                                     {phoneVisible
                                         ? formatPhoneNumber(user.phoneNumber).visible
                                         : formatPhoneNumber(user.phoneNumber).hidden

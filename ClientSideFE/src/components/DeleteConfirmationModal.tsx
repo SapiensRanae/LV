@@ -75,6 +75,7 @@ const DeleteConfirmationModal: React.FC<Props> = ({ onClose, onConfirm }) => {
                 <div className="modal-buttons">
                     <button
                         className="btn Delete"
+                        style={{width: "30vw;"}}
                         onClick={handleConfirm}
                         disabled={!isConfirmEnabled || isLoading}
                     >

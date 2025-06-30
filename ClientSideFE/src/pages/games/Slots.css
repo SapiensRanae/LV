@@ -359,3 +359,21 @@
     font-size: 2dvh;
     margin-top: 0.5dvh;
 }
+
+@media (max-width: 900px){
+    .slot,
+    .slots{
+        height: 25vh;
+    }
+    .buttons{
+        width: 80vw;
+        padding: 0.5rem;
+    }
+    .side-button{
+        width: fit-content;
+    }
+    .controls{
+        width: 80%;
+        gap: 0;
+    }
+}

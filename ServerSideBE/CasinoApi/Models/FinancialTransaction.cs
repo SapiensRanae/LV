@@ -16,7 +16,7 @@ namespace CasinoApi.Models
 
         public DateTime Date { get; set; } = DateTime.Now; // Transaction date and time
 
-        public string TransactionType { get; set; } // Transaction type (e.g., deposit, withdrawal)
+        public string TransactionType { get; set; } // Transaction type (deposit, withdrawal)
 
         public decimal PreviousBalance { get; set; } // Balance before transaction
 

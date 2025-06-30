@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+// src/pages/Guides.tsx
+import React, { useState, useEffect } from 'react';
 import './Guides.css';
-
 
 const rules = [
     { title: 'Common Rules', content: [
-            'All players must be 21 years or older..',
+            'All players must be 21 years or older.',
             'Play responsibly and within your limits.',
             'All winnings and losses are final once confirmed by the system.',
             'Players must agree to terms and conditions before playing.',
@@ -100,6 +100,20 @@ const Guides: React.FC = () => {
     const [expandedIndex, setExpandedIndex] = useState<number>(0);
     const [justOpenedIndex, setJustOpenedIndex] = useState<number | null>(0);
 
+    // New: show “back to top” button when on mobile AND scrolled to bottom
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const atBottom =
+                window.scrollY + window.innerHeight >=
+                document.documentElement.scrollHeight;
+            setShowScrollTop(window.innerWidth < 900 && atBottom);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const toggleDropdown = (index: number) => {
         if (expandedIndex === index) {
             setExpandedIndex(-1);
@@ -118,7 +132,9 @@ const Guides: React.FC = () => {
                         className={`dropdown-header ${justOpenedIndex === i ? 'underline-animated' : ''}`}
                         onClick={() => toggleDropdown(i)}
                     >
-                        <h3 className={expandedIndex === i ? 'open' : ''}>{rule.title}</h3>
+                        <h3 className={expandedIndex === i ? 'open' : ''}>
+                            {rule.title}
+                        </h3>
                         <svg
                             className={`icon ${expandedIndex === i ? 'open' : ''}`}
                             width="23"
@@ -133,10 +149,10 @@ const Guides: React.FC = () => {
                             />
                         </svg>
                     </header>
+
                     {expandedIndex === i && (
                         <div className="dropdown-body">
                             <ul className="rule-list">
-                                {/* 1) Render the normal content array */}
                                 {rule.content.map((line, idx) =>
                                     typeof line === 'string' ? (
                                         <li key={idx}>{line}</li>
@@ -157,7 +173,6 @@ const Guides: React.FC = () => {
                                     )
                                 )}
 
-                                {/* 2) Then—if this rule has top-level s/t arrays—render them too */}
                                 {rule.s && <li className="slot-subtitle">{rule.s}</li>}
                                 {rule.t?.map((combo, tIdx) => (
                                     <li key={`rt-${tIdx}`}>– {combo}</li>
