@@ -3768,7 +3768,7 @@ textarea {
 .Bot{
     position: absolute;
     left: 50%;
-    top: 0;
+    top: -17rem;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
