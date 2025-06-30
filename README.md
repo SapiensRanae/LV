@@ -10,19 +10,20 @@ Welcome to **LuckyVegas** — a modern, web-based casino platform where you can 
 - **Playable Casino Games:**  
   - Slots  
   - Roulette  
-  - Poker(W.I.P)  
-  - Blackjack(W.I.P)
+  - Poker(W.I.P (Planned))  
+  - Blackjack(W.I.P (Started))
 - **VIP Subscription:** Unlock special perks and enhanced features, as well as a unique website design.
 - **Balance & Transactions:** Manage your virtual balance.
 - **Game History:** Track your bets, results, and winnings.
 - **Modern Tech Stack:** Built with React, TypeScript, and .NET 9.0 Web API.
+- **Adaptation (W.I.P):** Responsive design for different devices.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** React, TypeScript, JavaScript, CSS
-- **Backend:** C# (.NET 9.0 Web API)
+- **Backend:** C# (.NET 9.0 Web API), JWT Authentification, Json, CORS policy
 - **Package Manager:** npm
 - **Other:** React Router, Context API, Slick Carousel, React Multi Carousel
 
@@ -71,7 +72,7 @@ The API will be available at `http://localhost:5151` (or as configured).
 ## 📝 License
 
 This project is for educational purposes only.  
-Not intended for real gambling or commercial use.
+Not intended for real gambling or commercial use yet.
 
 ---
 
